@@ -86,6 +86,16 @@ public class PageFaultHandler extends IflPageFaultHandler
     /*
        Feel free to add methods/fields to improve the readability of your code
     */
+    
+    public static int numFreeFrames() {
+    	
+    }
+	public static FrameTableEntry getFreeFrame() {
+	    	
+	    }
+	public static FrameTableEntry SecondChance() {
+		
+	}
 
 }
 

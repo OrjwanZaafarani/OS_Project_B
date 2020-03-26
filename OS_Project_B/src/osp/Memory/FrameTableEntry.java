@@ -25,11 +25,7 @@ public class FrameTableEntry extends IflFrameTableEntry
     public FrameTableEntry(int frameID)
     {
         // your code goes here
-<<<<<<< HEAD
-    	
-=======
     	super(frameID);
->>>>>>> branch 'master' of https://github.com/OrjwanZaafarani/OS_Project_B.git
 
     }
 
