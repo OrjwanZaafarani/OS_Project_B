@@ -23,8 +23,8 @@ public class MMU extends IflMMU
 
         @OSPProject Memory
     */
-	public  static  int  Cursor;
-	public  static  int  wantFree;
+	public static  int  Cursor;
+	public static  int  wantFree;
 	
     public static void init()
     {

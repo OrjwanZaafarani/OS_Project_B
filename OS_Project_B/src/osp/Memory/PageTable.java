@@ -30,7 +30,9 @@ public class PageTable extends IflPageTable
     {
         // your code goes here
     	super(ownerTask);
-
+    	pages = new PageTableEntry[(int) Math.pow(2,MMU.getPageAddressBits())];
+    	for(int i = 0; i < numberOfPages; i++)
+    		pages[i] = new PageTableEntry(this, i);
     }
 
     /**

@@ -87,12 +87,27 @@ public class PageFaultHandler extends IflPageFaultHandler
        Feel free to add methods/fields to improve the readability of your code
     */
     
+    /*
+     * Returns the current number of free frames. It does not matter where 
+     * the search in the frame table starts, but this method must not change 
+     * the value of the reference bits, dirty bits or MMU.Cursor.
+     */
     public static int numFreeFrames() {
     	
     }
+    
+    /*
+     * Returns the first free frame starting the search from frame[0].
+     */
 	public static FrameTableEntry getFreeFrame() {
 	    	
-	    }
+	}
+	
+	/*
+	 * Frees frames using the following Second Chance approach and 
+	 * returns one frame. The search uses the MMU variable MMU.Cursor 
+	 * to specify the starting frame index of the search.
+	 */
 	public static FrameTableEntry SecondChance() {
 		
 	}
