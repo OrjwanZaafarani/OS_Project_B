@@ -30,8 +30,9 @@ public class PageTable extends IflPageTable
     {
         // your code goes here
     	super(ownerTask);
-    	pages = new PageTableEntry[(int) Math.pow(2,MMU.getPageAddressBits())];
-    	for(int i = 0; i < numberOfPages; i++)
+    	int MaxNumberofPages = (int) Math.pow(2,MMU.getPageAddressBits());
+    	pages = new PageTableEntry[MaxNumberofPages];
+    	for(int i = 0; i<MaxNumberofPages; i++)
     		pages[i] = new PageTableEntry(this, i);
     }
 
@@ -41,9 +42,8 @@ public class PageTable extends IflPageTable
 
        @OSPProject Memory
     */
-    public void do_deallocateMemory()
-    {
-        // your code goes here
+    public void do_deallocateMemory() {
+        
 
     }
 
