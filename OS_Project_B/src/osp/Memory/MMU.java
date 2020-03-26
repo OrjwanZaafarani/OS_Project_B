@@ -48,8 +48,7 @@ public class MMU extends IflMMU
 
        @OSPProject Memory
     */
-    static public PageTableEntry do_refer(int memoryAddress,
-					  int referenceType, ThreadCB thread)
+    static public PageTableEntry do_refer(int memoryAddress,int referenceType, ThreadCB thread)
     {
         // your code goes here
 
