@@ -29,6 +29,7 @@ public class PageTable extends IflPageTable
     public PageTable(TaskCB ownerTask)
     {
         // your code goes here
+    	super(ownerTask);
 
     }
 

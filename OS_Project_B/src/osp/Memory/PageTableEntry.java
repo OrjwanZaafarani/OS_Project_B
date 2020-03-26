@@ -27,6 +27,7 @@ public class PageTableEntry extends IflPageTableEntry
     public PageTableEntry(PageTable ownerPageTable, int pageNumber)
     {
         // your code goes here
+    	super(ownerPageTable,pageNumber);
 
     }
 
