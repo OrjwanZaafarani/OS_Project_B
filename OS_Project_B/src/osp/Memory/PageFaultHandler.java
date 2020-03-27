@@ -19,8 +19,8 @@ import osp.IFLModules.*;
 */
 public class PageFaultHandler extends IflPageFaultHandler
 {
-    static int freeFrames=0;
-    static FrameTableEntry freeFrame;
+    
+    
     
     /**
         This method handles a page fault.
@@ -98,6 +98,7 @@ public class PageFaultHandler extends IflPageFaultHandler
      */
 
     public static int numFreeFrames() {
+    	int freeFrames=0;
     	// less or less or equal than?
     	for (int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {	
 	    	if(MMU.frame[i]== null) {
@@ -115,13 +116,12 @@ public class PageFaultHandler extends IflPageFaultHandler
      */
     
 	public static FrameTableEntry getFreeFrame() {
+		FrameTableEntry freeFrame = null;
 	    	for(int i=0;i<MMU.getFrameTableSize();i++) {
 	    		if(MMU.frame[i]== null) {
 	    			freeFrame = MMU.getFrame(i);
 	    			break;
 	    		}
-	    		else
-	    			freeFrame = null;
 	    	}
 			return freeFrame;
 	    		
