@@ -100,12 +100,10 @@ public class PageFaultHandler extends IflPageFaultHandler
     public static int numFreeFrames() {
     	int freeFrames=0;
     	// less or less or equal than?
-    	for (int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {	
+    	// will it ever break the loop?
+    	for (int i=0;i<MMU.getFrameTableSize();i++) {	
 	    	if(MMU.frame[i]== null) {
 	    		freeFrames++;
-	    	if(i%MMU.getFrameTableSize()==0) {
-	    		i=0;
-	    	}
 	    	}
     	}
     	return freeFrames;
@@ -134,37 +132,59 @@ public class PageFaultHandler extends IflPageFaultHandler
 	 * Freeing frames: To free a frame, one should indicate that the frame
 	 * does not hold any page (i.e., it holds the null page) using the
 	 * setPage() method. The dirty and the reference bits should be set to false.
-	Updating a page table: To indicate that a page P is no longer valid, one
-	must set its frame to null (using the setFrame() method) and the validity
-	bit to false (using the setValid() method). To indicate that the page P
-	has become valid and is now occupying a main memory frame F, you do the
-	following:
-	– use setFrame() to set the frame of P to F
-	– use setPage() to set F ’s page to P
-	– set the P’s validity flag correctly
-	– set the dirty and reference flags in F appropriately.
+	 * Updating a page table: To indicate that a page P is no longer valid, one
+		must set its frame to null (using the setFrame() method) and the validity
+		bit to false (using the setValid() method). To indicate that the page P
+		has become valid and is now occupying a main memory frame F, you do the
+		following:
+			– use setFrame() to set the frame of P to F
+			– use setPage() to set F ’s page to P
+			– set the P’s validity flag correctly
+			– set the dirty and reference flags in F appropriately.
 
 	 */
 	public static FrameTableEntry SecondChance() {
-		for(int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {
-			if(MMU.frame[MMU.Cursor].isReferenced() == true) {
-				MMU.frame[MMU.Cursor].setReferenced(false);
-			}
-			else if (MMU.frame[MMU.Cursor].getPage()!=null
-					& MMU.frame[MMU.Cursor].isReferenced()==false
-					& MMU.frame[MMU.Cursor].isDirty()==false
+		boolean firstDirtyFrame =false;
+		int firstDirtyFrameID;
+		// Phase1 - Note5 - Keep  in  mind  that  locked  and reserved  page  frames
+		// 					cannot  be  selected  and dirty  frames should not be
+		//					freed in this phase.
+		// Phase1 - Note2,3
+		for(int j=0;j<2;j++) { 
+			for(int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {
+				// Phase1 - Task1
+				if(MMU.frame[MMU.Cursor].isReferenced()== true) {
+					MMU.frame[MMU.Cursor].setReferenced(false);
+				}
+				// Phase1 - Task2)
+				else if (MMU.frame[MMU.Cursor].getPage()!=null
+						& MMU.frame[MMU.Cursor].isReferenced()==false
+						& MMU.frame[MMU.Cursor].isDirty()==false
+						& MMU.frame[MMU.Cursor].isReserved()==false
+						& MMU.frame[MMU.Cursor].getLockCount()==0) {
+					// Phase1 - Task2 - a - freeing frames
+					// Phase1 - Note1
+					if(numFreeFrames()==MMU.wantFree)
+						break;
+					MMU.frame[MMU.Cursor].setPage(null);
+					// The dirty and the reference bits should be set to false. is this done?
+					// Phase1 - Task2 - b
+					MMU.frame[MMU.Cursor].getPage().setFrame(null);
+					MMU.frame[MMU.Cursor].getPage().setValid(false);
+				}
+				// Phase1 - Task3
+				if (firstDirtyFrame ==false
+					& MMU.frame[MMU.Cursor].isDirty()==true
 					& MMU.frame[MMU.Cursor].isReserved()==false
-					& MMU.frame[MMU.Cursor].getLockCount()<=0) {
-				// freeing frames
-				// The dirty and the reference bits should be set to false. is this done?
-				MMU.frame[MMU.Cursor].setPage(null);
-				// Updating the page table for the task that owned the “clean” page
-				MMU.frame[MMU.Cursor].getPage().setFrame(null);
-				MMU.frame[MMU.Cursor].getPage().setValid(false);
-				
-				
+					& MMU.frame[MMU.Cursor].getLockCount()==0) {
+					firstDirtyFrameID=MMU.frame[MMU.Cursor].getID();
+					firstDirtyFrame =true;
+				}
+				// Phase1 - Note4 - CHECK IF CORRECT
+				MMU.Cursor++;
 			}
-			
+			if(numFreeFrames()==MMU.wantFree)
+				break;
 		}
 	}
 
