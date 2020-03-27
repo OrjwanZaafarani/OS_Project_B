@@ -19,6 +19,7 @@ import osp.IFLModules.*;
 */
 public class PageFaultHandler extends IflPageFaultHandler
 {
+    static int freeFrames=0;
     /**
         This method handles a page fault.
 
@@ -83,6 +84,7 @@ public class PageFaultHandler extends IflPageFaultHandler
     }
 
 
+
     /*
        Feel free to add methods/fields to improve the readability of your code
     */
@@ -92,8 +94,17 @@ public class PageFaultHandler extends IflPageFaultHandler
      * the search in the frame table starts, but this method must not change 
      * the value of the reference bits, dirty bits or MMU.Cursor.
      */
+
     public static int numFreeFrames() {
-    	
+    	for (int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {	
+	    	if(MMU.frame[i]== null) {
+	    		freeFrames++;
+	    	if(i%MMU.getFrameTableSize()==0) {
+	    		i=0;
+	    	}
+	    	}
+    	}
+    	return freeFrames;
     }
     
     /*

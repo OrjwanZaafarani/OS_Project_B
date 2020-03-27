@@ -17,21 +17,41 @@ import osp.Interrupts.*;
 */
 public class MMU extends IflMMU
 {
+	// I think they have to private not public. page 92
+	public static  int  Cursor;
+	public static  int  wantFree;
+	public static FrameTableEntry[] frame;
+	
     /**
         This method is called once before the simulation starts.
 		Can be used to initialize the frame table and other static variables.
 
         @OSPProject Memory
+        
+        This method is called once, at the beginning, to initialize the
+        data structures. Typically, it is used to initialize the frame table.
+		Since the total number of frames is known (MMU.getFrameTableSize()),
+		each frame in the frame table can be initialized in a for-loop.
+		Initially, all entries in the frame table are just null-objects
+		and must be set to real frame table objects using the
+		FrameTableEntry() constructor. To set a frame entry, use the
+		method setFrame() in class MMU.
+		Another use of the init() method is for the initialization
+		of private static variables defined in other classes of the
+		Memory package. For example, one can define an init() method
+		in class PageFaultHandler which would be able to access any
+		variable defined in that class. Then MMU.init() can call
+		PageFaultHandler.init(). Since MMU.init() is called at the
+		very begin- ning of the simulation, PageFaultHandler.init()
+		is also going to be called at the beginning of the simulation.
     */
-	public static  int  Cursor;
-	public static  int  wantFree;
 	
     public static void init()
     {
-        // your code goes here
+    	// called before?? where??
     	Cursor = 0;
     	wantFree = 1;
-
+    	frame = new FrameTableEntry[MMU.getFrameTableSize()];
     }
 
     /**
@@ -55,6 +75,7 @@ public class MMU extends IflMMU
     */
     static public PageTableEntry do_refer(int memoryAddress,int referenceType, ThreadCB thread)
     {
+		return null;
         // your code goes here
 
     }
@@ -91,6 +112,8 @@ public class MMU extends IflMMU
     /*
        Feel free to add methods/fields to improve the readability of your code
     */
+    
+   
 
 }
 
