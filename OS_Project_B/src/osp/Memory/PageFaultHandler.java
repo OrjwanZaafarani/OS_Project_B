@@ -114,7 +114,7 @@ public class PageFaultHandler extends IflPageFaultHandler
     /*
      * Returns the first free frame starting the search from frame[0].
      */
-    
+    // not sure if this is the right way to check free frames. Do we check the pages?!!!
 	public static FrameTableEntry getFreeFrame() {
 		FrameTableEntry freeFrame = null;
 	    	for(int i=0;i<MMU.getFrameTableSize();i++) {
@@ -131,9 +131,41 @@ public class PageFaultHandler extends IflPageFaultHandler
 	 * Frees frames using the following Second Chance approach and 
 	 * returns one frame. The search uses the MMU variable MMU.Cursor 
 	 * to specify the starting frame index of the search.
+	 * Freeing frames: To free a frame, one should indicate that the frame
+	 * does not hold any page (i.e., it holds the null page) using the
+	 * setPage() method. The dirty and the reference bits should be set to false.
+	Updating a page table: To indicate that a page P is no longer valid, one
+	must set its frame to null (using the setFrame() method) and the validity
+	bit to false (using the setValid() method). To indicate that the page P
+	has become valid and is now occupying a main memory frame F, you do the
+	following:
+	– use setFrame() to set the frame of P to F
+	– use setPage() to set F ’s page to P
+	– set the P’s validity flag correctly
+	– set the dirty and reference flags in F appropriately.
+
 	 */
 	public static FrameTableEntry SecondChance() {
-		
+		for(int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {
+			if(MMU.frame[MMU.Cursor].isReferenced() == true) {
+				MMU.frame[MMU.Cursor].setReferenced(false);
+			}
+			else if (MMU.frame[MMU.Cursor].getPage()!=null
+					& MMU.frame[MMU.Cursor].isReferenced()==false
+					& MMU.frame[MMU.Cursor].isDirty()==false
+					& MMU.frame[MMU.Cursor].isReserved()==false
+					& MMU.frame[MMU.Cursor].getLockCount()<=0) {
+				// freeing frames
+				// The dirty and the reference bits should be set to false. is this done?
+				MMU.frame[MMU.Cursor].setPage(null);
+				// Updating the page table for the task that owned the “clean” page
+				MMU.frame[MMU.Cursor].getPage().setFrame(null);
+				MMU.frame[MMU.Cursor].getPage().setValid(false);
+				
+				
+			}
+			
+		}
 	}
 
 }
