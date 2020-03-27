@@ -102,6 +102,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    	if(i%MMU.getFrameTableSize()==0) {
 	    		i=0;
 	    	}
+	    	//test
 	    	}
     	}
     	return freeFrames;
