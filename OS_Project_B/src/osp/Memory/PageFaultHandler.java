@@ -79,18 +79,11 @@ public class PageFaultHandler extends IflPageFaultHandler
 
         @OSPProject Memory
     */
-    public static int do_handlePageFault(ThreadCB thread,int referenceType,PageTableEntry page)
-    {
-        // your code goes here
+    public static int do_handlePageFault(ThreadCB thread,int referenceType,PageTableEntry page) {
+    	
 
     }
 
-
-
-    /*
-       Feel free to add methods/fields to improve the readability of your code
-    */
-    
     /*
      * Returns the current number of free frames. It does not matter where 
      * the search in the frame table starts, but this method must not change 
@@ -98,11 +91,11 @@ public class PageFaultHandler extends IflPageFaultHandler
      */
 
     public static int numFreeFrames() {
-    	int freeFrames=0;
+    	int freeFrames = 0;
     	// less or less or equal than?
     	// will it ever break the loop?
     	for (int i=0;i<MMU.getFrameTableSize();i++) {	
-	    	if(MMU.frame[i]== null) {
+	    	if(MMU.frame[i] == null) {
 	    		freeFrames++;
 	    	}
     	}
@@ -115,8 +108,8 @@ public class PageFaultHandler extends IflPageFaultHandler
     // not sure if this is the right way to check free frames. Do we check the pages?!!!
 	public static FrameTableEntry getFreeFrame() {
 		FrameTableEntry freeFrame = null;
-	    	for(int i=0;i<MMU.getFrameTableSize();i++) {
-	    		if(MMU.frame[i]== null) {
+	    	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
+	    		if(MMU.frame[i] == null) {
 	    			freeFrame = MMU.getFrame(i);
 	    			break;
 	    		}
@@ -189,7 +182,3 @@ public class PageFaultHandler extends IflPageFaultHandler
 	}
 
 }
-
-/*
-      Feel free to add local classes to improve the readability of your code
-*/

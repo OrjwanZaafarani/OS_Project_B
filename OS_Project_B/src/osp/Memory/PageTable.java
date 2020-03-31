@@ -28,7 +28,6 @@ public class PageTable extends IflPageTable
     */
     public PageTable(TaskCB ownerTask)
     {
-        // your code goes here
     	super(ownerTask);
     	int MaxNumberofPages = (int) Math.pow(2,MMU.getPageAddressBits());
     	pages = new PageTableEntry[MaxNumberofPages];
@@ -43,17 +42,19 @@ public class PageTable extends IflPageTable
        @OSPProject Memory
     */
     public void do_deallocateMemory() {
-        
-
+    	for(int i = 0; i < MMU.getFrameTableSize(); i++){
+    		if(MMU.getFrame(i).getPage() != null) {
+	    		if (MMU.getFrame(i).getPage().getTask()==this.getTask()) {
+	    			MMU.getFrame(i).setPage(null);
+	    			MMU.getFrame(i).setDirty(false);
+	    			MMU.getFrame(i).setReferenced(false);
+	    			
+	    			if(MMU.getFrame(i).getReserved()==this.getTask())
+	    				MMU.getFrame(i).setUnreserved(this.getTask());
+	    		}
+    		}
+    		
+    	}
+    		
     }
-
-
-    /*
-       Feel free to add methods/fields to improve the readability of your code
-    */
-
 }
-
-/*
-      Feel free to add local classes to improve the readability of your code
-*/

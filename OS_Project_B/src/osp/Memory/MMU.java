@@ -51,11 +51,16 @@ public class MMU extends IflMMU
     	// called before?? where??
     	Cursor = 0;
     	wantFree = 1;
+    	//Why did you add frame as a global variable?
     	frame = new FrameTableEntry[MMU.getFrameTableSize()];
+    	
+    	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
+    		MMU.setFrame(i, new FrameTableEntry(i));
+    	}
     }
 
     /**
-       This method handlies memory references. The method must
+       This method handles memory references. The method must
        calculate, which memory page contains the memoryAddress,
        determine, whether the page is valid, start page fault
        by making an interrupt if the page is invalid, finally,
@@ -73,11 +78,35 @@ public class MMU extends IflMMU
 
        @OSPProject Memory
     */
-    static public PageTableEntry do_refer(int memoryAddress,int referenceType, ThreadCB thread)
-    {
-		return null;
-        // your code goes here
-
+    static public PageTableEntry do_refer(int memoryAddress,int referenceType, ThreadCB thread) {
+    	int VABits = MMU.getVirtualAddressBits();
+    	int PBits = MMU.getPageAddressBits();
+    	int DBits = VABits - PBits;
+    	int PageSize = (int) Math.pow(2, DBits);
+    	int PageNum = memoryAddress/PageSize;
+    	
+    	PageTableEntry PTE = MMU.getPTBR().pages[PageNum];
+    	// OR PageTableEntry PTE = thread.getTask().getPageTable().pages[PageNum];
+    	if(!PTE.isValid()) {
+    		if (PTE.getValidatingThread() != null) 
+    			thread.suspend(PTE);
+    		else {
+    			InterruptVector.setPage(PTE);
+    			InterruptVector.setReferenceType(referenceType);
+    			InterruptVector.setThread(thread);
+    			CPU.interrupt(PageFault);
+    		}
+    	}
+    	
+    	if (thread.getStatus() != ThreadKill) {
+    		PTE.getFrame().setReferenced(true);
+    		if (referenceType == MemoryWrite)
+    			PTE.getFrame().setDirty(true);
+    		else
+    			PTE.getFrame().setDirty(false);
+    	}
+    	
+    	return PTE;
     }
 
 
@@ -107,16 +136,4 @@ public class MMU extends IflMMU
         // your code goes here (if needed)
 
     }
-
-
-    /*
-       Feel free to add methods/fields to improve the readability of your code
-    */
-    
-   
-
 }
-
-/*
-      Feel free to add local classes to improve the readability of your code
-*/

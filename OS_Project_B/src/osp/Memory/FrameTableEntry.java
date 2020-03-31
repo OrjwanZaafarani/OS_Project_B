@@ -24,18 +24,6 @@ public class FrameTableEntry extends IflFrameTableEntry
     */
     public FrameTableEntry(int frameID)
     {
-        // your code goes here
     	super(frameID);
-
     }
-
-
-    /*
-       Feel free to add methods/fields to improve the readability of your code
-    */
-
 }
-
-/*
-      Feel free to add local classes to improve the readability of your code
-*/

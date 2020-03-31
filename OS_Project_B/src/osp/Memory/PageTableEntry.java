@@ -26,7 +26,6 @@ public class PageTableEntry extends IflPageTableEntry
     */
     public PageTableEntry(PageTable ownerPageTable, int pageNumber)
     {
-        // your code goes here
     	super(ownerPageTable,pageNumber);
 
     }
@@ -88,14 +87,5 @@ public class PageTableEntry extends IflPageTableEntry
         if(this.getFrame().getLockCount()>0)
         	this.getFrame().decrementLockCount();
     }
-
-
-    /*
-       Feel free to add methods/fields to improve the readability of your code
-    */
-
 }
 
-/*
-      Feel free to add local classes to improve the readability of your code
-*/
