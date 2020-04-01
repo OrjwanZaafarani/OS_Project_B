@@ -79,9 +79,85 @@ public class PageFaultHandler extends IflPageFaultHandler
 
         @OSPProject Memory
     */
+	//NOURA: VERYY LONGG CODEEE because there are lots of conditions --> need to make it more efficient and organized.
+	//For now, it does what it's supposed to hopefully (not 100% sure) i'll check with GitHub solutions
     public static int do_handlePageFault(ThreadCB thread,int referenceType,PageTableEntry page) {
+    	int counter = 0;
+    	if(!page.isValid() && page.getValidatingThread() == null) {
+	    	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
+	    		if (MMU.getFrame(i).isReserved() 
+	    			|| MMU.getFrame(i).getLockCount() != 0)
+	    			counter++;
+	    	}
+	    	if(counter == MMU.getFrameTableSize()) {
+	        	page.notifyThreads();
+	    		ThreadCB.dispatch();
+	    		return NotEnoughMemory;
+	    	}
+	    	else {
+	    		page.setValidatingThread(thread);
+	    		SystemEvent SE = new SystemEvent("Suspended Thread");
+	    		thread.suspend(SE);
+	    		FrameTableEntry freeFrame = getFreeFrame();
+	    		OpenFile SwapFile = page.getTask().getSwapFile();
+	    		if(freeFrame == null) {
+	    			FrameTableEntry SCframe = SecondChance();
+	    			SCframe.setReserved(thread.getTask());
+	    			if(SCframe.isDirty()) {
+	    				//SwapOut
+	    				SwapFile.write(page.getID(), page, thread);
+	    				if(thread.getStatus()==ThreadKill)
+	    	    			return FAILURE;
+	    				//Freeing the frame
+	    				SCframe.setPage(null);
+	    				SCframe.setDirty(false);
+	    				SCframe.setReferenced(false);
+	    			}
+	    			//SwapIn
+	    			SwapFile.read(page.getID(), page, thread);
+	    			if(thread.getStatus()==ThreadKill)
+		    			return FAILURE;
+	    			page.setFrame(SCframe);
+	    	    	SCframe.setPage(page);
+	    	    	SCframe.setUnreserved(thread.getTask());
+	    	    	page.setValid(true);
+	    	    	if(referenceType == MemoryWrite)
+		    			SCframe.setDirty(true);
+		    		else
+		    			SCframe.setDirty(false);
+	    	    	SE.notifyThreads();
+	    	    	page.setValidatingThread(null);
+	    	    	page.notifyThreads();
+	    	    	ThreadCB.dispatch();
+	    	    	return SUCCESS;
+	    		}
+	    		
+	    		freeFrame.setReserved(thread.getTask());
+	    		//Swap In
+	    		SwapFile.read(page.getID(), page, thread)
+	    		if(thread.getStatus()==ThreadKill)
+	    			return FAILURE;
+	    		
+	    		page.setFrame(freeFrame);
+	    		freeFrame.setPage(page);
+	    		page.setValid(true);
+	    		freeFrame.setReferenced(true);
+	    		if(referenceType == MemoryWrite)
+	    			freeFrame.setDirty(true);
+	    		else
+	    			freeFrame.setDirty(false);
+	    		freeFrame.setUnreserved(thread.getTask());
+	    		SE.notifyThreads();
+	    		page.setValidatingThread(null);
+	    		page.notifyThreads();
+	    		ThreadCB.dispatch();
+	    		return SUCCESS;
+	    	}
+    	}
     	
-
+    	page.notifyThreads();
+    	ThreadCB.dispatch();
+    	return FAILURE;
     }
 
     /*
@@ -89,13 +165,17 @@ public class PageFaultHandler extends IflPageFaultHandler
      * the search in the frame table starts, but this method must not change 
      * the value of the reference bits, dirty bits or MMU.Cursor.
      */
-
+    
+    //NOURA: modified this method to check pages
     public static int numFreeFrames() {
     	int freeFrames = 0;
     	// less or less or equal than?
     	// will it ever break the loop?
-    	for (int i=0;i<MMU.getFrameTableSize();i++) {	
-	    	if(MMU.frame[i] == null) {
+    	for (int i = 0; i < MMU.getFrameTableSize(); i++) {
+    		FrameTableEntry frame = MMU.getFrame(i);
+	    	if(frame.getPage() == null 
+	    		&& !frame.isReserved() 
+	    		&& frame.getLockCount() == 0) {
 	    		freeFrames++;
 	    	}
     	}
@@ -106,16 +186,17 @@ public class PageFaultHandler extends IflPageFaultHandler
      * Returns the first free frame starting the search from frame[0].
      */
     // not sure if this is the right way to check free frames. Do we check the pages?!!!
+    //NOURA: modified this method to check pages
 	public static FrameTableEntry getFreeFrame() {
-		FrameTableEntry freeFrame = null;
-	    	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
-	    		if(MMU.frame[i] == null) {
-	    			freeFrame = MMU.getFrame(i);
-	    			break;
+		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
+    		FrameTableEntry frame = MMU.getFrame(i);
+	    	if(frame.getPage() == null 
+	    		&& !frame.isReserved() 
+	    		&& frame.getLockCount() == 0) {
+	    			return frame;
 	    		}
 	    	}
-			return freeFrame;
-	    		
+	    	return null;
 	}
 	
 	/*
@@ -137,7 +218,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 
 	 */
 	public static FrameTableEntry SecondChance() {
-		boolean firstDirtyFrame =false;
+		boolean firstDirtyFrame = false;
 		int firstDirtyFrameID;
 		// Phase1 - Note5 - Keep  in  mind  that  locked  and reserved  page  frames
 		// 					cannot  be  selected  and dirty  frames should not be

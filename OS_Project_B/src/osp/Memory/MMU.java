@@ -105,7 +105,6 @@ public class MMU extends IflMMU
     		else
     			PTE.getFrame().setDirty(false);
     	}
-    	
     	return PTE;
     }
 
