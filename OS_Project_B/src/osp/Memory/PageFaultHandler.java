@@ -206,8 +206,8 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	 * one must set its frame to null (using the setFrame() method) and the validity
 	 * bit to false (using the setValid() method). To indicate that the page P has
 	 * become valid and is now occupying a main memory frame F, you do the
-	 * following: – use setFrame() to set the frame of P to F – use setPage() to set
-	 * F ’s page to P – set the P’s validity flag correctly – set the dirty and
+	 * following: â€“ use setFrame() to set the frame of P to F â€“ use setPage() to set
+	 * F â€™️s page to P â€“ set the Pâ€™️s validity flag correctly â€“ set the dirty and
 	 * reference flags in F appropriately.
 	 * 
 	 */

@@ -1,6 +1,4 @@
-Sim: 0 [EventEngine.EventDriver]  
-	Simulation Start Time: Tue Apr 14 21:22:47 GMT+03:00 2020
-	Parameter file: C:\Users\aldak\Desktop\KAU\Term 10\EE463 - Operating Systems\Project B\Code\OS_Project_B\OS_Project_B\OS_Project_B\Misc\params.osp
+Parameter file: C:\Users\aldak\Desktop\KAU\Term 10\EE463 - Operating Systems\Project B\Code\OS_Project_B\OS_Project_B\OS_Project_B\Misc\params.osp
 
 	Legend:
 	  Thread(X:Y/S) means: thread X of task Y, status=S
@@ -99,6 +97,7 @@ Mod: 18 [Hardware.Disk]
 	Entering do_enqueueIORB for IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
 	Locking Page(12:1/0)
 Sim: 18 [Memory.PageTableEntry]  
+<<<<<<< HEAD
 	Entering lock(Page(12:1/0),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
 Sim: 18 [Memory.PageTableEntry]  
 	Leaving lock(Page(12:1/0),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
@@ -3229,4 +3228,10 @@ The suspended  RRBs:
 
 Sim: 4320 [Utilities.Simulation]  
 	Elapsed time: 0 seconds
+=======
+	Entering lock(Page(12:1/null),IORB(Id(0),Device(0),Page(12:1/null),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 18 [Utilities.Simulation]  
+	Elapsed time: 4 seconds
+>>>>>>> branch 'master' of https://github.com/OrjwanZaafarani/OS_Project_B.git
+>>>>>>> branch 'master' of https://github.com/OrjwanZaafarani/OS_Project_B.git
 
