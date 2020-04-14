@@ -225,21 +225,22 @@ public class PageFaultHandler extends IflPageFaultHandler
 		//					freed in this phase.
 		// Phase1 - Note2,3
 		for(int j = 0; j < 2; j++) { 
-			for(int i = MMU.Cursor; i < MMU.getFrameTableSize(); i++) {
+			for(int i = 0; i < MMU.getFrameTableSize(); i++) {
+				// Phase1 - Note1
+				if(numFreeFrames() == MMU.wantFree)
+					break;
+				
 				// Phase1 - Task1
-				if(MMU.getFrame(MMU.Cursor).isReferenced() == true) {
+				else if(MMU.getFrame(MMU.Cursor).isReferenced() == true) {
 					MMU.getFrame(MMU.Cursor).setReferenced(false);
-				} 
-				// Phase1 - Task2)
+				}
+				// Phase1 - Task2
 				else if (MMU.getFrame(MMU.Cursor).getPage()!=null
 						& MMU.getFrame(MMU.Cursor).isReferenced()==false
 						& MMU.getFrame(MMU.Cursor).isDirty()==false
 						& MMU.getFrame(MMU.Cursor).isReserved()==false
 						& MMU.getFrame(MMU.Cursor).getLockCount()<=0) {
 					// Phase1 - Task2 - a - freeing frames
-					// Phase1 - Note1
-					if(numFreeFrames()==MMU.wantFree)
-						break;
 					MMU.getFrame(MMU.Cursor).setPage(null);
 					MMU.getFrame(MMU.Cursor).setDirty(false);
 					MMU.getFrame(MMU.Cursor).setReferenced(false);
@@ -249,19 +250,18 @@ public class PageFaultHandler extends IflPageFaultHandler
 					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 				}
 				// Phase1 - Task3
-				if (firstDirtyFrame ==false
-					& MMU.frame[MMU.Cursor].isDirty()==true
-					& MMU.frame[MMU.Cursor].isReserved()==false
-					& MMU.frame[MMU.Cursor].getLockCount()==0) {
-					firstDirtyFrameID=MMU.frame[MMU.Cursor].getID();
-					firstDirtyFrame =true;
+				if (firstDirtyFrame == false
+					& MMU.getFrame(MMU.Cursor).isDirty() == true
+					& MMU.getFrame(MMU.Cursor).isReserved() == false
+					& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
+					firstDirtyFrameID = MMU.getFrame(MMU.Cursor).getID();
+					firstDirtyFrame = true;
 				}
 				// Phase1 - Note4 - CHECK IF CORRECT
-				MMU.Cursor=(MMU.Cursor+i)%MMU.getFrameTableSize();
+				MMU.Cursor = (MMU.Cursor+i)%MMU.getFrameTableSize();
 			}
-			if(numFreeFrames()==MMU.wantFree)
+			if(numFreeFrames() == MMU.wantFree)
 				break;
 		}
 	}
-
 }
