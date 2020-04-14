@@ -218,8 +218,9 @@ public class PageFaultHandler extends IflPageFaultHandler
 
 	 */
 	public static FrameTableEntry SecondChance() {
-		boolean firstDirtyFrame = false;
+		boolean foundFirstDirtyFrame = false;
 		int firstDirtyFrameID;
+		FrameTableEntry firstDirtyFrame = null;
 		// Phase1 - Note5 - Keep  in  mind  that  locked  and reserved  page  frames
 		// 					cannot  be  selected  and dirty  frames should not be
 		//					freed in this phase.
@@ -247,19 +248,33 @@ public class PageFaultHandler extends IflPageFaultHandler
 					MMU.frame[MMU.Cursor].getPage().setValid(false);
 				}
 				// Phase1 - Task3
-				if (firstDirtyFrame ==false
+				if (foundFirstDirtyFrame ==false
 					& MMU.frame[MMU.Cursor].isDirty()==true
 					& MMU.frame[MMU.Cursor].isReserved()==false
 					& MMU.frame[MMU.Cursor].getLockCount()==0) {
 					firstDirtyFrameID=MMU.frame[MMU.Cursor].getID();
-					firstDirtyFrame =true;
+					firstDirtyFrame=MMU.getFrame(MMU.Cursor);
+					foundFirstDirtyFrame =true;
 				}
-				// Phase1 - Note4 - CHECK IF CORRECT
-				MMU.Cursor=(MMU.Cursor+i)%MMU.getFrameTableSize();
+				// Phase1 - Note4
+				MMU.Cursor=(MMU.Cursor+1)%MMU.getFrameTableSize();
 			}
 			if(numFreeFrames()==MMU.wantFree)
 				break;
 		}
+		// Phase2
+		if(numFreeFrames()!=MMU.wantFree) {
+			return firstDirtyFrame;
+			if(numFreeFrames()<MMU.wantFree && foundFirstDirtyFrame==false) {
+				return getFreeFrame();
+			}
+		}
+		
+		// Phase3
+		else {
+			
+		}
+		
 	}
 
 }
