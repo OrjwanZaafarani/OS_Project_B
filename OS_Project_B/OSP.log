@@ -1,0 +1,3113 @@
+Sim: 0 [EventEngine.EventDriver]  
+	Simulation Start Time: Tue Apr 14 21:03:40 GMT+03:00 2020
+	Parameter file: C:\Users\aldak\Desktop\KAU\Term 10\EE463 - Operating Systems\Project B\Code\OS_Project_B\OS_Project_B\OS_Project_B\Misc\params.osp
+
+	Legend:
+	  Thread(X:Y/S) means: thread X of task Y, status=S
+	  Task(X/S) means: task X, status=S
+	  Page(X:Y/Z) means: page X of task Y in frame Z
+	  Openfile(X:Y/Z) means: open file X of task Y on device Z
+	  Port(X:Y/S) means: port X of task Y has status S
+	Status code abbreviations:
+	  RD(ThreadReady), RU(ThreadRunning),
+	  Wn(ThreadWaiting, n=waitlevel), KL(ThreadKill)
+	  L(TaskLive), T(TaskTerm), NN(NONE)
+	  L(PortLive), D(PortDestroyed), NN(NONE)
+
+
+Sim: 0 [IFLModules.ResourceCB]  
+	Deadlock handling mode: Detection
+Sim: 0 [IFLModules.TaskCB]  
+	Entering create()
+Mod: 0 [Tasks.TaskCB]  
+	Task(1/NN) created
+Sim: 0 [IFLModules.FileSys]  
+	Creating file: create(/vm/1,65536)
+Mod: 0 [FileSys.FileSys]  
+	Creating file: create(/vm/1,65536)
+Mod: 0 [FileSys.FileSys]  
+	New file size 64 blocks
+Mod: 0 [FileSys.FileSys]  
+	Inode(Id(0),Device(0),BlockCount(64),OpenCount(0),LinkCount(1))
+	  File `/vm/1', blocksize=64 created on device 0
+Sim: 0 [IFLModules.FileSys]  
+	System call create(`/vm/1')  succeeded, as expected
+Sim: 0 [IFLModules.OpenFile]  
+	System call open(`/vm/1')
+Sim: 0 [Tasks.TaskCB]  
+	Adding Openfile(0:1/0) to the open files table of Task(1/L)
+Mod: 0 [FileSys.OpenFile]  
+	File `/vm/1' opened 1 times
+Sim: 0 [IFLModules.OpenFile]  
+	File `/vm/1' opened as Openfile(0:1/0)
+Sim: 0 [IFLModules.FileSys]  
+	System call open(`/vm/1')  succeeded, as expected
+Sim: 0 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 0 [Threads.ThreadCB]  
+	Created Thread(0:null/NN)
+Mod: 0 [Threads.ThreadCB]  
+	Successfully added Thread(0:1/RD) to Task(1/L)
+Sim: 0 [IFLModules.ThreadCB]  
+	Created new thread Thread(0:1/RD)
+Sim: 0 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 0 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 0 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 0 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 11 [IFLModules.FileSys]  
+	System call delete(`/etc/go/Oh,my/go')
+Mod: 11 [FileSys.FileSys]  
+	File `/etc/go/Oh,my/go' doesn't exist -- cannot delete
+Sim: 11 [IFLModules.FileSys]  
+	System call delete(`/etc/go/Oh,my/go')  failed, as expected
+Sim: 18 [IFLModules.MMU]  
+	Call: MMU.refer(Address(12617),MemoryWrite,Thread(0:1/RU))
+	  [Page(12:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 18 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(12:1/null),Unknown,Thread(0:1/RU)
+Sim: 18 [Memory.PageTableEntry]  
+	Setting validating thread for Page(12:1/null) to Thread(0:1/RU)
+Sim: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Mod: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Sim: 18 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W0),SystemEvent(Suspended Thread))
+Sim: 18 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(0)
+Sim: 18 [Memory.FrameTableEntry]  
+	Setting page of Frame(0) to Page(12:1/0)
+Sim: 18 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(12),Page(12:1/0),Thread(0:1/W0))
+Sim: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Mod: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Sim: 18 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),SystemEvent(FileRead))
+Mod: 18 [FileSys.OpenFile]  
+	Creating IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 18 [Hardware.Disk]  
+	Enqueueing IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 18 [Hardware.Disk]  
+	Thread(0:1/W1) requests to enqueue IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Mod: 18 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Locking Page(12:1/0)
+Sim: 18 [Memory.PageTableEntry]  
+	Entering lock(Page(12:1/0),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 18 [Memory.PageTableEntry]  
+	Leaving lock(Page(12:1/0),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 18 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 18 [Hardware.Disk]  
+	Starting I/O for IORB 0, which will take 45 ticks
+	  IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 18 [Hardware.Disk]  
+	After enqueueing IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 18 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 18 [FileSys.OpenFile]  
+	Thread(0:1/W1) is suspended on IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 18 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 18 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 18 [Threads.ThreadCB]  
+	Can't find suitable thread to dispatch
+Sim: 18 [IFLModules.ThreadCB]  
+	After do_dispatch(): CPU is idle and the ready queue is empty
+Sim: 18 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 63 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W2))
+Mod: 63 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 63 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W2)) completes
+Sim: 63 [Memory.PageTableEntry]  
+	Unlocking Page(12:1/0). New lock count: 0
+Sim: 63 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W2))
+Mod: 63 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W2)
+Sim: 63 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W1))
+Mod: 63 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 63 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 63 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 63 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 63 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 63 [FileSys.OpenFile]  
+	Thread(0:1/W1) is resumed after IORB(Id(0),Device(0),Page(12:1/0),Diskblock(12),FileRead,Openfile(0:1/0),Thread(0:1/W1)) has been processed
+Sim: 63 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W1))
+Mod: 63 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W1)
+Sim: 63 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W0))
+Sim: 63 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
+Sim: 63 [Memory.PageTableEntry]  
+	Page(12:1/0) becomes valid
+Sim: 63 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(0)
+Sim: 63 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W0))
+Mod: 63 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W0)
+Sim: 63 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/RD))
+Sim: 63 [Memory.PageTableEntry]  
+	Setting validating thread for Page(12:1/0) to null
+Sim: 63 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(0:1/RD),Unknown,Page(12:1/0))
+Sim: 63 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 63 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 63 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 63 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 165 [IFLModules.MMU]  
+	Call: MMU.refer(Address(11301),MemoryRead,Thread(0:1/RU))
+	  [Page(11:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 165 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(11:1/null),Unknown,Thread(0:1/RU)
+Sim: 165 [Memory.PageTableEntry]  
+	Setting validating thread for Page(11:1/null) to Thread(0:1/RU)
+Sim: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Mod: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Sim: 165 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W0),SystemEvent(Suspended Thread))
+Sim: 165 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(1)
+Sim: 165 [Memory.FrameTableEntry]  
+	Setting page of Frame(1) to Page(11:1/1)
+Sim: 165 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(11),Page(11:1/1),Thread(0:1/W0))
+Sim: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Mod: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Sim: 165 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),SystemEvent(FileRead))
+Mod: 165 [FileSys.OpenFile]  
+	Creating IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 165 [Hardware.Disk]  
+	Enqueueing IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 165 [Hardware.Disk]  
+	Thread(0:1/W1) requests to enqueue IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Mod: 165 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Locking Page(11:1/1)
+Sim: 165 [Memory.PageTableEntry]  
+	Entering lock(Page(11:1/1),IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 165 [Memory.PageTableEntry]  
+	Leaving lock(Page(11:1/1),IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 165 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 165 [Hardware.Disk]  
+	Starting I/O for IORB 1, which will take 30 ticks
+	  IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 165 [Hardware.Disk]  
+	After enqueueing IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 165 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 165 [FileSys.OpenFile]  
+	Thread(0:1/W1) is suspended on IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 165 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 165 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 165 [Threads.ThreadCB]  
+	Can't find suitable thread to dispatch
+Sim: 165 [IFLModules.ThreadCB]  
+	After do_dispatch(): CPU is idle and the ready queue is empty
+Sim: 165 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 195 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W2))
+Mod: 195 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 195 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W2)) completes
+Sim: 195 [Memory.PageTableEntry]  
+	Unlocking Page(11:1/1). New lock count: 0
+Sim: 195 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W2))
+Mod: 195 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W2)
+Sim: 195 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W1))
+Mod: 195 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 195 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 195 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 195 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 195 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 195 [FileSys.OpenFile]  
+	Thread(0:1/W1) is resumed after IORB(Id(1),Device(0),Page(11:1/1),Diskblock(11),FileRead,Openfile(0:1/0),Thread(0:1/W1)) has been processed
+Sim: 195 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W1))
+Mod: 195 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W1)
+Sim: 195 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W0))
+Sim: 195 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
+Sim: 195 [Memory.PageTableEntry]  
+	Page(11:1/1) becomes valid
+Sim: 195 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(1)
+Sim: 195 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W0))
+Mod: 195 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W0)
+Sim: 195 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/RD))
+Sim: 195 [Memory.PageTableEntry]  
+	Setting validating thread for Page(11:1/1) to null
+Sim: 195 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(0:1/RD),Unknown,Page(11:1/1))
+Sim: 195 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 195 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 195 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 195 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 325 [IFLModules.MMU]  
+	Call: MMU.refer(Address(44693),MemoryRead,Thread(0:1/RU))
+	  [Page(43:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 325 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(43:1/null),Unknown,Thread(0:1/RU)
+Sim: 325 [Memory.PageTableEntry]  
+	Setting validating thread for Page(43:1/null) to Thread(0:1/RU)
+Sim: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Mod: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Sim: 325 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W0),SystemEvent(Suspended Thread))
+Sim: 325 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(2)
+Sim: 325 [Memory.FrameTableEntry]  
+	Setting page of Frame(2) to Page(43:1/2)
+Sim: 325 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(43),Page(43:1/2),Thread(0:1/W0))
+Sim: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Mod: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Sim: 325 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),SystemEvent(FileRead))
+Mod: 325 [FileSys.OpenFile]  
+	Creating IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 325 [Hardware.Disk]  
+	Enqueueing IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 325 [Hardware.Disk]  
+	Thread(0:1/W1) requests to enqueue IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Mod: 325 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Locking Page(43:1/2)
+Sim: 325 [Memory.PageTableEntry]  
+	Entering lock(Page(43:1/2),IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 325 [Memory.PageTableEntry]  
+	Leaving lock(Page(43:1/2),IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 325 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 325 [Hardware.Disk]  
+	Starting I/O for IORB 2, which will take 75 ticks
+	  IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 325 [Hardware.Disk]  
+	After enqueueing IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 325 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 325 [FileSys.OpenFile]  
+	Thread(0:1/W1) is suspended on IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 325 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 325 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 325 [Threads.ThreadCB]  
+	Can't find suitable thread to dispatch
+Sim: 325 [IFLModules.ThreadCB]  
+	After do_dispatch(): CPU is idle and the ready queue is empty
+Sim: 325 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 345 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 345 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 345 [Threads.ThreadCB]  
+	Can't find suitable thread to dispatch
+Sim: 345 [IFLModules.ThreadCB]  
+	After do_dispatch(): CPU is idle and the ready queue is empty
+Sim: 345 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 400 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W2))
+Mod: 400 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 400 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W2)) completes
+Sim: 400 [Memory.PageTableEntry]  
+	Unlocking Page(43:1/2). New lock count: 0
+Sim: 400 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W2))
+Mod: 400 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W2)
+Sim: 400 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W1))
+Mod: 400 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 400 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 400 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 400 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 400 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 400 [FileSys.OpenFile]  
+	Thread(0:1/W1) is resumed after IORB(Id(2),Device(0),Page(43:1/2),Diskblock(43),FileRead,Openfile(0:1/0),Thread(0:1/W1)) has been processed
+Sim: 400 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W1))
+Mod: 400 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W1)
+Sim: 400 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W0))
+Sim: 400 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
+Sim: 400 [Memory.PageTableEntry]  
+	Page(43:1/2) becomes valid
+Sim: 400 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(2)
+Sim: 400 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W0))
+Mod: 400 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W0)
+Sim: 400 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/RD))
+Sim: 400 [Memory.PageTableEntry]  
+	Setting validating thread for Page(43:1/2) to null
+Sim: 400 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(0:1/RD),Unknown,Page(43:1/2))
+Sim: 400 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 400 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 400 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 400 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 531 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 531 [Threads.ThreadCB]  
+	Created Thread(1:null/NN)
+Mod: 531 [Threads.ThreadCB]  
+	Successfully added Thread(1:1/RD) to Task(1/L)
+Sim: 531 [IFLModules.ThreadCB]  
+	Created new thread Thread(1:1/RD)
+Sim: 531 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 531 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 531 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 531 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 531 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 548 [IFLModules.FileSys]  
+	System call link(`/etc/go/Goodies' <- `/etc/go/Oh,myGoodies')
+Sim: 548 [IFLModules.FileSys]  
+	File `/etc/go/Goodies' does not exist -- link() must fail
+Sim: 548 [IFLModules.FileSys]  
+	System call link(`/etc/go/Goodies' <- `/etc/go/Oh,myGoodies')  failed, as expected
+Sim: 563 [IFLModules.MMU]  
+	Call: MMU.refer(Address(29827),MemoryWrite,Thread(1:1/RU))
+	  [Page(29:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 563 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(29:1/null),Unknown,Thread(1:1/RU)
+Sim: 563 [Memory.PageTableEntry]  
+	Setting validating thread for Page(29:1/null) to Thread(1:1/RU)
+Sim: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Mod: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Sim: 563 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W0),SystemEvent(Suspended Thread))
+Sim: 563 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(3)
+Sim: 563 [Memory.FrameTableEntry]  
+	Setting page of Frame(3) to Page(29:1/3)
+Sim: 563 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(29),Page(29:1/3),Thread(1:1/W0))
+Sim: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Mod: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Sim: 563 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),SystemEvent(FileRead))
+Mod: 563 [FileSys.OpenFile]  
+	Creating IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 563 [Hardware.Disk]  
+	Enqueueing IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 563 [Hardware.Disk]  
+	Thread(1:1/W1) requests to enqueue IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Mod: 563 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+	Locking Page(29:1/3)
+Sim: 563 [Memory.PageTableEntry]  
+	Entering lock(Page(29:1/3),IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 563 [Memory.PageTableEntry]  
+	Leaving lock(Page(29:1/3),IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 563 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 563 [Hardware.Disk]  
+	Starting I/O for IORB 3, which will take 45 ticks
+	  IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 563 [Hardware.Disk]  
+	After enqueueing IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 563 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 563 [FileSys.OpenFile]  
+	Thread(1:1/W1) is suspended on IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 563 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 563 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 563 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 563 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 563 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 608 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Mod: 608 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 608 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W2)) completes
+Sim: 608 [Memory.PageTableEntry]  
+	Unlocking Page(29:1/3). New lock count: 0
+Sim: 608 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W2))
+Mod: 608 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W2)
+Sim: 608 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W1))
+Mod: 608 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 608 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 608 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 608 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 608 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 608 [FileSys.OpenFile]  
+	Thread(1:1/W1) is resumed after IORB(Id(3),Device(0),Page(29:1/3),Diskblock(29),FileRead,Openfile(0:1/0),Thread(1:1/W1)) has been processed
+Sim: 608 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W1))
+Mod: 608 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W1)
+Sim: 608 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W0))
+Sim: 608 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
+Sim: 608 [Memory.PageTableEntry]  
+	Page(29:1/3) becomes valid
+Sim: 608 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(3)
+Sim: 608 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W0))
+Mod: 608 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W0)
+Sim: 608 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/RD))
+Sim: 608 [Memory.PageTableEntry]  
+	Setting validating thread for Page(29:1/3) to null
+Sim: 608 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(1:1/RD),Unknown,Page(29:1/3))
+Sim: 608 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 608 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 608 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 608 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 608 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 648 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 648 [Threads.ThreadCB]  
+	Created Thread(2:null/NN)
+Mod: 648 [Threads.ThreadCB]  
+	Successfully added Thread(2:1/RD) to Task(1/L)
+Sim: 648 [IFLModules.ThreadCB]  
+	Created new thread Thread(2:1/RD)
+Sim: 648 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 648 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 648 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 648 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 648 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 710 [IFLModules.FileSys]  
+	System call delete(`/etc/go/Finger')
+Mod: 710 [FileSys.FileSys]  
+	File `/etc/go/Finger' doesn't exist -- cannot delete
+Sim: 710 [IFLModules.FileSys]  
+	System call delete(`/etc/go/Finger')  failed, as expected
+Sim: 753 [IFLModules.CallbackRelease]  
+	Resource Release Event occurs
+Sim: 798 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 798 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 798 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 798 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 798 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 798 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 831 [IFLModules.MMU]  
+	Call: MMU.refer(Address(1945),MemoryWrite,Thread(2:1/RU))
+	  [Page(1:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 831 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(1:1/null),Unknown,Thread(2:1/RU)
+Sim: 831 [Memory.PageTableEntry]  
+	Setting validating thread for Page(1:1/null) to Thread(2:1/RU)
+Sim: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Mod: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Sim: 831 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W0),SystemEvent(Suspended Thread))
+Sim: 831 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(4)
+Sim: 831 [Memory.FrameTableEntry]  
+	Setting page of Frame(4) to Page(1:1/4)
+Sim: 831 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(1),Page(1:1/4),Thread(2:1/W0))
+Sim: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Mod: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Sim: 831 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),SystemEvent(FileRead))
+Mod: 831 [FileSys.OpenFile]  
+	Creating IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 831 [Hardware.Disk]  
+	Enqueueing IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 831 [Hardware.Disk]  
+	Thread(2:1/W1) requests to enqueue IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Mod: 831 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+	Locking Page(1:1/4)
+Sim: 831 [Memory.PageTableEntry]  
+	Entering lock(Page(1:1/4),IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 831 [Memory.PageTableEntry]  
+	Leaving lock(Page(1:1/4),IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 831 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 831 [Hardware.Disk]  
+	Starting I/O for IORB 4, which will take 45 ticks
+	  IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 831 [Hardware.Disk]  
+	After enqueueing IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 831 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 831 [FileSys.OpenFile]  
+	Thread(2:1/W1) is suspended on IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 831 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 831 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 831 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 831 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 831 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 847 [IFLModules.MMU]  
+	Call: MMU.refer(Address(56461),MemoryWrite,Thread(1:1/RU))
+	  [Page(55:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 847 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(55:1/null),Unknown,Thread(1:1/RU)
+Sim: 847 [Memory.PageTableEntry]  
+	Setting validating thread for Page(55:1/null) to Thread(1:1/RU)
+Sim: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Mod: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Sim: 847 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W0),SystemEvent(Suspended Thread))
+Sim: 847 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(5)
+Sim: 847 [Memory.FrameTableEntry]  
+	Setting page of Frame(5) to Page(55:1/5)
+Sim: 847 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(55),Page(55:1/5),Thread(1:1/W0))
+Sim: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Mod: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Sim: 847 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),SystemEvent(FileRead))
+Mod: 847 [FileSys.OpenFile]  
+	Creating IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 847 [Hardware.Disk]  
+	Enqueueing IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 847 [Hardware.Disk]  
+	Thread(1:1/W1) requests to enqueue IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Mod: 847 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+	Locking Page(55:1/5)
+Sim: 847 [Memory.PageTableEntry]  
+	Entering lock(Page(55:1/5),IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 847 [Memory.PageTableEntry]  
+	Leaving lock(Page(55:1/5),IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 847 [Hardware.Disk]  
+	Device 0 is busy -- enqueuing IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 847 [Hardware.Disk]  
+	After enqueueing IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 2, the OSP value = 1
+Sim: 847 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 847 [FileSys.OpenFile]  
+	Thread(1:1/W1) is suspended on IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 847 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 847 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 847 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 847 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 847 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 876 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W2))
+Mod: 876 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 876 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W2)) completes
+Sim: 876 [Memory.PageTableEntry]  
+	Unlocking Page(1:1/4). New lock count: 0
+Sim: 876 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W2))
+Mod: 876 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W2)
+Sim: 876 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W1))
+Mod: 876 [Hardware.Disk]  
+	Dequeuing IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Sim: 876 [Hardware.Disk]  
+	Starting I/O for IORB 5, which will take 90 ticks
+	  IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Mod: 876 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 876 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 1
+Sim: 876 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 876 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 876 [FileSys.OpenFile]  
+	Thread(2:1/W1) is resumed after IORB(Id(4),Device(0),Page(1:1/4),Diskblock(1),FileRead,Openfile(0:1/0),Thread(2:1/W1)) has been processed
+Sim: 876 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W1))
+Mod: 876 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W1)
+Sim: 876 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W0))
+Sim: 876 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
+Sim: 876 [Memory.PageTableEntry]  
+	Page(1:1/4) becomes valid
+Sim: 876 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(4)
+Sim: 876 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W0))
+Mod: 876 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W0)
+Sim: 876 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/RD))
+Sim: 876 [Memory.PageTableEntry]  
+	Setting validating thread for Page(1:1/4) to null
+Sim: 876 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(2:1/RD),Unknown,Page(1:1/4))
+Sim: 876 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 876 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 876 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 876 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 876 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 948 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 948 [Threads.ThreadCB]  
+	Created Thread(3:null/NN)
+Mod: 948 [Threads.ThreadCB]  
+	Successfully added Thread(3:1/RD) to Task(1/L)
+Sim: 948 [IFLModules.ThreadCB]  
+	Created new thread Thread(3:1/RD)
+Sim: 948 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(2:1/RU)
+Mod: 948 [Threads.ThreadCB]  
+	Preempting currently running Thread(2:1/RU)
+Mod: 948 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 948 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 948 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 966 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Mod: 966 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 966 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W2)) completes
+Sim: 966 [Memory.PageTableEntry]  
+	Unlocking Page(55:1/5). New lock count: 0
+Sim: 966 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W2))
+Mod: 966 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W2)
+Sim: 966 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W1))
+Mod: 966 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 966 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 966 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 966 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 966 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 966 [FileSys.OpenFile]  
+	Thread(1:1/W1) is resumed after IORB(Id(5),Device(0),Page(55:1/5),Diskblock(55),FileRead,Openfile(0:1/0),Thread(1:1/W1)) has been processed
+Sim: 966 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W1))
+Mod: 966 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W1)
+Sim: 966 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W0))
+Sim: 966 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
+Sim: 966 [Memory.PageTableEntry]  
+	Page(55:1/5) becomes valid
+Sim: 966 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(5)
+Sim: 966 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W0))
+Mod: 966 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W0)
+Sim: 966 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/RD))
+Sim: 966 [Memory.PageTableEntry]  
+	Setting validating thread for Page(55:1/5) to null
+Sim: 966 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(1:1/RD),Unknown,Page(55:1/5))
+Sim: 966 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 966 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 966 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 966 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 966 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 976 [IFLModules.MMU]  
+	Call: MMU.refer(Address(19295),MemoryWrite,Thread(3:1/RU))
+	  [Page(18:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 976 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(18:1/null),Unknown,Thread(3:1/RU)
+Sim: 976 [Memory.PageTableEntry]  
+	Setting validating thread for Page(18:1/null) to Thread(3:1/RU)
+Sim: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Mod: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Sim: 976 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W0),SystemEvent(Suspended Thread))
+Sim: 976 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(6)
+Sim: 976 [Memory.FrameTableEntry]  
+	Setting page of Frame(6) to Page(18:1/6)
+Sim: 976 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(18),Page(18:1/6),Thread(3:1/W0))
+Sim: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Mod: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Sim: 976 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),SystemEvent(FileRead))
+Mod: 976 [FileSys.OpenFile]  
+	Creating IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 976 [Hardware.Disk]  
+	Enqueueing IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 976 [Hardware.Disk]  
+	Thread(3:1/W1) requests to enqueue IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Mod: 976 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+	Locking Page(18:1/6)
+Sim: 976 [Memory.PageTableEntry]  
+	Entering lock(Page(18:1/6),IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 976 [Memory.PageTableEntry]  
+	Leaving lock(Page(18:1/6),IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 976 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 976 [Hardware.Disk]  
+	Starting I/O for IORB 6, which will take 45 ticks
+	  IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 976 [Hardware.Disk]  
+	After enqueueing IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 976 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 976 [FileSys.OpenFile]  
+	Thread(3:1/W1) is suspended on IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 976 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 976 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 976 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 976 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 976 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 987 [IFLModules.FileSys]  
+	Creating file: create(/etc/go/Finger,1024)
+Mod: 987 [FileSys.FileSys]  
+	Creating file: create(/etc/go/Finger,1024)
+Mod: 987 [FileSys.FileSys]  
+	New file size 1 blocks
+Mod: 987 [FileSys.FileSys]  
+	Inode(Id(1),Device(1),BlockCount(1),OpenCount(0),LinkCount(1))
+	  File `/etc/go/Finger', blocksize=1 created on device 1
+Sim: 987 [IFLModules.FileSys]  
+	System call create(`/etc/go/Finger')  succeeded, as expected
+Sim: 987 [IFLModules.OpenFile]  
+	System call open(`/etc/go/Finger')
+Sim: 987 [Tasks.TaskCB]  
+	Adding Openfile(2:1/1) to the open files table of Task(1/L)
+Mod: 987 [FileSys.OpenFile]  
+	File `/etc/go/Finger' opened 1 times
+Sim: 987 [IFLModules.OpenFile]  
+	File `/etc/go/Finger' opened as Openfile(2:1/1)
+Sim: 987 [IFLModules.FileSys]  
+	System call open(`/etc/go/Finger')  succeeded, as expected
+Sim: 987 [IFLModules.ReadFileThread]  
+	Read file event occurs
+Sim: 987 [FileSys.OpenFile]  
+	System call read(Openfile(2:1/1),Block(0),Page(1:1/4),Thread(2:1/RU))
+Sim: 987 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(FileRead))
+Mod: 987 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(FileRead))
+Sim: 987 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Mod: 987 [FileSys.OpenFile]  
+	Creating IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Sim: 987 [Hardware.Disk]  
+	Enqueueing IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Sim: 987 [Hardware.Disk]  
+	Thread(2:1/W0) requests to enqueue IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Mod: 987 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+	Locking Page(1:1/4)
+Sim: 987 [Memory.PageTableEntry]  
+	Entering lock(Page(1:1/4),IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Sim: 987 [Memory.PageTableEntry]  
+	Leaving lock(Page(1:1/4),IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Mod: 987 [Hardware.Disk]  
+	Device 1 is idle -- starting IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Sim: 987 [Hardware.Disk]  
+	Starting I/O for IORB 7, which will take 30 ticks
+	  IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Sim: 987 [Hardware.Disk]  
+	After enqueueing IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)):
+	  Incrementing IORB count for Openfile(2:1/1) iorbCount = 1, the OSP value = 0
+Sim: 987 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Mod: 987 [FileSys.OpenFile]  
+	Thread(2:1/W0) is suspended on IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0))
+Sim: 987 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Mod: 987 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Sim: 987 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 987 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 987 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 987 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1017 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W1))
+Mod: 1017 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1017 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W1)) completes
+Sim: 1017 [Memory.PageTableEntry]  
+	Unlocking Page(1:1/4). New lock count: 0
+Sim: 1017 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W1))
+Mod: 1017 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W1)
+Sim: 1017 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W0))
+Mod: 1017 [Hardware.Disk]  
+	Device(1) has no pending IORBs to dequeue
+Mod: 1017 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1017 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)):
+	  Decrementing IORB count for Openfile(2:1/1) iorbCount = 0, the OSP value = 0
+Sim: 1017 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1017 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W0),IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)))
+Mod: 1017 [FileSys.OpenFile]  
+	Thread(2:1/W0) is resumed after IORB(Id(7),Device(1),Page(1:1/4),Diskblock(0),FileRead,Openfile(2:1/1),Thread(2:1/W0)) has been processed
+Sim: 1017 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W0))
+Mod: 1017 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W0)
+Sim: 1017 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/RD))
+Sim: 1017 [IFLModules.FileSys]  
+	System call read(Openfile(2:1/1),Device(1),Thread(2:1/RD)) succeeded, as expected
+Sim: 1017 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 1017 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 1017 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1017 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1017 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1021 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Mod: 1021 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1021 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W2)) completes
+Sim: 1021 [Memory.PageTableEntry]  
+	Unlocking Page(18:1/6). New lock count: 0
+Sim: 1021 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W2))
+Mod: 1021 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W2)
+Sim: 1021 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W1))
+Mod: 1021 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 1021 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1021 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 1021 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1021 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1021 [FileSys.OpenFile]  
+	Thread(3:1/W1) is resumed after IORB(Id(6),Device(0),Page(18:1/6),Diskblock(18),FileRead,Openfile(0:1/0),Thread(3:1/W1)) has been processed
+Sim: 1021 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W1))
+Mod: 1021 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W1)
+Sim: 1021 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W0))
+Sim: 1021 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
+Sim: 1021 [Memory.PageTableEntry]  
+	Page(18:1/6) becomes valid
+Sim: 1021 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(6)
+Sim: 1021 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W0))
+Mod: 1021 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W0)
+Sim: 1021 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/RD))
+Sim: 1021 [Memory.PageTableEntry]  
+	Setting validating thread for Page(18:1/6) to null
+Sim: 1021 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(3:1/RD),Unknown,Page(18:1/6))
+Sim: 1021 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 1021 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 1021 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1021 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1021 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1059 [IFLModules.MMU]  
+	Call: MMU.refer(Address(52630),MemoryRead,Thread(2:1/RU))
+	  [Page(51:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 1059 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(51:1/null),Unknown,Thread(2:1/RU)
+Sim: 1059 [Memory.PageTableEntry]  
+	Setting validating thread for Page(51:1/null) to Thread(2:1/RU)
+Sim: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Mod: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Sim: 1059 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W0),SystemEvent(Suspended Thread))
+Sim: 1059 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(7)
+Sim: 1059 [Memory.FrameTableEntry]  
+	Setting page of Frame(7) to Page(51:1/7)
+Sim: 1059 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(51),Page(51:1/7),Thread(2:1/W0))
+Sim: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Mod: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Sim: 1059 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),SystemEvent(FileRead))
+Mod: 1059 [FileSys.OpenFile]  
+	Creating IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 1059 [Hardware.Disk]  
+	Enqueueing IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 1059 [Hardware.Disk]  
+	Thread(2:1/W1) requests to enqueue IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Mod: 1059 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+	Locking Page(51:1/7)
+Sim: 1059 [Memory.PageTableEntry]  
+	Entering lock(Page(51:1/7),IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 1059 [Memory.PageTableEntry]  
+	Leaving lock(Page(51:1/7),IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 1059 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 1059 [Hardware.Disk]  
+	Starting I/O for IORB 8, which will take 90 ticks
+	  IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 1059 [Hardware.Disk]  
+	After enqueueing IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 1059 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 1059 [FileSys.OpenFile]  
+	Thread(2:1/W1) is suspended on IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 1059 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 1059 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 1059 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1059 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1059 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1072 [IFLModules.MMU]  
+	Call: MMU.refer(Address(14810),MemoryWrite,Thread(1:1/RU))
+	  [Page(14:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 1072 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(14:1/null),Unknown,Thread(1:1/RU)
+Sim: 1072 [Memory.PageTableEntry]  
+	Setting validating thread for Page(14:1/null) to Thread(1:1/RU)
+Sim: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Mod: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/RU),SystemEvent(Suspended Thread))
+Sim: 1072 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W0),SystemEvent(Suspended Thread))
+Sim: 1072 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(8)
+Sim: 1072 [Memory.FrameTableEntry]  
+	Setting page of Frame(8) to Page(14:1/8)
+Sim: 1072 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(14),Page(14:1/8),Thread(1:1/W0))
+Sim: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Mod: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W0),SystemEvent(FileRead))
+Sim: 1072 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),SystemEvent(FileRead))
+Mod: 1072 [FileSys.OpenFile]  
+	Creating IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 1072 [Hardware.Disk]  
+	Enqueueing IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 1072 [Hardware.Disk]  
+	Thread(1:1/W1) requests to enqueue IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Mod: 1072 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+	Locking Page(14:1/8)
+Sim: 1072 [Memory.PageTableEntry]  
+	Entering lock(Page(14:1/8),IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 1072 [Memory.PageTableEntry]  
+	Leaving lock(Page(14:1/8),IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 1072 [Hardware.Disk]  
+	Device 0 is busy -- enqueuing IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 1072 [Hardware.Disk]  
+	After enqueueing IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 2, the OSP value = 1
+Sim: 1072 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 1072 [FileSys.OpenFile]  
+	Thread(1:1/W1) is suspended on IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1))
+Sim: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 1072 [Threads.ThreadCB]  
+	Entering suspend(Thread(1:1/W1),IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Sim: 1072 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 1072 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 1072 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 1072 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1085 [IFLModules.MMU]  
+	Call: MMU.refer(Address(12187),MemoryWrite,Thread(3:1/RU))
+	  [Page(11:1/1),Frame(1),ValidFlag(OSP)=true,ValidFlag(Student)=true,ValidatingThread=null]
+Sim: 1100 [IFLModules.MMU]  
+	Call: MMU.refer(Address(27157),MemoryRead,Thread(3:1/RU))
+	  [Page(26:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 1100 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(26:1/null),Unknown,Thread(3:1/RU)
+Sim: 1100 [Memory.PageTableEntry]  
+	Setting validating thread for Page(26:1/null) to Thread(3:1/RU)
+Sim: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Mod: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Sim: 1100 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W0),SystemEvent(Suspended Thread))
+Sim: 1100 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(9)
+Sim: 1100 [Memory.FrameTableEntry]  
+	Setting page of Frame(9) to Page(26:1/9)
+Sim: 1100 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(26),Page(26:1/9),Thread(3:1/W0))
+Sim: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Mod: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Sim: 1100 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),SystemEvent(FileRead))
+Mod: 1100 [FileSys.OpenFile]  
+	Creating IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1100 [Hardware.Disk]  
+	Enqueueing IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1100 [Hardware.Disk]  
+	Thread(3:1/W1) requests to enqueue IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Mod: 1100 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+	Locking Page(26:1/9)
+Sim: 1100 [Memory.PageTableEntry]  
+	Entering lock(Page(26:1/9),IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 1100 [Memory.PageTableEntry]  
+	Leaving lock(Page(26:1/9),IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1100 [Hardware.Disk]  
+	Device 0 is busy -- enqueuing IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1100 [Hardware.Disk]  
+	After enqueueing IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 3, the OSP value = 2
+Sim: 1100 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1100 [FileSys.OpenFile]  
+	Thread(3:1/W1) is suspended on IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1100 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 1100 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 1100 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1100 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1100 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1149 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W2))
+Mod: 1149 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1149 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W2)) completes
+Sim: 1149 [Memory.PageTableEntry]  
+	Unlocking Page(51:1/7). New lock count: 0
+Sim: 1149 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W2))
+Mod: 1149 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W2)
+Sim: 1149 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W1))
+Mod: 1149 [Hardware.Disk]  
+	Dequeuing IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Sim: 1149 [Hardware.Disk]  
+	Starting I/O for IORB 9, which will take 45 ticks
+	  IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Mod: 1149 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1149 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 2, the OSP value = 2
+Sim: 1149 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1149 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 1149 [FileSys.OpenFile]  
+	Thread(2:1/W1) is resumed after IORB(Id(8),Device(0),Page(51:1/7),Diskblock(51),FileRead,Openfile(0:1/0),Thread(2:1/W1)) has been processed
+Sim: 1149 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W1))
+Mod: 1149 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W1)
+Sim: 1149 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W0))
+Sim: 1149 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
+Sim: 1149 [Memory.PageTableEntry]  
+	Page(51:1/7) becomes valid
+Sim: 1149 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(7)
+Sim: 1149 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W0))
+Mod: 1149 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W0)
+Sim: 1149 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/RD))
+Sim: 1149 [Memory.PageTableEntry]  
+	Setting validating thread for Page(51:1/7) to null
+Sim: 1149 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(2:1/RD),Unknown,Page(51:1/7))
+Sim: 1149 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 1149 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 1149 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1149 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1149 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1194 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W2))
+Mod: 1194 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1194 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W2)) completes
+Sim: 1194 [Memory.PageTableEntry]  
+	Unlocking Page(14:1/8). New lock count: 0
+Sim: 1194 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W2))
+Mod: 1194 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W2)
+Sim: 1194 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W1))
+Mod: 1194 [Hardware.Disk]  
+	Dequeuing IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Sim: 1194 [Hardware.Disk]  
+	Starting I/O for IORB 10, which will take 60 ticks
+	  IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Mod: 1194 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1194 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 1
+Sim: 1194 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1194 [Threads.ThreadCB]  
+	Leaving suspend(Thread(1:1/W1),IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)))
+Mod: 1194 [FileSys.OpenFile]  
+	Thread(1:1/W1) is resumed after IORB(Id(9),Device(0),Page(14:1/8),Diskblock(14),FileRead,Openfile(0:1/0),Thread(1:1/W1)) has been processed
+Sim: 1194 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W1))
+Mod: 1194 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W1)
+Sim: 1194 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/W0))
+Sim: 1194 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
+Sim: 1194 [Memory.PageTableEntry]  
+	Page(14:1/8) becomes valid
+Sim: 1194 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(8)
+Sim: 1194 [Threads.ThreadCB]  
+	Entering resume(Thread(1:1/W0))
+Mod: 1194 [Threads.ThreadCB]  
+	Resuming Thread(1:1/W0)
+Sim: 1194 [Threads.ThreadCB]  
+	Leaving resume(Thread(1:1/RD))
+Sim: 1194 [Memory.PageTableEntry]  
+	Setting validating thread for Page(14:1/8) to null
+Sim: 1194 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(1:1/RD),Unknown,Page(14:1/8))
+Sim: 1194 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(2:1/RU)
+Mod: 1194 [Threads.ThreadCB]  
+	Preempting currently running Thread(2:1/RU)
+Mod: 1194 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1194 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1194 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1248 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 1248 [Threads.ThreadCB]  
+	Created Thread(4:null/NN)
+Mod: 1248 [Threads.ThreadCB]  
+	Successfully added Thread(4:1/RD) to Task(1/L)
+Sim: 1248 [IFLModules.ThreadCB]  
+	Created new thread Thread(4:1/RD)
+Sim: 1248 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 1248 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 1248 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1248 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1248 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1254 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Mod: 1254 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1254 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W2)) completes
+Sim: 1254 [Memory.PageTableEntry]  
+	Unlocking Page(26:1/9). New lock count: 0
+Sim: 1254 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W2))
+Mod: 1254 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W2)
+Sim: 1254 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W1))
+Mod: 1254 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 1254 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1254 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 1254 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1254 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1254 [FileSys.OpenFile]  
+	Thread(3:1/W1) is resumed after IORB(Id(10),Device(0),Page(26:1/9),Diskblock(26),FileRead,Openfile(0:1/0),Thread(3:1/W1)) has been processed
+Sim: 1254 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W1))
+Mod: 1254 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W1)
+Sim: 1254 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W0))
+Sim: 1254 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
+Sim: 1254 [Memory.PageTableEntry]  
+	Page(26:1/9) becomes valid
+Sim: 1254 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(9)
+Sim: 1254 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W0))
+Mod: 1254 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W0)
+Sim: 1254 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/RD))
+Sim: 1254 [Memory.PageTableEntry]  
+	Setting validating thread for Page(26:1/9) to null
+Sim: 1254 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(3:1/RD),Unknown,Page(26:1/9))
+Sim: 1254 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 1254 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 1254 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1254 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1254 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1328 [IFLModules.FileSys]  
+	System call dir(`/etc/go/gogoLow/')
+Sim: 1328 [IFLModules.FileSys]  
+	Directory `/etc/go/gogoLow/' does not exist -- the call must fail
+Mod: 1328 [FileSys.FileSys]  
+	Listing directory `/etc/go/gogoLow/'
+Mod: 1328 [FileSys.FileSys]  
+	Directory `/etc/go/gogoLow/' doesn't exist
+Sim: 1328 [IFLModules.FileSys]  
+	System call dir(`/etc/go/gogoLow/')  failed, as expected
+Sim: 1404 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 1404 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(2:1/RU)
+Mod: 1404 [Threads.ThreadCB]  
+	Preempting currently running Thread(2:1/RU)
+Mod: 1404 [Threads.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 1404 [IFLModules.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 1404 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1517 [IFLModules.CallbackRelease]  
+	Resource Release Event occurs
+Sim: 1548 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 1548 [Threads.ThreadCB]  
+	Created Thread(5:null/NN)
+Mod: 1548 [Threads.ThreadCB]  
+	Successfully added Thread(5:1/RD) to Task(1/L)
+Sim: 1548 [IFLModules.ThreadCB]  
+	Created new thread Thread(5:1/RD)
+Sim: 1548 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(4:1/RU)
+Mod: 1548 [Threads.ThreadCB]  
+	Preempting currently running Thread(4:1/RU)
+Mod: 1548 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1548 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 1548 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1698 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 1698 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 1698 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 1698 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 1698 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 1698 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1744 [IFLModules.MMU]  
+	Call: MMU.refer(Address(21501),MemoryRead,Thread(3:1/RU))
+	  [Page(20:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 1744 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(20:1/null),Unknown,Thread(3:1/RU)
+Sim: 1744 [Memory.PageTableEntry]  
+	Setting validating thread for Page(20:1/null) to Thread(3:1/RU)
+Sim: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Mod: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Sim: 1744 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W0),SystemEvent(Suspended Thread))
+Sim: 1744 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(10)
+Sim: 1744 [Memory.FrameTableEntry]  
+	Setting page of Frame(10) to Page(20:1/10)
+Sim: 1744 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(20),Page(20:1/10),Thread(3:1/W0))
+Sim: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Mod: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Sim: 1744 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),SystemEvent(FileRead))
+Mod: 1744 [FileSys.OpenFile]  
+	Creating IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1744 [Hardware.Disk]  
+	Enqueueing IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1744 [Hardware.Disk]  
+	Thread(3:1/W1) requests to enqueue IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Mod: 1744 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+	Locking Page(20:1/10)
+Sim: 1744 [Memory.PageTableEntry]  
+	Entering lock(Page(20:1/10),IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 1744 [Memory.PageTableEntry]  
+	Leaving lock(Page(20:1/10),IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1744 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1744 [Hardware.Disk]  
+	Starting I/O for IORB 11, which will take 30 ticks
+	  IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1744 [Hardware.Disk]  
+	After enqueueing IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 1744 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1744 [FileSys.OpenFile]  
+	Thread(3:1/W1) is suspended on IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1744 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 1744 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 1744 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1744 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 1744 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1756 [IFLModules.OpenFile]  
+	System call open(`/etc/go/High')
+Sim: 1756 [IFLModules.OpenFile]  
+	File `/etc/go/High' does not exist
+Mod: 1756 [FileSys.OpenFile]  
+	File `/etc/go/High' doesn't exist -- cannot open
+Sim: 1756 [IFLModules.FileSys]  
+	System call open(`/etc/go/High')  failed, as expected
+Sim: 1774 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Mod: 1774 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 1774 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W2)) completes
+Sim: 1774 [Memory.PageTableEntry]  
+	Unlocking Page(20:1/10). New lock count: 0
+Sim: 1774 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W2))
+Mod: 1774 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W2)
+Sim: 1774 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W1))
+Mod: 1774 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 1774 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 1774 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 1774 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 1774 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 1774 [FileSys.OpenFile]  
+	Thread(3:1/W1) is resumed after IORB(Id(11),Device(0),Page(20:1/10),Diskblock(20),FileRead,Openfile(0:1/0),Thread(3:1/W1)) has been processed
+Sim: 1774 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W1))
+Mod: 1774 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W1)
+Sim: 1774 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W0))
+Sim: 1774 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
+Sim: 1774 [Memory.PageTableEntry]  
+	Page(20:1/10) becomes valid
+Sim: 1774 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(10)
+Sim: 1774 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W0))
+Mod: 1774 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W0)
+Sim: 1774 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/RD))
+Sim: 1774 [Memory.PageTableEntry]  
+	Setting validating thread for Page(20:1/10) to null
+Sim: 1774 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(3:1/RD),Unknown,Page(20:1/10))
+Sim: 1774 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 1774 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 1774 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1774 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 1774 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1848 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 1848 [Threads.ThreadCB]  
+	Created Thread(6:null/NN)
+Mod: 1848 [Threads.ThreadCB]  
+	Successfully added Thread(6:1/RD) to Task(1/L)
+Sim: 1848 [IFLModules.ThreadCB]  
+	Created new thread Thread(6:1/RD)
+Sim: 1848 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(2:1/RU)
+Mod: 1848 [Threads.ThreadCB]  
+	Preempting currently running Thread(2:1/RU)
+Mod: 1848 [Threads.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 1848 [IFLModules.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 1848 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 1998 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 1998 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(5:1/RU)
+Mod: 1998 [Threads.ThreadCB]  
+	Preempting currently running Thread(5:1/RU)
+Mod: 1998 [Threads.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 1998 [IFLModules.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 1998 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2093 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 2093 [Threads.ThreadCB]  
+	Created Thread(7:null/NN)
+Mod: 2093 [Threads.ThreadCB]  
+	Successfully added Thread(7:1/RD) to Task(1/L)
+Sim: 2093 [IFLModules.ThreadCB]  
+	Created new thread Thread(7:1/RD)
+Sim: 2093 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(4:1/RU)
+Mod: 2093 [Threads.ThreadCB]  
+	Preempting currently running Thread(4:1/RU)
+Mod: 2093 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 2093 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 2093 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2148 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 2148 [Threads.ThreadCB]  
+	Created Thread(8:null/NN)
+Mod: 2148 [Threads.ThreadCB]  
+	Successfully added Thread(8:1/RD) to Task(1/L)
+Sim: 2148 [IFLModules.ThreadCB]  
+	Created new thread Thread(8:1/RD)
+Sim: 2148 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(0:1/RU)
+Mod: 2148 [Threads.ThreadCB]  
+	Preempting currently running Thread(0:1/RU)
+Mod: 2148 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 2148 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 2148 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2298 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 2298 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(3:1/RU)
+Mod: 2298 [Threads.ThreadCB]  
+	Preempting currently running Thread(3:1/RU)
+Mod: 2298 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 2298 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 2298 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2393 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 2393 [Threads.ThreadCB]  
+	Created Thread(9:null/NN)
+Mod: 2393 [Threads.ThreadCB]  
+	Successfully added Thread(9:1/RD) to Task(1/L)
+Sim: 2393 [IFLModules.ThreadCB]  
+	Created new thread Thread(9:1/RD)
+Sim: 2393 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 2393 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 2393 [Threads.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 2393 [IFLModules.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 2393 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2488 [IFLModules.FileSys]  
+	Creating file: create(/etc/forit/,50000)
+Mod: 2488 [FileSys.FileSys]  
+	Creating file: create(/etc/forit/,50000)
+Mod: 2488 [FileSysFileSys]  
+	Directory `/etc/forit/' created on device 2
+Sim: 2488 [IFLModules.FileSys]  
+	System call create(`/etc/forit/')  succeeded, as expected
+Sim: 2543 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 2543 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(6:1/RU)
+Mod: 2543 [Threads.ThreadCB]  
+	Preempting currently running Thread(6:1/RU)
+Mod: 2543 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 2543 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 2543 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2575 [IFLModules.FileSys]  
+	Creating file: create(/etc/Goodies/GoodiesHigh,64)
+Mod: 2575 [FileSys.FileSys]  
+	Creating file: create(/etc/Goodies/GoodiesHigh,64)
+Sim: 2575 [IFLModules.FileSys]  
+	Creating file: create(/etc/Goodies/,1)
+Mod: 2575 [FileSys.FileSys]  
+	Creating file: create(/etc/Goodies/,1)
+Mod: 2575 [FileSysFileSys]  
+	Directory `/etc/Goodies/' created on device 2
+Sim: 2575 [IFLModules.FileSys]  
+	System call create(`/etc/Goodies/')  succeeded, as expected
+Mod: 2575 [FileSys.FileSys]  
+	New file size 1 blocks
+Mod: 2575 [FileSys.FileSys]  
+	Inode(Id(4),Device(2),BlockCount(1),OpenCount(0),LinkCount(1))
+	  File `/etc/Goodies/GoodiesHigh', blocksize=1 created on device 2
+Sim: 2575 [IFLModules.FileSys]  
+	System call create(`/etc/Goodies/GoodiesHigh')  succeeded, as expected
+Sim: 2663 [IFLModules.MMU]  
+	Call: MMU.refer(Address(47661),MemoryWrite,Thread(2:1/RU))
+	  [Page(46:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 2663 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(46:1/null),Unknown,Thread(2:1/RU)
+Sim: 2663 [Memory.PageTableEntry]  
+	Setting validating thread for Page(46:1/null) to Thread(2:1/RU)
+Sim: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Mod: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/RU),SystemEvent(Suspended Thread))
+Sim: 2663 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W0),SystemEvent(Suspended Thread))
+Sim: 2663 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(11)
+Sim: 2663 [Memory.FrameTableEntry]  
+	Setting page of Frame(11) to Page(46:1/11)
+Sim: 2663 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(46),Page(46:1/11),Thread(2:1/W0))
+Sim: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Mod: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W0),SystemEvent(FileRead))
+Sim: 2663 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),SystemEvent(FileRead))
+Mod: 2663 [FileSys.OpenFile]  
+	Creating IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 2663 [Hardware.Disk]  
+	Enqueueing IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 2663 [Hardware.Disk]  
+	Thread(2:1/W1) requests to enqueue IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Mod: 2663 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+	Locking Page(46:1/11)
+Sim: 2663 [Memory.PageTableEntry]  
+	Entering lock(Page(46:1/11),IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 2663 [Memory.PageTableEntry]  
+	Leaving lock(Page(46:1/11),IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 2663 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 2663 [Hardware.Disk]  
+	Starting I/O for IORB 12, which will take 75 ticks
+	  IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 2663 [Hardware.Disk]  
+	After enqueueing IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 2663 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 2663 [FileSys.OpenFile]  
+	Thread(2:1/W1) is suspended on IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1))
+Sim: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 2663 [Threads.ThreadCB]  
+	Entering suspend(Thread(2:1/W1),IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Sim: 2663 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 2663 [Threads.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 2663 [IFLModules.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 2663 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2693 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 2693 [Threads.ThreadCB]  
+	Created Thread(10:null/NN)
+Mod: 2693 [Threads.ThreadCB]  
+	Successfully added Thread(10:1/RD) to Task(1/L)
+Sim: 2693 [IFLModules.ThreadCB]  
+	Created new thread Thread(10:1/RD)
+Sim: 2693 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(5:1/RU)
+Mod: 2693 [Threads.ThreadCB]  
+	Preempting currently running Thread(5:1/RU)
+Mod: 2693 [Threads.ThreadCB]  
+	Dispatching Thread(7:1/RU)
+Sim: 2693 [IFLModules.ThreadCB]  
+	Dispatching Thread(7:1/RU)
+Sim: 2693 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2712 [IFLModules.WriteFileThread]  
+	Write file event occurs
+Sim: 2712 [FileSys.OpenFile]  
+	System call write(Openfile(2:1/1),Block(0),Page(1:1/4),Thread(7:1/RU))
+Sim: 2712 [Threads.ThreadCB]  
+	Entering suspend(Thread(7:1/RU),SystemEvent(FileWrite))
+Mod: 2712 [Threads.ThreadCB]  
+	Entering suspend(Thread(7:1/RU),SystemEvent(FileWrite))
+Sim: 2712 [Threads.ThreadCB]  
+	Leaving suspend(Thread(7:1/W0),SystemEvent(FileWrite))
+Mod: 2712 [FileSys.OpenFile]  
+	Old file size = 1 blocks, new file size = 1
+Mod: 2712 [FileSys.OpenFile]  
+	Creating IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Sim: 2712 [Hardware.Disk]  
+	Enqueueing IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Sim: 2712 [Hardware.Disk]  
+	Thread(7:1/W0) requests to enqueue IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Mod: 2712 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+	Locking Page(1:1/4)
+Sim: 2712 [Memory.PageTableEntry]  
+	Entering lock(Page(1:1/4),IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Sim: 2712 [Memory.PageTableEntry]  
+	Leaving lock(Page(1:1/4),IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Mod: 2712 [Hardware.Disk]  
+	Device 1 is idle -- starting IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Sim: 2712 [Hardware.Disk]  
+	Starting I/O for IORB 13, which will take 30 ticks
+	  IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Sim: 2712 [Hardware.Disk]  
+	After enqueueing IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)):
+	  Incrementing IORB count for Openfile(2:1/1) iorbCount = 1, the OSP value = 0
+Sim: 2712 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Mod: 2712 [FileSys.OpenFile]  
+	Thread(7:1/W0) is suspended on IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0))
+Sim: 2712 [Threads.ThreadCB]  
+	Entering suspend(Thread(7:1/W0),IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Mod: 2712 [Threads.ThreadCB]  
+	Entering suspend(Thread(7:1/W0),IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Sim: 2712 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 2712 [Threads.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 2712 [IFLModules.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 2712 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2738 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W2))
+Mod: 2738 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 2738 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W2)) completes
+Sim: 2738 [Memory.PageTableEntry]  
+	Unlocking Page(46:1/11). New lock count: 0
+Sim: 2738 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W2))
+Mod: 2738 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W2)
+Sim: 2738 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W1))
+Mod: 2738 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 2738 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 2738 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 2738 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 2738 [Threads.ThreadCB]  
+	Leaving suspend(Thread(2:1/W1),IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)))
+Mod: 2738 [FileSys.OpenFile]  
+	Thread(2:1/W1) is resumed after IORB(Id(12),Device(0),Page(46:1/11),Diskblock(46),FileRead,Openfile(0:1/0),Thread(2:1/W1)) has been processed
+Sim: 2738 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W1))
+Mod: 2738 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W1)
+Sim: 2738 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/W0))
+Sim: 2738 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
+Sim: 2738 [Memory.PageTableEntry]  
+	Page(46:1/11) becomes valid
+Sim: 2738 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(11)
+Sim: 2738 [Threads.ThreadCB]  
+	Entering resume(Thread(2:1/W0))
+Mod: 2738 [Threads.ThreadCB]  
+	Resuming Thread(2:1/W0)
+Sim: 2738 [Threads.ThreadCB]  
+	Leaving resume(Thread(2:1/RD))
+Sim: 2738 [Memory.PageTableEntry]  
+	Setting validating thread for Page(46:1/11) to null
+Sim: 2738 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(2:1/RD),Unknown,Page(46:1/11))
+Sim: 2738 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(4:1/RU)
+Mod: 2738 [Threads.ThreadCB]  
+	Preempting currently running Thread(4:1/RU)
+Mod: 2738 [Threads.ThreadCB]  
+	Dispatching Thread(8:1/RU)
+Sim: 2738 [IFLModules.ThreadCB]  
+	Dispatching Thread(8:1/RU)
+Sim: 2738 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2742 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W1))
+Mod: 2742 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 2742 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W1)) completes
+Sim: 2742 [Memory.PageTableEntry]  
+	Unlocking Page(1:1/4). New lock count: 0
+Sim: 2742 [Threads.ThreadCB]  
+	Entering resume(Thread(7:1/W1))
+Mod: 2742 [Threads.ThreadCB]  
+	Resuming Thread(7:1/W1)
+Sim: 2742 [Threads.ThreadCB]  
+	Leaving resume(Thread(7:1/W0))
+Mod: 2742 [Hardware.Disk]  
+	Device(1) has no pending IORBs to dequeue
+Mod: 2742 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 2742 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)):
+	  Decrementing IORB count for Openfile(2:1/1) iorbCount = 0, the OSP value = 0
+Sim: 2742 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 2742 [Threads.ThreadCB]  
+	Leaving suspend(Thread(7:1/W0),IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)))
+Mod: 2742 [FileSys.OpenFile]  
+	Thread(7:1/W0) is resumed after IORB(Id(13),Device(1),Page(1:1/4),Diskblock(0),FileWrite,Openfile(2:1/1),Thread(7:1/W0)) has been processed by device
+Sim: 2742 [Threads.ThreadCB]  
+	Entering resume(Thread(7:1/W0))
+Mod: 2742 [Threads.ThreadCB]  
+	Resuming Thread(7:1/W0)
+Sim: 2742 [Threads.ThreadCB]  
+	Leaving resume(Thread(7:1/RD))
+Sim: 2742 [IFLModules.FileSys]  
+	System call write(Openfile(2:1/1),Device(1),Thread(7:1/RD)) succeeded, as expected
+Sim: 2742 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(8:1/RU)
+Mod: 2742 [Threads.ThreadCB]  
+	Preempting currently running Thread(8:1/RU)
+Mod: 2742 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 2742 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 2742 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2767 [IFLModules.MMU]  
+	Call: MMU.refer(Address(34039),MemoryWrite,Thread(0:1/RU))
+	  [Page(33:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 2767 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(33:1/null),Unknown,Thread(0:1/RU)
+Sim: 2767 [Memory.PageTableEntry]  
+	Setting validating thread for Page(33:1/null) to Thread(0:1/RU)
+Sim: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Mod: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(Suspended Thread))
+Sim: 2767 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W0),SystemEvent(Suspended Thread))
+Sim: 2767 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(12)
+Sim: 2767 [Memory.FrameTableEntry]  
+	Setting page of Frame(12) to Page(33:1/12)
+Sim: 2767 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(33),Page(33:1/12),Thread(0:1/W0))
+Sim: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Mod: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Sim: 2767 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),SystemEvent(FileRead))
+Mod: 2767 [FileSys.OpenFile]  
+	Creating IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 2767 [Hardware.Disk]  
+	Enqueueing IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 2767 [Hardware.Disk]  
+	Thread(0:1/W1) requests to enqueue IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Mod: 2767 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Locking Page(33:1/12)
+Sim: 2767 [Memory.PageTableEntry]  
+	Entering lock(Page(33:1/12),IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 2767 [Memory.PageTableEntry]  
+	Leaving lock(Page(33:1/12),IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 2767 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 2767 [Hardware.Disk]  
+	Starting I/O for IORB 14, which will take 45 ticks
+	  IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 2767 [Hardware.Disk]  
+	After enqueueing IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 2767 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 2767 [FileSys.OpenFile]  
+	Thread(0:1/W1) is suspended on IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+Sim: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 2767 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W1),IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Sim: 2767 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 2767 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 2767 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 2767 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2812 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W2))
+Mod: 2812 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 2812 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W2)) completes
+Sim: 2812 [Memory.PageTableEntry]  
+	Unlocking Page(33:1/12). New lock count: 0
+Sim: 2812 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W2))
+Mod: 2812 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W2)
+Sim: 2812 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W1))
+Mod: 2812 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 2812 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 2812 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 2812 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 2812 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W1),IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+Mod: 2812 [FileSys.OpenFile]  
+	Thread(0:1/W1) is resumed after IORB(Id(14),Device(0),Page(33:1/12),Diskblock(33),FileRead,Openfile(0:1/0),Thread(0:1/W1)) has been processed
+Sim: 2812 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W1))
+Mod: 2812 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W1)
+Sim: 2812 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/W0))
+Sim: 2812 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
+Sim: 2812 [Memory.PageTableEntry]  
+	Page(33:1/12) becomes valid
+Sim: 2812 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(12)
+Sim: 2812 [Threads.ThreadCB]  
+	Entering resume(Thread(0:1/W0))
+Mod: 2812 [Threads.ThreadCB]  
+	Resuming Thread(0:1/W0)
+Sim: 2812 [Threads.ThreadCB]  
+	Leaving resume(Thread(0:1/RD))
+Sim: 2812 [Memory.PageTableEntry]  
+	Setting validating thread for Page(33:1/12) to null
+Sim: 2812 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(0:1/RD),Unknown,Page(33:1/12))
+Sim: 2812 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(3:1/RU)
+Mod: 2812 [Threads.ThreadCB]  
+	Preempting currently running Thread(3:1/RU)
+Mod: 2812 [Threads.ThreadCB]  
+	Dispatching Thread(9:1/RU)
+Sim: 2812 [IFLModules.ThreadCB]  
+	Dispatching Thread(9:1/RU)
+Sim: 2812 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2904 [IFLModules.FileSys]  
+	System call delete(`/etc/go/goGoodies')
+Mod: 2904 [FileSys.FileSys]  
+	File `/etc/go/goGoodies' doesn't exist -- cannot delete
+Sim: 2904 [IFLModules.FileSys]  
+	System call delete(`/etc/go/goGoodies')  failed, as expected
+Sim: 2909 [IFLModules.FileSys]  
+	Creating file: create(/etc/go/foritHigh,64)
+Mod: 2909 [FileSys.FileSys]  
+	Creating file: create(/etc/go/foritHigh,64)
+Mod: 2909 [FileSys.FileSys]  
+	New file size 1 blocks
+Mod: 2909 [FileSys.FileSys]  
+	Inode(Id(5),Device(1),BlockCount(1),OpenCount(0),LinkCount(1))
+	  File `/etc/go/foritHigh', blocksize=1 created on device 1
+Sim: 2909 [IFLModules.FileSys]  
+	System call create(`/etc/go/foritHigh')  succeeded, as expected
+Sim: 2919 [IFLModules.MMU]  
+	Call: MMU.refer(Address(55236),MemoryRead,Thread(9:1/RU))
+	  [Page(53:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 2919 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(53:1/null),Unknown,Thread(9:1/RU)
+Sim: 2919 [Memory.PageTableEntry]  
+	Setting validating thread for Page(53:1/null) to Thread(9:1/RU)
+Sim: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/RU),SystemEvent(Suspended Thread))
+Mod: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/RU),SystemEvent(Suspended Thread))
+Sim: 2919 [Threads.ThreadCB]  
+	Leaving suspend(Thread(9:1/W0),SystemEvent(Suspended Thread))
+Sim: 2919 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(13)
+Sim: 2919 [Memory.FrameTableEntry]  
+	Setting page of Frame(13) to Page(53:1/13)
+Sim: 2919 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(53),Page(53:1/13),Thread(9:1/W0))
+Sim: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/W0),SystemEvent(FileRead))
+Mod: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/W0),SystemEvent(FileRead))
+Sim: 2919 [Threads.ThreadCB]  
+	Leaving suspend(Thread(9:1/W1),SystemEvent(FileRead))
+Mod: 2919 [FileSys.OpenFile]  
+	Creating IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Sim: 2919 [Hardware.Disk]  
+	Enqueueing IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Sim: 2919 [Hardware.Disk]  
+	Thread(9:1/W1) requests to enqueue IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Mod: 2919 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+	Locking Page(53:1/13)
+Sim: 2919 [Memory.PageTableEntry]  
+	Entering lock(Page(53:1/13),IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Sim: 2919 [Memory.PageTableEntry]  
+	Leaving lock(Page(53:1/13),IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Mod: 2919 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Sim: 2919 [Hardware.Disk]  
+	Starting I/O for IORB 15, which will take 75 ticks
+	  IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Sim: 2919 [Hardware.Disk]  
+	After enqueueing IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 2919 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Mod: 2919 [FileSys.OpenFile]  
+	Thread(9:1/W1) is suspended on IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1))
+Sim: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/W1),IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Mod: 2919 [Threads.ThreadCB]  
+	Entering suspend(Thread(9:1/W1),IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Sim: 2919 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 2919 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 2919 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 2919 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2959 [IFLModules.TaskCB]  
+	Entering create()
+Mod: 2959 [Tasks.TaskCB]  
+	Task(2/NN) created
+Sim: 2959 [IFLModules.FileSys]  
+	Creating file: create(/vm/2,65536)
+Mod: 2959 [FileSys.FileSys]  
+	Creating file: create(/vm/2,65536)
+Mod: 2959 [FileSys.FileSys]  
+	New file size 64 blocks
+Mod: 2959 [FileSys.FileSys]  
+	Inode(Id(6),Device(0),BlockCount(64),OpenCount(0),LinkCount(1))
+	  File `/vm/2', blocksize=64 created on device 0
+Sim: 2959 [IFLModules.FileSys]  
+	System call create(`/vm/2')  succeeded, as expected
+Sim: 2959 [IFLModules.OpenFile]  
+	System call open(`/vm/2')
+Sim: 2959 [Tasks.TaskCB]  
+	Adding Openfile(4:2/0) to the open files table of Task(2/L)
+Mod: 2959 [FileSys.OpenFile]  
+	File `/vm/2' opened 1 times
+Sim: 2959 [IFLModules.OpenFile]  
+	File `/vm/2' opened as Openfile(4:2/0)
+Sim: 2959 [IFLModules.FileSys]  
+	System call open(`/vm/2')  succeeded, as expected
+Sim: 2959 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(2/L)
+Mod: 2959 [Threads.ThreadCB]  
+	Created Thread(11:null/NN)
+Mod: 2959 [Threads.ThreadCB]  
+	Successfully added Thread(11:2/RD) to Task(2/L)
+Sim: 2959 [IFLModules.ThreadCB]  
+	Created new thread Thread(11:2/RD)
+Sim: 2959 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 2959 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 2959 [Threads.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 2959 [IFLModules.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 2959 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2993 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 2993 [Threads.ThreadCB]  
+	Created Thread(12:null/NN)
+Mod: 2993 [Threads.ThreadCB]  
+	Successfully added Thread(12:1/RD) to Task(1/L)
+Sim: 2993 [IFLModules.ThreadCB]  
+	Created new thread Thread(12:1/RD)
+Sim: 2993 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(6:1/RU)
+Mod: 2993 [Threads.ThreadCB]  
+	Preempting currently running Thread(6:1/RU)
+Mod: 2993 [Threads.ThreadCB]  
+	Dispatching Thread(10:1/RU)
+Sim: 2993 [IFLModules.ThreadCB]  
+	Dispatching Thread(10:1/RU)
+Sim: 2993 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2994 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W2))
+Mod: 2994 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 2994 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W2)) completes
+Sim: 2994 [Memory.PageTableEntry]  
+	Unlocking Page(53:1/13). New lock count: 0
+Sim: 2994 [Threads.ThreadCB]  
+	Entering resume(Thread(9:1/W2))
+Mod: 2994 [Threads.ThreadCB]  
+	Resuming Thread(9:1/W2)
+Sim: 2994 [Threads.ThreadCB]  
+	Leaving resume(Thread(9:1/W1))
+Mod: 2994 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 2994 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 2994 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 2994 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 2994 [Threads.ThreadCB]  
+	Leaving suspend(Thread(9:1/W1),IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)))
+Mod: 2994 [FileSys.OpenFile]  
+	Thread(9:1/W1) is resumed after IORB(Id(15),Device(0),Page(53:1/13),Diskblock(53),FileRead,Openfile(0:1/0),Thread(9:1/W1)) has been processed
+Sim: 2994 [Threads.ThreadCB]  
+	Entering resume(Thread(9:1/W1))
+Mod: 2994 [Threads.ThreadCB]  
+	Resuming Thread(9:1/W1)
+Sim: 2994 [Threads.ThreadCB]  
+	Leaving resume(Thread(9:1/W0))
+Sim: 2994 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(9:1/W0)) succeeded, as expected
+Sim: 2994 [Memory.PageTableEntry]  
+	Page(53:1/13) becomes valid
+Sim: 2994 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(13)
+Sim: 2994 [Threads.ThreadCB]  
+	Entering resume(Thread(9:1/W0))
+Mod: 2994 [Threads.ThreadCB]  
+	Resuming Thread(9:1/W0)
+Sim: 2994 [Threads.ThreadCB]  
+	Leaving resume(Thread(9:1/RD))
+Sim: 2994 [Memory.PageTableEntry]  
+	Setting validating thread for Page(53:1/13) to null
+Sim: 2994 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(9:1/RD),Unknown,Page(53:1/13))
+Sim: 2994 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(10:1/RU)
+Mod: 2994 [Threads.ThreadCB]  
+	Preempting currently running Thread(10:1/RU)
+Mod: 2994 [Threads.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 2994 [IFLModules.ThreadCB]  
+	Dispatching Thread(5:1/RU)
+Sim: 2994 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 2994 [IFLModules.FileSys]  
+	Creating file: create(/etc/go/,50000)
+Sim: 2994 [IFLModules.FileSys]  
+	In do_create(`/etc/go/'): Path name is a mount point -- the call must fail
+Mod: 2994 [FileSys.FileSys]  
+	Creating file: create(/etc/go/,50000)
+Sim: 2994 [IFLModules.FileSys]  
+	System call create(`/etc/go/')  failed, as expected
+Sim: 3036 [IFLModules.MMU]  
+	Call: MMU.refer(Address(621),MemoryWrite,Thread(5:1/RU))
+	  [Page(0:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 3036 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(0:1/null),Unknown,Thread(5:1/RU)
+Sim: 3036 [Memory.PageTableEntry]  
+	Setting validating thread for Page(0:1/null) to Thread(5:1/RU)
+Sim: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/RU),SystemEvent(Suspended Thread))
+Mod: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/RU),SystemEvent(Suspended Thread))
+Sim: 3036 [Threads.ThreadCB]  
+	Leaving suspend(Thread(5:1/W0),SystemEvent(Suspended Thread))
+Sim: 3036 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(14)
+Sim: 3036 [Memory.FrameTableEntry]  
+	Setting page of Frame(14) to Page(0:1/14)
+Sim: 3036 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(0),Page(0:1/14),Thread(5:1/W0))
+Sim: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/W0),SystemEvent(FileRead))
+Mod: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/W0),SystemEvent(FileRead))
+Sim: 3036 [Threads.ThreadCB]  
+	Leaving suspend(Thread(5:1/W1),SystemEvent(FileRead))
+Mod: 3036 [FileSys.OpenFile]  
+	Creating IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Sim: 3036 [Hardware.Disk]  
+	Enqueueing IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Sim: 3036 [Hardware.Disk]  
+	Thread(5:1/W1) requests to enqueue IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Mod: 3036 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+	Locking Page(0:1/14)
+Sim: 3036 [Memory.PageTableEntry]  
+	Entering lock(Page(0:1/14),IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Sim: 3036 [Memory.PageTableEntry]  
+	Leaving lock(Page(0:1/14),IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Mod: 3036 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Sim: 3036 [Hardware.Disk]  
+	Starting I/O for IORB 16, which will take 60 ticks
+	  IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Sim: 3036 [Hardware.Disk]  
+	After enqueueing IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 3036 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Mod: 3036 [FileSys.OpenFile]  
+	Thread(5:1/W1) is suspended on IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1))
+Sim: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/W1),IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Mod: 3036 [Threads.ThreadCB]  
+	Entering suspend(Thread(5:1/W1),IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Sim: 3036 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 3036 [Threads.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 3036 [IFLModules.ThreadCB]  
+	Dispatching Thread(2:1/RU)
+Sim: 3036 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3083 [IFLModules.FileSys]  
+	Creating file: create(/etc/go/High/,50000)
+Mod: 3083 [FileSys.FileSys]  
+	Creating file: create(/etc/go/High/,50000)
+Mod: 3083 [FileSysFileSys]  
+	Directory `/etc/go/High/' created on device 1
+Sim: 3083 [IFLModules.FileSys]  
+	System call create(`/etc/go/High/')  succeeded, as expected
+Sim: 3096 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W2))
+Mod: 3096 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 3096 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W2)) completes
+Sim: 3096 [Memory.PageTableEntry]  
+	Unlocking Page(0:1/14). New lock count: 0
+Sim: 3096 [Threads.ThreadCB]  
+	Entering resume(Thread(5:1/W2))
+Mod: 3096 [Threads.ThreadCB]  
+	Resuming Thread(5:1/W2)
+Sim: 3096 [Threads.ThreadCB]  
+	Leaving resume(Thread(5:1/W1))
+Mod: 3096 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 3096 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 3096 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 3096 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 3096 [Threads.ThreadCB]  
+	Leaving suspend(Thread(5:1/W1),IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)))
+Mod: 3096 [FileSys.OpenFile]  
+	Thread(5:1/W1) is resumed after IORB(Id(16),Device(0),Page(0:1/14),Diskblock(0),FileRead,Openfile(0:1/0),Thread(5:1/W1)) has been processed
+Sim: 3096 [Threads.ThreadCB]  
+	Entering resume(Thread(5:1/W1))
+Mod: 3096 [Threads.ThreadCB]  
+	Resuming Thread(5:1/W1)
+Sim: 3096 [Threads.ThreadCB]  
+	Leaving resume(Thread(5:1/W0))
+Sim: 3096 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(5:1/W0)) succeeded, as expected
+Sim: 3096 [Memory.PageTableEntry]  
+	Page(0:1/14) becomes valid
+Sim: 3096 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(14)
+Sim: 3096 [Threads.ThreadCB]  
+	Entering resume(Thread(5:1/W0))
+Mod: 3096 [Threads.ThreadCB]  
+	Resuming Thread(5:1/W0)
+Sim: 3096 [Threads.ThreadCB]  
+	Leaving resume(Thread(5:1/RD))
+Sim: 3096 [Memory.PageTableEntry]  
+	Setting validating thread for Page(0:1/14) to null
+Sim: 3096 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(5:1/RD),Unknown,Page(0:1/14))
+Sim: 3096 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(2:1/RU)
+Mod: 3096 [Threads.ThreadCB]  
+	Preempting currently running Thread(2:1/RU)
+Mod: 3096 [Threads.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 3096 [IFLModules.ThreadCB]  
+	Dispatching Thread(4:1/RU)
+Sim: 3096 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3137 [IFLModules.CallbackAcquire]  
+	Acquire Resource Event occurs
+Sim: 3137 [a.c]  
+	Thread(4:1/RU) acquires 2 instances of ResourceCB(Id(2),Total(8),Avail(8))
+Mod: 3137 [a.c]  
+	Thread(4:1/RU) is acquiring 2 instances of ResourceCB(Id(2),Total(8),Avail(8))
+Mod: 3137 [a.a]  
+	Entering do_grant(RRB(Id(2),Thread(4:1/RU),Resource(2),Requested(2)))
+Mod: 3137 [a.a]  
+	ResourceCB(Id(2),Total(8),Avail(8)): Allocated set to 2; Available set to 6
+Sim: 3137 [a.a]  
+	Leaving grant(RRB(Id(2),Thread(4:1/RU),Resource(2),Requested(2)),Thread(4:1/RU))
+Mod: 3137 [a.c]  
+	Leaving do_acquire() and returning RRB(Id(2),Thread(4:1/RU),Resource(2),Requested(2))
+Sim: 3137 [a.c]  
+	do_acquire() returns RRB(Id(2),Thread(4:1/RU),Resource(2),Requested(2)), as expected
+Sim: 3168 [IFLModules.PortCB]  
+	Thread(4:1/RU) is trying to create port to Task(1/L)
+Mod: 3168 [Ports.PortCB]  
+	Creating new Port(0:null/NN)
+Sim: 3246 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 3246 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(4:1/RU)
+Mod: 3246 [Threads.ThreadCB]  
+	Preempting currently running Thread(4:1/RU)
+Mod: 3246 [Threads.ThreadCB]  
+	Dispatching Thread(7:1/RU)
+Sim: 3246 [IFLModules.ThreadCB]  
+	Dispatching Thread(7:1/RU)
+Sim: 3246 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3293 [IFLModules.ThreadCB]  
+	Trying to create new thread for Task(1/L)
+Mod: 3293 [Threads.ThreadCB]  
+	Created Thread(13:null/NN)
+Mod: 3293 [Threads.ThreadCB]  
+	Successfully added Thread(13:1/RD) to Task(1/L)
+Sim: 3293 [IFLModules.ThreadCB]  
+	Created new thread Thread(13:1/RD)
+Sim: 3293 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(7:1/RU)
+Mod: 3293 [Threads.ThreadCB]  
+	Preempting currently running Thread(7:1/RU)
+Mod: 3293 [Threads.ThreadCB]  
+	Dispatching Thread(8:1/RU)
+Sim: 3293 [IFLModules.ThreadCB]  
+	Dispatching Thread(8:1/RU)
+Sim: 3293 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3316 [IFLModules.FileSys]  
+	Creating file: create(/etc/go/Oh,my,64)
+Mod: 3316 [FileSys.FileSys]  
+	Creating file: create(/etc/go/Oh,my,64)
+Mod: 3316 [FileSys.FileSys]  
+	New file size 1 blocks
+Mod: 3316 [FileSys.FileSys]  
+	Inode(Id(8),Device(1),BlockCount(1),OpenCount(0),LinkCount(1))
+	  File `/etc/go/Oh,my', blocksize=1 created on device 1
+Sim: 3316 [IFLModules.FileSys]  
+	System call create(`/etc/go/Oh,my')  succeeded, as expected
+Sim: 3320 [IFLModules.CallbackRelease]  
+	Resource Release Event occurs
+Sim: 3443 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 3443 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(8:1/RU)
+Mod: 3443 [Threads.ThreadCB]  
+	Preempting currently running Thread(8:1/RU)
+Mod: 3443 [Threads.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 3443 [IFLModules.ThreadCB]  
+	Dispatching Thread(0:1/RU)
+Sim: 3443 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3491 [FileSys.OpenFile]  
+	System call close(Openfile(2:1/1))
+Mod: 3491 [FileSys.OpenFile]  
+	Openfile(2:1/1) closed; INode's openFileCount=0, iorbCount=0
+Sim: 3491 [Tasks.TaskCB]  
+	Removing Openfile(2:1/1) from Task(1/L)
+Sim: 3491 [IFLModules.FileSys]  
+	System call close(Openfile(2:1/1))  succeeded, as expected
+Sim: 3521 [IFLModules.PortCB]  
+	Thread(0:1/RU) is trying to create port to Task(1/L)
+Mod: 3521 [Ports.PortCB]  
+	Creating new Port(1:null/NN)
+Sim: 3553 [IFLModules.CallbackRelease]  
+	Resource Release Event occurs
+Sim: 3560 [IFLModules.CallbackAcquire]  
+	Acquire Resource Event occurs
+Sim: 3560 [a.c]  
+	Thread(0:1/RU) acquires 4 instances of ResourceCB(Id(4),Total(9),Avail(9))
+Mod: 3560 [a.c]  
+	Thread(0:1/RU) is acquiring 4 instances of ResourceCB(Id(4),Total(9),Avail(9))
+Mod: 3560 [a.a]  
+	Entering do_grant(RRB(Id(3),Thread(0:1/RU),Resource(4),Requested(4)))
+Mod: 3560 [a.a]  
+	ResourceCB(Id(4),Total(9),Avail(9)): Allocated set to 4; Available set to 5
+Sim: 3560 [a.a]  
+	Leaving grant(RRB(Id(3),Thread(0:1/RU),Resource(4),Requested(4)),Thread(0:1/RU))
+Mod: 3560 [a.c]  
+	Leaving do_acquire() and returning RRB(Id(3),Thread(0:1/RU),Resource(4),Requested(4))
+Sim: 3560 [a.c]  
+	do_acquire() returns RRB(Id(3),Thread(0:1/RU),Resource(4),Requested(4)), as expected
+Sim: 3577 [IFLModules.FileSys]  
+	Creating file: create(/etc/Low/HighgoGoodies,1024)
+Mod: 3577 [FileSys.FileSys]  
+	Creating file: create(/etc/Low/HighgoGoodies,1024)
+Sim: 3577 [IFLModules.FileSys]  
+	Creating file: create(/etc/Low/,1)
+Mod: 3577 [FileSys.FileSys]  
+	Creating file: create(/etc/Low/,1)
+Mod: 3577 [FileSysFileSys]  
+	Directory `/etc/Low/' created on device 2
+Sim: 3577 [IFLModules.FileSys]  
+	System call create(`/etc/Low/')  succeeded, as expected
+Mod: 3577 [FileSys.FileSys]  
+	New file size 1 blocks
+Mod: 3577 [FileSys.FileSys]  
+	Inode(Id(10),Device(2),BlockCount(1),OpenCount(0),LinkCount(1))
+	  File `/etc/Low/HighgoGoodies', blocksize=1 created on device 2
+Sim: 3577 [IFLModules.FileSys]  
+	System call create(`/etc/Low/HighgoGoodies')  succeeded, as expected
+Sim: 3577 [IFLModules.OpenFile]  
+	System call open(`/etc/Low/HighgoGoodies')
+Sim: 3577 [Tasks.TaskCB]  
+	Adding Openfile(6:1/2) to the open files table of Task(1/L)
+Mod: 3577 [FileSys.OpenFile]  
+	File `/etc/Low/HighgoGoodies' opened 1 times
+Sim: 3577 [IFLModules.OpenFile]  
+	File `/etc/Low/HighgoGoodies' opened as Openfile(6:1/2)
+Sim: 3577 [IFLModules.FileSys]  
+	System call open(`/etc/Low/HighgoGoodies')  succeeded, as expected
+Sim: 3577 [IFLModules.ReadFileThread]  
+	Read file event occurs
+Sim: 3577 [FileSys.OpenFile]  
+	System call read(Openfile(6:1/2),Block(0),Page(0:1/14),Thread(0:1/RU))
+Sim: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(FileRead))
+Mod: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/RU),SystemEvent(FileRead))
+Sim: 3577 [Threads.ThreadCB]  
+	Leaving suspend(Thread(0:1/W0),SystemEvent(FileRead))
+Mod: 3577 [FileSys.OpenFile]  
+	Creating IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Sim: 3577 [Hardware.Disk]  
+	Enqueueing IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Sim: 3577 [Hardware.Disk]  
+	Thread(0:1/W0) requests to enqueue IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Mod: 3577 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+	Locking Page(0:1/14)
+Sim: 3577 [Memory.PageTableEntry]  
+	Entering lock(Page(0:1/14),IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)))
+Sim: 3577 [Memory.PageTableEntry]  
+	Leaving lock(Page(0:1/14),IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)))
+Mod: 3577 [Hardware.Disk]  
+	Device 2 is idle -- starting IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Sim: 3577 [Hardware.Disk]  
+	Starting I/O for IORB 17, which will take 600 ticks
+	  IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Sim: 3577 [Hardware.Disk]  
+	After enqueueing IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)):
+	  Incrementing IORB count for Openfile(6:1/2) iorbCount = 1, the OSP value = 0
+Sim: 3577 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)))
+Mod: 3577 [FileSys.OpenFile]  
+	Thread(0:1/W0) is suspended on IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0))
+Sim: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)))
+Mod: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(0:1/W0),IORB(Id(17),Device(2),Page(0:1/14),Diskblock(4),FileRead,Openfile(6:1/2),Thread(0:1/W0)))
+Sim: 3577 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 3577 [Threads.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 3577 [IFLModules.ThreadCB]  
+	Dispatching Thread(3:1/RU)
+Sim: 3577 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3577 [IFLModules.MMU]  
+	Call: MMU.refer(Address(18189),MemoryWrite,Thread(3:1/RU))
+	  [Page(17:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
+Sim: 3577 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(17:1/null),Unknown,Thread(3:1/RU)
+Sim: 3577 [Memory.PageTableEntry]  
+	Setting validating thread for Page(17:1/null) to Thread(3:1/RU)
+Sim: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Mod: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/RU),SystemEvent(Suspended Thread))
+Sim: 3577 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W0),SystemEvent(Suspended Thread))
+Sim: 3577 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(15)
+Sim: 3577 [Memory.FrameTableEntry]  
+	Setting page of Frame(15) to Page(17:1/15)
+Sim: 3577 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(17),Page(17:1/15),Thread(3:1/W0))
+Sim: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Mod: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W0),SystemEvent(FileRead))
+Sim: 3577 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),SystemEvent(FileRead))
+Mod: 3577 [FileSys.OpenFile]  
+	Creating IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 3577 [Hardware.Disk]  
+	Enqueueing IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 3577 [Hardware.Disk]  
+	Thread(3:1/W1) requests to enqueue IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Mod: 3577 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+	Locking Page(17:1/15)
+Sim: 3577 [Memory.PageTableEntry]  
+	Entering lock(Page(17:1/15),IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 3577 [Memory.PageTableEntry]  
+	Leaving lock(Page(17:1/15),IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 3577 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 3577 [Hardware.Disk]  
+	Starting I/O for IORB 18, which will take 45 ticks
+	  IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 3577 [Hardware.Disk]  
+	After enqueueing IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 3577 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 3577 [FileSys.OpenFile]  
+	Thread(3:1/W1) is suspended on IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1))
+Sim: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 3577 [Threads.ThreadCB]  
+	Entering suspend(Thread(3:1/W1),IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Sim: 3577 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 3577 [Threads.ThreadCB]  
+	Dispatching Thread(11:2/RU)
+Sim: 3577 [IFLModules.ThreadCB]  
+	Dispatching Thread(11:2/RU)
+Sim: 3577 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3622 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W2))
+Mod: 3622 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 3622 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W2)) completes
+Sim: 3622 [Memory.PageTableEntry]  
+	Unlocking Page(17:1/15). New lock count: 0
+Sim: 3622 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W2))
+Mod: 3622 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W2)
+Sim: 3622 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W1))
+Mod: 3622 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 3622 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 3622 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 3622 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 3622 [Threads.ThreadCB]  
+	Leaving suspend(Thread(3:1/W1),IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)))
+Mod: 3622 [FileSys.OpenFile]  
+	Thread(3:1/W1) is resumed after IORB(Id(18),Device(0),Page(17:1/15),Diskblock(17),FileRead,Openfile(0:1/0),Thread(3:1/W1)) has been processed
+Sim: 3622 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W1))
+Mod: 3622 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W1)
+Sim: 3622 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/W0))
+Sim: 3622 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
+Sim: 3622 [Memory.PageTableEntry]  
+	Page(17:1/15) becomes valid
+Sim: 3622 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(15)
+Sim: 3622 [Threads.ThreadCB]  
+	Entering resume(Thread(3:1/W0))
+Mod: 3622 [Threads.ThreadCB]  
+	Resuming Thread(3:1/W0)
+Sim: 3622 [Threads.ThreadCB]  
+	Leaving resume(Thread(3:1/RD))
+Sim: 3622 [Memory.PageTableEntry]  
+	Setting validating thread for Page(17:1/15) to null
+Sim: 3622 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(3:1/RD),Unknown,Page(17:1/15))
+Sim: 3622 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(11:2/RU)
+Mod: 3622 [Threads.ThreadCB]  
+	Preempting currently running Thread(11:2/RU)
+Mod: 3622 [Threads.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 3622 [IFLModules.ThreadCB]  
+	Dispatching Thread(1:1/RU)
+Sim: 3622 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3772 [Threads.TimerInterruptHandler]  
+	Timer interrupt
+Sim: 3772 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is Thread(1:1/RU)
+Mod: 3772 [Threads.ThreadCB]  
+	Preempting currently running Thread(1:1/RU)
+Mod: 3772 [Threads.ThreadCB]  
+	Dispatching Thread(12:1/RU)
+Sim: 3772 [IFLModules.ThreadCB]  
+	Dispatching Thread(12:1/RU)
+Sim: 3772 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3820 [IFLModules.WriteFileThread]  
+	Write file event occurs
+Sim: 3820 [FileSys.OpenFile]  
+	System call write(Openfile(6:1/2),Block(0),Page(2:1/null),Thread(12:1/RU))
+Sim: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/RU),SystemEvent(FileWrite))
+Mod: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/RU),SystemEvent(FileWrite))
+Sim: 3820 [Threads.ThreadCB]  
+	Leaving suspend(Thread(12:1/W0),SystemEvent(FileWrite))
+Mod: 3820 [FileSys.OpenFile]  
+	Old file size = 1 blocks, new file size = 1
+Mod: 3820 [FileSys.OpenFile]  
+	Creating IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0))
+Sim: 3820 [Hardware.Disk]  
+	Enqueueing IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0))
+Sim: 3820 [Hardware.Disk]  
+	Thread(12:1/W0) requests to enqueue IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0))
+Mod: 3820 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0))
+	Locking Page(2:1/null)
+Sim: 3820 [Memory.PageTableEntry]  
+	Entering lock(Page(2:1/null),IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0)))
+Sim: 3820 [IFLModules.PageFaultHandler]  
+	Pagefault handler entered for: Page(2:1/null),MemoryLock,Thread(12:1/W0)
+Sim: 3820 [Memory.PageTableEntry]  
+	Setting validating thread for Page(2:1/null) to Thread(12:1/W0)
+Sim: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W0),SystemEvent(Suspended Thread))
+Mod: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W0),SystemEvent(Suspended Thread))
+Sim: 3820 [Threads.ThreadCB]  
+	Leaving suspend(Thread(12:1/W1),SystemEvent(Suspended Thread))
+Sim: 3820 [Memory.FrameTableEntry]  
+	Task(1/L) is reserving free Frame(16)
+Sim: 3820 [Memory.FrameTableEntry]  
+	Setting page of Frame(16) to Page(2:1/16)
+Sim: 3820 [FileSys.OpenFile]  
+	System call read(Openfile(0:1/0),Block(2),Page(2:1/16),Thread(12:1/W1))
+Sim: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W1),SystemEvent(FileRead))
+Mod: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W1),SystemEvent(FileRead))
+Sim: 3820 [Threads.ThreadCB]  
+	Leaving suspend(Thread(12:1/W2),SystemEvent(FileRead))
+Mod: 3820 [FileSys.OpenFile]  
+	Creating IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Sim: 3820 [Hardware.Disk]  
+	Enqueueing IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Sim: 3820 [Hardware.Disk]  
+	Thread(12:1/W2) requests to enqueue IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Mod: 3820 [Hardware.Disk]  
+	Entering do_enqueueIORB for IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+	Locking Page(2:1/16)
+Sim: 3820 [Memory.PageTableEntry]  
+	Entering lock(Page(2:1/16),IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Sim: 3820 [Memory.PageTableEntry]  
+	Leaving lock(Page(2:1/16),IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Mod: 3820 [Hardware.Disk]  
+	Device 0 is idle -- starting IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Sim: 3820 [Hardware.Disk]  
+	Starting I/O for IORB 20, which will take 30 ticks
+	  IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Sim: 3820 [Hardware.Disk]  
+	After enqueueing IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)):
+	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
+Sim: 3820 [Hardware.Disk]  
+	Leaving enqueueIORB(IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Mod: 3820 [FileSys.OpenFile]  
+	Thread(12:1/W2) is suspended on IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2))
+Sim: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W2),IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Mod: 3820 [Threads.ThreadCB]  
+	Entering suspend(Thread(12:1/W2),IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Sim: 3820 [IFLModules.ThreadCB]  
+	Entering dispatch(); current running thread is null
+Mod: 3820 [Threads.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 3820 [IFLModules.ThreadCB]  
+	Dispatching Thread(6:1/RU)
+Sim: 3820 [IFLModules.ThreadCB]  
+	Leaving dispatch()
+Sim: 3850 [Devices.DiskInterruptHandler]  
+	Disk interrupt for IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W3))
+Mod: 3850 [Devices.DiskInterruptHandler]  
+	Entering do_handleInterrupt()
+Mod: 3850 [Devices.DiskInterruptHandler]  
+	Disk I/O for IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W3)) completes
+Sim: 3850 [Memory.PageTableEntry]  
+	Unlocking Page(2:1/16). New lock count: 0
+Sim: 3850 [Threads.ThreadCB]  
+	Entering resume(Thread(12:1/W3))
+Mod: 3850 [Threads.ThreadCB]  
+	Resuming Thread(12:1/W3)
+Sim: 3850 [Threads.ThreadCB]  
+	Leaving resume(Thread(12:1/W2))
+Mod: 3850 [Hardware.Disk]  
+	Device(0) has no pending IORBs to dequeue
+Mod: 3850 [Devices.DiskInterruptHandler]  
+	Leaving do_handleInterrupt()
+Sim: 3850 [Devices.DiskInterruptHandler]  
+	After handling disk interrupt for IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)):
+	  Decrementing IORB count for Openfile(0:1/0) iorbCount = 0, the OSP value = 0
+Sim: 3850 [Devices.DiskInterruptHandler]  
+	Leaving handleInterrupt()
+Sim: 3850 [Threads.ThreadCB]  
+	Leaving suspend(Thread(12:1/W2),IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)))
+Mod: 3850 [FileSys.OpenFile]  
+	Thread(12:1/W2) is resumed after IORB(Id(20),Device(0),Page(2:1/16),Diskblock(2),FileRead,Openfile(0:1/0),Thread(12:1/W2)) has been processed
+Sim: 3850 [Threads.ThreadCB]  
+	Entering resume(Thread(12:1/W2))
+Mod: 3850 [Threads.ThreadCB]  
+	Resuming Thread(12:1/W2)
+Sim: 3850 [Threads.ThreadCB]  
+	Leaving resume(Thread(12:1/W1))
+Sim: 3850 [IFLModules.FileSys]  
+	System call read(Openfile(0:1/0),Device(0),Thread(12:1/W1)) succeeded, as expected
+Sim: 3850 [Memory.PageTableEntry]  
+	Page(2:1/16) becomes valid
+Sim: 3850 [Memory.FrameTableEntry]  
+	Task(1/L) is unreserving Frame(16)
+Sim: 3850 [Threads.ThreadCB]  
+	Entering resume(Thread(12:1/W1))
+Mod: 3850 [Threads.ThreadCB]  
+	Resuming Thread(12:1/W1)
+Sim: 3850 [Threads.ThreadCB]  
+	Leaving resume(Thread(12:1/W0))
+Sim: 3850 [Memory.PageTableEntry]  
+	Setting validating thread for Page(2:1/16) to null
+Sim: 3850 [IFLModules.PageFaultHandler]  
+	Leaving handlePageFault(Thread(12:1/W0),MemoryLock,Page(2:1/16))
+Sim: 3850 <<Error!>> [Memory.PageTableEntry]  
+	After do_lock(Page(2:1/16)): Discrepancy in lock counts.
+	Student's module lock count: 0 OSP count: 1
+
+	at osp.IFLModules.IflPageTableEntry.if(IflPageTableEntry.java:619)
+	at osp.Devices.Device.new(Device.java:84)
+	at osp.IFLModules.IflDevice.for(IflDevice.java:326)
+	at osp.FileSys.OpenFile.for(OpenFile.java:613)
+	at osp.IFLModules.IflOpenFile.write(IflOpenFile.java:529)
+	at osp.IFLModules.WriteFileThread.run(WriteFileThread.java:54)
+
+Sim:3850 [Utilities.SnapshotTaker]  
+	
+
+[Snapshot at 3850]
+
+MEMORY:
+  Free frames: 13(43%) out of 30
+  Locked frames: 2 out of 30
+  Reserved frames: 0 out of 30
+  Referenced frames: 17 out of 30
+
+Memory map:
+|----------|------------------------------|
+|Frame     |000000000011111111112222222222|
+|number    |012345678901234567890123456789|
+|----------|------------------------------|
+|free      |                 FFFFFFFFFFFFF|
+|lock      |000000000000001000000000000000|
+|reserved  |                              |
+|dirty     |DD DDDD D  DD DD              |
+|referenced|YYYYYYYYYYYYYYYYY             |
+|----------|------------------------------|
+|          |                              |
+|page      |1142 515122435 1              |
+|number    |21391581460633072             |
+|----------|------------------------------|
+|          |                              |
+|owner     |                              |
+|task      |11111111111111111             |
+|----------|------------------------------|
+
+
+Page table for Task 1:
+  Valid pages: 17 out of 64
+|------|----------------------------------------------------------------|
+|Page  |0000000000111111111122222222223333333333444444444455555555556666|
+|number|0123456789012345678901234567890123456789012345678901234567890123|
+|------|----------------------------------------------------------------|
+|valid |YYY        YY Y  YY Y     Y  Y   Y         Y  Y    Y Y Y        |
+|------|----------------------------------------------------------------|
+|      |                                                                |
+|frame |1 1              1  1            1            1      1          |
+|number|446        10 8  56 0     9  3   2         2  1    7 3 5        |
+|------|----------------------------------------------------------------|
+
+Page table for Task 2:
+  Valid pages: 0 out of 64
+|------|----------------------------------------------------------------|
+|Page  |0000000000111111111122222222223333333333444444444455555555556666|
+|number|0123456789012345678901234567890123456789012345678901234567890123|
+|------|----------------------------------------------------------------|
+|valid |                                                                |
+|------|----------------------------------------------------------------|
+|      |                                                                |
+|frame |                                                                |
+|number|                                                                |
+|------|----------------------------------------------------------------|
+
+
+DEVICES:
+  Device 0: Swap Device   (mount point: /vm/)
+	    Number of pages read = 17
+	    Number of pages written = 0
+	    Average number of cylinders swept per disk access = 2
+	      Total number of cylinders swept = 34
+	    Service time per I/O request: 66
+	    Device queue:  Empty
+  Device 1: Disk   (mount point: /etc/go/)
+	    Number of pages read = 1
+	    Number of pages written = 1
+	    Average number of cylinders swept per disk access = 0
+	      Total number of cylinders swept = 0
+	    Service time per I/O request: 30
+	    Device queue:  Empty
+  Device 2: Disk   (mount point: /etc/)
+	    Number of pages read = 0
+	    Number of pages written = 0
+	    Average number of cylinders swept per disk access = 2
+	      Total number of cylinders swept = 2
+	    Service time per I/O request: 0
+	    Device queue:  Empty
+
+TASKS and THREADS:
+  CPU Utilization: 96.1039%
+  Average service time per thread: 2039.7858
+  Average normalized service time per thread: 0.098276995
+  Total number of tasks: 2
+  Running thread(s): Thread(6:1/RU), CPU usage 214 ticks
+  Current task: Task(1/L), CPU usage 3655 ticks
+  Threads summary: 14 alive
+  Among live threads: 1 running
+                      2 suspended
+                      11 ready
+  ready queue = (1:1,2:1,3:1,4:1,5:1,7:1,8:1,9:1,10:1,11:2,13:1)
+  running thread(s) = (6:1)
+  waiting thread(s) = (0:1,12:1)
+  thread(s) in pagefault = ()
+  killed thread(s) = ()
+
+FILES:
+  Total number of files: 0
+  Total number of directories: 3
+  Total number of open files: 1
+  Device 0: 1408 out of 1536 blocks are free, 8.333331% used
+  Device 1: 36 out of 40 blocks are free, 10.000002% used
+  Device 2: 11 out of 16 blocks are free, 31.25% used
+
+
+PORTS:
+  Number of Live Ports: 	2
+  Number of Ports Created: 	2
+  Number of Ports Destroyed: 	0
+  Number of Messages Sent: 	0
+  Number of Messages Received: 	0
+  Port(0:1/L)	Buffer length: 0;  Threads suspended: 0
+		 Port waiting queue: ()
+  Port(1:1/L)	Buffer length: 0;  Threads suspended: 0
+		 Port waiting queue: ()
+
+
+
+RESOURCES:
+  Total number of acquire() calls: 2
+  Total number of release() calls: 0
+
+    Resource Availability Table
+|---------------|-------------------------|
+|Resource Type  |0    1    2    3    4    |
+|---------------|-------------------------|
+|  Total        |8    8    8    6    9    |
+|---------------|-------------------------|
+|  Available    |8    8    6    6    5    |
+|---------------|-------------------------|
+
+
+
+    Resource Allocation Table
+|------------------|-----------------------------------|
+|Resource Type     |0      1      2      3      4      |
+|------------------|-----------------------------------|
+|Thread ID: 0:1 |0      0      0      0      4      |
+|Thread ID: 4:1    |0      0      2      0      0      |
+|------------------|-----------------------------------|
+
+
+
+
+The suspended  RRBs: 
+
+
+-----------------------------------------------
+
+Sim: 3850 [Utilities.Simulation]  
+	Elapsed time: 0 seconds
+
