@@ -134,7 +134,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    		
 	    		freeFrame.setReserved(thread.getTask());
 	    		//Swap In
-	    		SwapFile.read(page.getID(), page, thread)
+	    		SwapFile.read(page.getID(), page, thread);
 	    		if(thread.getStatus()==ThreadKill)
 	    			return FAILURE;
 	    		
