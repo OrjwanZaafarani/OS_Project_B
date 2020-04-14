@@ -101,7 +101,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    		FrameTableEntry freeFrame = getFreeFrame();
 	    		OpenFile SwapFile = page.getTask().getSwapFile();
 	    		if(freeFrame == null) {
-	    			FrameTableEntry SCframe = SecondChance();
+	    			FrameTableEntry SCframe = SecondChance(); 
 	    			SCframe.setReserved(thread.getTask());
 	    			if(SCframe.isDirty()) {
 	    				//SwapOut
