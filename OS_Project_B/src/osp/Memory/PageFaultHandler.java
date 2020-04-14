@@ -255,7 +255,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 					firstDirtyFrame =true;
 				}
 				// Phase1 - Note4 - CHECK IF CORRECT
-				MMU.Cursor++;
+				MMU.Cursor=(MMU.Cursor+i)%MMU.getFrameTableSize();
 			}
 			if(numFreeFrames()==MMU.wantFree)
 				break;
