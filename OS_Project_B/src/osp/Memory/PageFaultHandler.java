@@ -228,7 +228,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 		for(int j = 0; j < 2; j++) { 
 			for(int i = 0; i < MMU.getFrameTableSize(); i++) {
 				// Phase1 - Note1
-				if(numFreeFrames() == MMU.wantFree)
+				if(numFreeFrames() >= MMU.wantFree)
 					break;
 				
 				// Phase1 - Task1
@@ -251,40 +251,26 @@ public class PageFaultHandler extends IflPageFaultHandler
 					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 				}
 				// Phase1 - Task3
-				if (foundFirstDirtyFrame ==false
-					& MMU.frame[MMU.Cursor].isDirty()==true
-					& MMU.frame[MMU.Cursor].isReserved()==false
-					& MMU.frame[MMU.Cursor].getLockCount()==0) {
-					firstDirtyFrameID=MMU.frame[MMU.Cursor].getID();
-					firstDirtyFrame=MMU.getFrame(MMU.Cursor);
-					foundFirstDirtyFrame =true;
 				if (foundFirstDirtyFrame == false
 					& MMU.getFrame(MMU.Cursor).isDirty() == true
 					& MMU.getFrame(MMU.Cursor).isReserved() == false
 					& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
 					firstDirtyFrameID = MMU.getFrame(MMU.Cursor).getID();
-					foundFirstDirtyFrame = true;
-
+					firstDirtyFrame = MMU.getFrame(MMU.Cursor);
+					foundFirstDirtyFrame = true; 
+				}
 				// Phase1 - Note4
 				MMU.Cursor=(MMU.Cursor+1)%MMU.getFrameTableSize();
-				// Phase1 - Note4 - CHECK IF CORRECT
-				MMU.Cursor = (MMU.Cursor+i)%MMU.getFrameTableSize();
 			}
-			if(numFreeFrames() == MMU.wantFree)
+			
+			if(numFreeFrames() >= MMU.wantFree)
 				break;
 		}
-		// Phase2
-		if(numFreeFrames()!=MMU.wantFree) {
-			return firstDirtyFrame;
-			if(numFreeFrames()<MMU.wantFree && foundFirstDirtyFrame==false) {
-				return getFreeFrame();
-			}
-		}
 		
-		// Phase3
-		else {
-			
-		}
-		
+		// Phase2 and Phase3
+		if(numFreeFrames() < MMU.wantFree && foundFirstDirtyFrame == true) 
+			return firstDirtyFrame;	
+		else 
+			return getFreeFrame();
 	}
 }
