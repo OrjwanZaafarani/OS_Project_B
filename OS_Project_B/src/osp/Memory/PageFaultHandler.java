@@ -251,7 +251,6 @@ public class PageFaultHandler extends IflPageFaultHandler
 					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 				}
 				// Phase1 - Task3
-<<<<<<< HEAD
 				if (foundFirstDirtyFrame ==false
 					& MMU.frame[MMU.Cursor].isDirty()==true
 					& MMU.frame[MMU.Cursor].isReserved()==false
@@ -259,22 +258,17 @@ public class PageFaultHandler extends IflPageFaultHandler
 					firstDirtyFrameID=MMU.frame[MMU.Cursor].getID();
 					firstDirtyFrame=MMU.getFrame(MMU.Cursor);
 					foundFirstDirtyFrame =true;
-=======
-				if (firstDirtyFrame == false
+				if (foundFirstDirtyFrame == false
 					& MMU.getFrame(MMU.Cursor).isDirty() == true
 					& MMU.getFrame(MMU.Cursor).isReserved() == false
 					& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
 					firstDirtyFrameID = MMU.getFrame(MMU.Cursor).getID();
-					firstDirtyFrame = true;
->>>>>>> branch 'master' of https://github.com/OrjwanZaafarani/OS_Project_B.git
-				}
-<<<<<<< HEAD
+					foundFirstDirtyFrame = true;
+
 				// Phase1 - Note4
 				MMU.Cursor=(MMU.Cursor+1)%MMU.getFrameTableSize();
-=======
 				// Phase1 - Note4 - CHECK IF CORRECT
 				MMU.Cursor = (MMU.Cursor+i)%MMU.getFrameTableSize();
->>>>>>> branch 'master' of https://github.com/OrjwanZaafarani/OS_Project_B.git
 			}
 			if(numFreeFrames() == MMU.wantFree)
 				break;
