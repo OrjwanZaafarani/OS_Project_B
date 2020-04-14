@@ -52,11 +52,13 @@ public class PageTableEntry extends IflPageTableEntry
     	}
     	
     	else {
-    		if(getValidatingThread()==null) {
+    		if(getValidatingThread() == null) {
     			if(PageFaultHandler.handlePageFault(iorb.getThread(),MemoryLock,this)==FAILURE)
     				return FAILURE;
-    			else
+    			else {
+    				getFrame().incrementLockCount();
     				return SUCCESS;
+    			}
     		}
     		else if(getValidatingThread()==iorb.getThread()) {
     			getFrame().incrementLockCount();
@@ -73,7 +75,6 @@ public class PageTableEntry extends IflPageTableEntry
     				
     		}
     	}
-
     }
 
     /**
