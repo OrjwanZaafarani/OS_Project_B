@@ -224,27 +224,29 @@ public class PageFaultHandler extends IflPageFaultHandler
 		// 					cannot  be  selected  and dirty  frames should not be
 		//					freed in this phase.
 		// Phase1 - Note2,3
-		for(int j=0;j<2;j++) { 
-			for(int i=MMU.Cursor;i<MMU.getFrameTableSize();i++) {
+		for(int j = 0; j < 2; j++) { 
+			for(int i = MMU.Cursor; i < MMU.getFrameTableSize(); i++) {
 				// Phase1 - Task1
-				if(MMU.frame[MMU.Cursor].isReferenced()== true) {
-					MMU.frame[MMU.Cursor].setReferenced(false);
-				}
+				if(MMU.getFrame(MMU.Cursor).isReferenced() == true) {
+					MMU.getFrame(MMU.Cursor).setReferenced(false);
+				} 
 				// Phase1 - Task2)
-				else if (MMU.frame[MMU.Cursor].getPage()!=null
-						& MMU.frame[MMU.Cursor].isReferenced()==false
-						& MMU.frame[MMU.Cursor].isDirty()==false
-						& MMU.frame[MMU.Cursor].isReserved()==false
-						& MMU.frame[MMU.Cursor].getLockCount()==0) {
+				else if (MMU.getFrame(MMU.Cursor).getPage()!=null
+						& MMU.getFrame(MMU.Cursor).isReferenced()==false
+						& MMU.getFrame(MMU.Cursor).isDirty()==false
+						& MMU.getFrame(MMU.Cursor).isReserved()==false
+						& MMU.getFrame(MMU.Cursor).getLockCount()<=0) {
 					// Phase1 - Task2 - a - freeing frames
 					// Phase1 - Note1
 					if(numFreeFrames()==MMU.wantFree)
 						break;
-					MMU.frame[MMU.Cursor].setPage(null);
+					MMU.getFrame(MMU.Cursor).setPage(null);
+					MMU.getFrame(MMU.Cursor).setDirty(false);
+					MMU.getFrame(MMU.Cursor).setReferenced(false);
 					// The dirty and the reference bits should be set to false. is this done?
 					// Phase1 - Task2 - b
-					MMU.frame[MMU.Cursor].getPage().setFrame(null);
-					MMU.frame[MMU.Cursor].getPage().setValid(false);
+					MMU.getFrame(MMU.Cursor).getPage().setFrame(null);
+					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 				}
 				// Phase1 - Task3
 				if (firstDirtyFrame ==false
