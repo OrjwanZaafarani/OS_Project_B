@@ -89,59 +89,29 @@ public class MMU extends IflMMU
     			InterruptVector.setPage(PTE);
     			InterruptVector.setThread(thread);
     			CPU.interrupt(PageFault);
+    			if (thread.getStatus() != GlobalVariables.ThreadKill) {
+    	    		PTE.getFrame().setReferenced(true);
+    	    		if (referenceType == GlobalVariables.MemoryWrite)
+    	    			PTE.getFrame().setDirty(true);
+    	    	}
     		}	
     		else {
     			thread.suspend(PTE);
+    			if (thread.getStatus() != GlobalVariables.ThreadKill) {
+    	    		PTE.getFrame().setReferenced(true);
+    	    		if (referenceType == GlobalVariables.MemoryWrite)
+    	    			PTE.getFrame().setDirty(true);
+    	    	}
     		}
     	}
     	
-    	if (thread.getStatus() != GlobalVariables.ThreadKill) {
+    	else {
     		PTE.getFrame().setReferenced(true);
     		if (referenceType == GlobalVariables.MemoryWrite)
     			PTE.getFrame().setDirty(true);
-    		else
-    			PTE.getFrame().setDirty(false);
     	}
     	return PTE;
-    	/*int VABits = MMU.getVirtualAddressBits();
-    	int PBits = MMU.getPageAddressBits();
-    	int DBits = VABits - PBits;
-    	int PageSize = (int) Math.pow(2.0, DBits);
-    	int PageNum = memoryAddress/PageSize;
-    	PageTableEntry PTE = MMU.getPTBR().pages[PageNum];
-    	
-    	if(PTE.isValid()) {
-    		PTE.getFrame().setReferenced(true);
-    		if (referenceType == GlobalVariables.MemoryWrite)
-    			PTE.getFrame().setDirty(true);
-    		return PTE;
-    	}
-    	else {
-    		if (PTE.getValidatingThread() == null) {
-    			InterruptVector.setInterruptType(referenceType);
-    			InterruptVector.setPage(PTE);
-    			InterruptVector.setThread(thread);
-    			CPU.interrupt(PageFault);
-    			if (thread.getStatus() == GlobalVariables.ThreadKill)
-    				return PTE;
-    			
-    		}
-    		
-    		else {
-    			thread.suspend(PTE);
-    			if (thread.getStatus() == GlobalVariables.ThreadKill)
-    				return PTE;
-    		}
-    	}
-
-    	PTE.getFrame().setReferenced(true);
-    	if (referenceType == GlobalVariables.MemoryWrite)
-    		PTE.getFrame().setDirty(true);
-    	return PTE;	*/
     }
-
-
-
     /** Called by OSP after printing an error message. The student can
 		insert code here to print various tables and data structures
 		in their state just after the error happened.  The body can be
