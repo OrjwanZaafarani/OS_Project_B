@@ -107,10 +107,10 @@ public class PageFaultHandler extends IflPageFaultHandler {
 						SCframe.setReferenced(false);
 					}
 					// SwapIn
+					page.setFrame(SCframe);
 					SwapFile.read(page.getID(), page, thread);
 					if (thread.getStatus() == ThreadKill)
 						return FAILURE;
-					page.setFrame(SCframe);
 					SCframe.setPage(page);
 					SCframe.setUnreserved(thread.getTask());
 					page.setValid(true);
@@ -126,12 +126,11 @@ public class PageFaultHandler extends IflPageFaultHandler {
 				}
 
 				freeFrame.setReserved(thread.getTask());
+				page.setFrame(freeFrame);
 				// Swap In
 				SwapFile.read(page.getID(), page, thread);
 				if (thread.getStatus() == ThreadKill)
 					return FAILURE;
-
-				page.setFrame(freeFrame);
 				freeFrame.setPage(page);
 				page.setValid(true);
 				freeFrame.setReferenced(true);
