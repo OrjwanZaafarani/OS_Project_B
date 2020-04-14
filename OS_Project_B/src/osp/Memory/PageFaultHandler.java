@@ -81,7 +81,7 @@ public class PageFaultHandler extends IflPageFaultHandler
     */
 	//NOURA: VERYY LONGG CODEEE because there are lots of conditions --> need to make it more efficient and organized.
 	//For now, it does what it's supposed to hopefully (not 100% sure) i'll check with GitHub solutions
-    public static int do_handlePageFault(ThreadCB thread,int referenceType,PageTableEntry page) {
+	public static int do_handlePageFault(ThreadCB thread,int referenceType,PageTableEntry page) {
     	int counter = 0;
     	if(!page.isValid() && page.getValidatingThread() == null) {
 	    	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
@@ -92,7 +92,7 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    	if(counter == MMU.getFrameTableSize()) {
 	        	page.notifyThreads();
 	    		ThreadCB.dispatch();
-	    		return NotEnoughMemory;
+	    		return NotEnoughMemory; 
 	    	}
 	    	else {
 	    		page.setValidatingThread(thread);
@@ -114,10 +114,10 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    				SCframe.setReferenced(false);
 	    			}
 	    			//SwapIn
+	    			page.setFrame(SCframe);
 	    			SwapFile.read(page.getID(), page, thread);
 	    			if(thread.getStatus()==ThreadKill)
 		    			return FAILURE;
-	    			page.setFrame(SCframe);
 	    	    	SCframe.setPage(page);
 	    	    	SCframe.setUnreserved(thread.getTask());
 	    	    	page.setValid(true);
@@ -133,12 +133,11 @@ public class PageFaultHandler extends IflPageFaultHandler
 	    		}
 	    		
 	    		freeFrame.setReserved(thread.getTask());
+	    		page.setFrame(freeFrame);
 	    		//Swap In
 	    		SwapFile.read(page.getID(), page, thread);
 	    		if(thread.getStatus()==ThreadKill)
 	    			return FAILURE;
-	    		
-	    		page.setFrame(freeFrame);
 	    		freeFrame.setPage(page);
 	    		page.setValid(true);
 	    		freeFrame.setReferenced(true);

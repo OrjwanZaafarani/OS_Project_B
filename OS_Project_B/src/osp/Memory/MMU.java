@@ -20,7 +20,6 @@ public class MMU extends IflMMU
 	// I think they have to private not public. page 92
 	public static  int  Cursor;
 	public static  int  wantFree;
-	public static FrameTableEntry[] frame;
 	
     /**
         This method is called once before the simulation starts.
@@ -48,11 +47,8 @@ public class MMU extends IflMMU
 	
     public static void init()
     {
-    	// called before?? where??
     	Cursor = 0;
     	wantFree = 1;
-    	//Why did you add frame as a global variable?
-    	frame = new FrameTableEntry[MMU.getFrameTableSize()];
     	
     	for(int i = 0; i < MMU.getFrameTableSize(); i++) {
     		MMU.setFrame(i, new FrameTableEntry(i));
@@ -82,30 +78,66 @@ public class MMU extends IflMMU
     	int VABits = MMU.getVirtualAddressBits();
     	int PBits = MMU.getPageAddressBits();
     	int DBits = VABits - PBits;
-    	int PageSize = (int) Math.pow(2, DBits);
+    	int PageSize = (int) Math.pow(2.0, DBits);
     	int PageNum = memoryAddress/PageSize;
     	
     	PageTableEntry PTE = MMU.getPTBR().pages[PageNum];
     	// OR PageTableEntry PTE = thread.getTask().getPageTable().pages[PageNum];
     	if(!PTE.isValid()) {
-    		if (PTE.getValidatingThread() != null) 
-    			thread.suspend(PTE);
-    		else {
+    		if (PTE.getValidatingThread() == null) {
+    			InterruptVector.setInterruptType(referenceType);
     			InterruptVector.setPage(PTE);
-    			InterruptVector.setReferenceType(referenceType);
     			InterruptVector.setThread(thread);
     			CPU.interrupt(PageFault);
+    		}	
+    		else {
+    			thread.suspend(PTE);
     		}
     	}
     	
-    	if (thread.getStatus() != ThreadKill) {
+    	if (thread.getStatus() != GlobalVariables.ThreadKill) {
     		PTE.getFrame().setReferenced(true);
-    		if (referenceType == MemoryWrite)
+    		if (referenceType == GlobalVariables.MemoryWrite)
     			PTE.getFrame().setDirty(true);
     		else
     			PTE.getFrame().setDirty(false);
     	}
     	return PTE;
+    	/*int VABits = MMU.getVirtualAddressBits();
+    	int PBits = MMU.getPageAddressBits();
+    	int DBits = VABits - PBits;
+    	int PageSize = (int) Math.pow(2.0, DBits);
+    	int PageNum = memoryAddress/PageSize;
+    	PageTableEntry PTE = MMU.getPTBR().pages[PageNum];
+    	
+    	if(PTE.isValid()) {
+    		PTE.getFrame().setReferenced(true);
+    		if (referenceType == GlobalVariables.MemoryWrite)
+    			PTE.getFrame().setDirty(true);
+    		return PTE;
+    	}
+    	else {
+    		if (PTE.getValidatingThread() == null) {
+    			InterruptVector.setInterruptType(referenceType);
+    			InterruptVector.setPage(PTE);
+    			InterruptVector.setThread(thread);
+    			CPU.interrupt(PageFault);
+    			if (thread.getStatus() == GlobalVariables.ThreadKill)
+    				return PTE;
+    			
+    		}
+    		
+    		else {
+    			thread.suspend(PTE);
+    			if (thread.getStatus() == GlobalVariables.ThreadKill)
+    				return PTE;
+    		}
+    	}
+
+    	PTE.getFrame().setReferenced(true);
+    	if (referenceType == GlobalVariables.MemoryWrite)
+    		PTE.getFrame().setDirty(true);
+    	return PTE;	*/
     }
 
 

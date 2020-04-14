@@ -47,19 +47,19 @@ public class PageTableEntry extends IflPageTableEntry
     */
     public int do_lock(IORB iorb) {
     	if(this.isValid()) {
-    		this.getFrame().incrementLockCount();
+    		getFrame().incrementLockCount();
     		return SUCCESS;
     	}
     	
     	else {
-    		if(this.getValidatingThread()==null) {
+    		if(getValidatingThread()==null) {
     			if(PageFaultHandler.handlePageFault(iorb.getThread(),MemoryLock,this)==FAILURE)
     				return FAILURE;
     			else
     				return SUCCESS;
     		}
-    		else if(this.getValidatingThread()==iorb.getThread()) {
-    			this.getFrame().incrementLockCount();
+    		else if(getValidatingThread()==iorb.getThread()) {
+    			getFrame().incrementLockCount();
         		return SUCCESS;
     		}
     		else {
@@ -67,7 +67,7 @@ public class PageTableEntry extends IflPageTableEntry
     			if(iorb.getThread().getStatus()==ThreadKill)
     				return FAILURE;
     			else {
-    				this.getFrame().incrementLockCount();
+    				getFrame().incrementLockCount();
     	    		return SUCCESS;
     			}
     				
@@ -84,8 +84,8 @@ public class PageTableEntry extends IflPageTableEntry
 	   @OSPProject Memory
     */
     public void do_unlock() {
-        if(this.getFrame().getLockCount()>0)
-        	this.getFrame().decrementLockCount();
+        if(getFrame().getLockCount() > 0)
+        	getFrame().decrementLockCount();
     }
 }
 
