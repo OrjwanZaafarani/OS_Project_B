@@ -1,6 +1,6 @@
 Sim: 0 [EventEngine.EventDriver]  
-	Simulation Start Time: Wed Apr 15 20:28:23 AST 2020
-	Parameter file: /Users/orjwanzaafarani/Desktop/KAU/Operating_Systems/Project/Project_B/OS_Project_B/Misc/params.osp
+	Simulation Start Time: Wed Apr 15 22:30:29 GMT+03:00 2020
+	Parameter file: C:\Users\aldak\Desktop\KAU\Term 10\EE463 - Operating Systems\Project B\Code\OS_Project_B\OS_Project_B\OS_Project_B\Misc\params.osp
 
 	Legend:
 	  Thread(X:Y/S) means: thread X of task Y, status=S
@@ -5130,51 +5130,47 @@ Mod: 6629 [Threads.ThreadCB]
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6629 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
-Sim: 6629 [Memory.PageTableEntry]  
-	Page(43:1/2) becomes invalid
 Sim: 6629 [Memory.FrameTableEntry]  
-	Setting page of Frame(2) to null
-Sim: 6629 [Memory.FrameTableEntry]  
-	Task(1/L) is reserving free Frame(2)
-Sim: 6629 [Memory.FrameTableEntry]  
-	Setting page of Frame(2) to Page(3:1/2)
+	Task(1/L) is reserving nonfree Frame(0)
 Sim: 6629 [FileSys.OpenFile]  
-	System call read(Openfile(0:1/0),Block(3),Page(3:1/2),Thread(0:1/W0))
+	System call write(Openfile(0:1/0),Block(12),Page(12:1/0),Thread(0:1/W0))
 Sim: 6629 [Threads.ThreadCB]  
-	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileWrite))
 Mod: 6629 [Threads.ThreadCB]  
-	Entering suspend(Thread(0:1/W0),SystemEvent(FileRead))
+	Entering suspend(Thread(0:1/W0),SystemEvent(FileWrite))
 Sim: 6629 [Threads.ThreadCB]  
-	Leaving suspend(Thread(0:1/W1),SystemEvent(FileRead))
+	Leaving suspend(Thread(0:1/W1),SystemEvent(FileWrite))
 Mod: 6629 [FileSys.OpenFile]  
-	Creating IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Old file size = 64 blocks, new file size = 64
+Mod: 6629 [FileSys.OpenFile]  
+	Creating IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Sim: 6629 [Hardware.Disk]  
-	Enqueueing IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Enqueueing IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Sim: 6629 [Hardware.Disk]  
-	Thread(0:1/W1) requests to enqueue IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Thread(0:1/W1) requests to enqueue IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Mod: 6629 [Hardware.Disk]  
-	Entering do_enqueueIORB for IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
-	Locking Page(3:1/2)
+	Entering do_enqueueIORB for IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
+	Locking Page(12:1/0)
 Sim: 6629 [Memory.PageTableEntry]  
-	Entering lock(Page(3:1/2),IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+	Entering lock(Page(12:1/0),IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)))
 Sim: 6629 [Memory.PageTableEntry]  
-	Leaving lock(Page(3:1/2),IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+	Leaving lock(Page(12:1/0),IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)))
 Mod: 6629 [Hardware.Disk]  
-	Device 0 is idle -- starting IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Device 0 is idle -- starting IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Sim: 6629 [Hardware.Disk]  
-	Starting I/O for IORB 35, which will take 90 ticks
-	  IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Starting I/O for IORB 35, which will take 75 ticks
+	  IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Sim: 6629 [Hardware.Disk]  
-	After enqueueing IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)):
+	After enqueueing IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)):
 	  Incrementing IORB count for Openfile(0:1/0) iorbCount = 1, the OSP value = 0
 Sim: 6629 [Hardware.Disk]  
-	Leaving enqueueIORB(IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+	Leaving enqueueIORB(IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)))
 Mod: 6629 [FileSys.OpenFile]  
-	Thread(0:1/W1) is suspended on IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1))
+	Thread(0:1/W1) is suspended on IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1))
 Sim: 6629 [Threads.ThreadCB]  
-	Entering suspend(Thread(0:1/W1),IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+	Entering suspend(Thread(0:1/W1),IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)))
 Mod: 6629 [Threads.ThreadCB]  
-	Entering suspend(Thread(0:1/W1),IORB(Id(35),Device(0),Page(3:1/2),Diskblock(3),FileRead,Openfile(0:1/0),Thread(0:1/W1)))
+	Entering suspend(Thread(0:1/W1),IORB(Id(35),Device(0),Page(12:1/0),Diskblock(12),FileWrite,Openfile(0:1/0),Thread(0:1/W1)))
 Sim: 6629 [IFLModules.ThreadCB]  
 	Entering dispatch(); current running thread is null
 Mod: 6629 [Threads.ThreadCB]  
@@ -5197,11 +5193,10 @@ Mod: 6681 [Threads.ThreadCB]
 Sim: 6681 [Threads.ThreadCB]  
 	Leaving suspend(Thread(10:1/W0),SystemEvent(Page Fault Occurred))
 Sim: 6681 <<Error!>> [Memory.FrameTableEntry]  
-	Setting the reference flag for Frame(2), but the frame doesn't hold a valid page
+	Task(1/L) is trying to reserve Frame(0), but Task(1/L) has already reserved this frame
 
-	at osp.IFLModules.IflFrameTableEntry.setReferenced(IflFrameTableEntry.java:200)
-	at osp.Memory.PageFaultHandler.Fifo(PageFaultHandler.java:385)
-	at osp.Memory.PageFaultHandler.do_handlePageFault(PageFaultHandler.java:157)
+	at osp.IFLModules.IflFrameTableEntry.setReserved(IflFrameTableEntry.java:107)
+	at osp.Memory.PageFaultHandler.do_handlePageFault(PageFaultHandler.java:163)
 	at osp.IFLModules.IflPageFaultHandler.handlePageFault(IflPageFaultHandler.java:138)
 	at osp.IFLModules.IflPageFaultHandler.handleInterrupt(IflPageFaultHandler.java:44)
 	at osp.Interrupts.Interrupts.if(Interrupts.java:48)
@@ -5219,7 +5214,7 @@ MEMORY:
   Free frames: 0(0%) out of 30
   Locked frames: 1 out of 30
   Reserved frames: 1 out of 30
-  Referenced frames: 3 out of 30
+  Referenced frames: 30 out of 30
 
 Memory map:
 |----------|------------------------------|
@@ -5227,13 +5222,13 @@ Memory map:
 |number    |012345678901234567890123456789|
 |----------|------------------------------|
 |free      |                              |
-|lock      |001000000000000000000000000000|
-|reserved  |  R                           |
+|lock      |100000000000000000000000000000|
+|reserved  |R                             |
 |dirty     |DD DDDDDD  DD DDDD DD  DDD  D |
-|referenced|YYY                           |
+|referenced|YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY|
 |----------|------------------------------|
 |          |                              |
-|page      |11 2 515122435 1 2 546454 5233|
+|page      |1142 515122435 1 2 546454 5233|
 |number    |213915814606330721587096862277|
 |----------|------------------------------|
 |          |                              |
@@ -5243,16 +5238,16 @@ Memory map:
 
 
 Page table for Task 1:
-  Valid pages: 28 out of 64
+  Valid pages: 29 out of 64
 |------|----------------------------------------------------------------|
 |Page  |0000000000111111111122222222223333333333444444444455555555556666|
 |number|0123456789012345678901234567890123456789012345678901234567890123|
 |------|----------------------------------------------------------------|
-|valid |YYY  YY    YY Y  YY YYY   Y  Y   Y   Y        YYYY YYY YY Y Y   |
+|valid |YYY  YY    YY Y  YY YYY   Y  Y   Y   Y     Y  YYYY YYY YY Y Y   |
 |------|----------------------------------------------------------------|
 |      |                                                                |
 |frame |1 1  12          1  112          1   2        1222  21  2 1 2   |
-|number|4462 85    10 8  56 077   9  3   2   8        1042 763 53 9 1   |
+|number|446  85    10 8  56 077   9  3   2   8     2  1042 763 53 9 1   |
 |------|----------------------------------------------------------------|
 
 Page table for Task 2:
@@ -5287,7 +5282,7 @@ DEVICES:
 	    Number of pages read = 30
 	    Number of pages written = 0
 	    Average number of cylinders swept per disk access = 2
-	      Total number of cylinders swept = 70
+	      Total number of cylinders swept = 69
 	    Service time per I/O request: 70
 	    Device queue:  Empty
   Device 1: Disk   (mount point: /etc/go/)

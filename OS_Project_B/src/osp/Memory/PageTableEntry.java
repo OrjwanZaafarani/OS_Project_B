@@ -24,9 +24,12 @@ public class PageTableEntry extends IflPageTableEntry
 
        @OSPProject Memory
     */
+	long createTime;
+	
     public PageTableEntry(PageTable ownerPageTable, int pageNumber)
     {
     	super(ownerPageTable,pageNumber);
+    	this.createTime = System.currentTimeMillis();
 
     }
 
