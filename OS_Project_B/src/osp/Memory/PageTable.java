@@ -49,7 +49,7 @@ public class PageTable extends IflPageTable
 	    			MMU.getFrame(i).setDirty(false);
 	    			MMU.getFrame(i).setReferenced(false);
 	    			
-	    			if(MMU.getFrame(i).getReserved()==this.getTask())
+	    			if(MMU.getFrame(i).getReserved() == this.getTask())
 	    				MMU.getFrame(i).setUnreserved(this.getTask());
 	    		}
     		}
