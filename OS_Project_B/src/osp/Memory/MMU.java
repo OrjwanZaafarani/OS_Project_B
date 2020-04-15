@@ -71,13 +71,13 @@ public class MMU extends IflMMU {
 	 * @OSPProject Memory
 	 */
 	static public PageTableEntry do_refer(int memoryAddress, int referenceType, ThreadCB thread) {
-		int VABits = MMU.getVirtualAddressBits();
-		int PBits = MMU.getPageAddressBits();
-		int DBits = VABits - PBits;
-		int PageSize = (int) Math.pow(2.0, DBits);
-		int PageNum = memoryAddress / PageSize;
+//		int VABits = MMU.getVirtualAddressBits();
+//		int PBits = MMU.getPageAddressBits();
+//		int DBits = VABits - PBits;
+//		int PageSize = (int) Math.pow(2.0, MMU.getVirtualAddressBits() - MMU.getPageAddressBits());
+		int PageNum = memoryAddress / (int) Math.pow(2.0, MMU.getVirtualAddressBits() - MMU.getPageAddressBits());
 
-		PageTableEntry PTE = MMU.getPTBR().pages[PageNum];
+		PageTableEntry PTE = getPTBR().pages[PageNum];
 //    	PageTableEntry PTE = thread.getTask().getPageTable().pages[PageNum];
 		if (PTE.isValid()) {
 			PTE.getFrame().setReferenced(true);
