@@ -1,5 +1,5 @@
 Sim: 0 [EventEngine.EventDriver]  
-	Simulation Start Time: Wed Apr 15 22:30:29 GMT+03:00 2020
+	Simulation Start Time: Thu Apr 16 00:16:20 GMT+03:00 2020
 	Parameter file: C:\Users\aldak\Desktop\KAU\Term 10\EE463 - Operating Systems\Project B\Code\OS_Project_B\OS_Project_B\OS_Project_B\Misc\params.osp
 
 	Legend:
@@ -69,14 +69,14 @@ Sim: 18 [IFLModules.MMU]
 	  [Page(12:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 18 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(12:1/null),Unknown,Thread(0:1/RU)
-Sim: 18 [Memory.PageTableEntry]  
-	Setting validating thread for Page(12:1/null) to Thread(0:1/RU)
 Sim: 18 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 18 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 18 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 18 [Memory.PageTableEntry]  
+	Setting validating thread for Page(12:1/null) to Thread(0:1/W0)
 Sim: 18 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(0)
 Sim: 18 [Memory.FrameTableEntry]  
@@ -163,10 +163,10 @@ Sim: 63 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
 Sim: 63 [Memory.PageTableEntry]  
 	Page(12:1/0) becomes valid
-Sim: 63 [Memory.PageTableEntry]  
-	Setting validating thread for Page(12:1/0) to null
 Sim: 63 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(0)
+Sim: 63 [Memory.PageTableEntry]  
+	Setting validating thread for Page(12:1/0) to null
 Sim: 63 [Threads.ThreadCB]  
 	Entering resume(Thread(0:1/W0))
 Mod: 63 [Threads.ThreadCB]  
@@ -188,14 +188,14 @@ Sim: 165 [IFLModules.MMU]
 	  [Page(11:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 165 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(11:1/null),Unknown,Thread(0:1/RU)
-Sim: 165 [Memory.PageTableEntry]  
-	Setting validating thread for Page(11:1/null) to Thread(0:1/RU)
 Sim: 165 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 165 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 165 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 165 [Memory.PageTableEntry]  
+	Setting validating thread for Page(11:1/null) to Thread(0:1/W0)
 Sim: 165 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(1)
 Sim: 165 [Memory.FrameTableEntry]  
@@ -282,10 +282,10 @@ Sim: 195 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
 Sim: 195 [Memory.PageTableEntry]  
 	Page(11:1/1) becomes valid
-Sim: 195 [Memory.PageTableEntry]  
-	Setting validating thread for Page(11:1/1) to null
 Sim: 195 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(1)
+Sim: 195 [Memory.PageTableEntry]  
+	Setting validating thread for Page(11:1/1) to null
 Sim: 195 [Threads.ThreadCB]  
 	Entering resume(Thread(0:1/W0))
 Mod: 195 [Threads.ThreadCB]  
@@ -307,14 +307,14 @@ Sim: 325 [IFLModules.MMU]
 	  [Page(43:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 325 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(43:1/null),Unknown,Thread(0:1/RU)
-Sim: 325 [Memory.PageTableEntry]  
-	Setting validating thread for Page(43:1/null) to Thread(0:1/RU)
 Sim: 325 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 325 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 325 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 325 [Memory.PageTableEntry]  
+	Setting validating thread for Page(43:1/null) to Thread(0:1/W0)
 Sim: 325 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(2)
 Sim: 325 [Memory.FrameTableEntry]  
@@ -411,10 +411,10 @@ Sim: 400 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
 Sim: 400 [Memory.PageTableEntry]  
 	Page(43:1/2) becomes valid
-Sim: 400 [Memory.PageTableEntry]  
-	Setting validating thread for Page(43:1/2) to null
 Sim: 400 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(2)
+Sim: 400 [Memory.PageTableEntry]  
+	Setting validating thread for Page(43:1/2) to null
 Sim: 400 [Threads.ThreadCB]  
 	Entering resume(Thread(0:1/W0))
 Mod: 400 [Threads.ThreadCB]  
@@ -460,14 +460,14 @@ Sim: 563 [IFLModules.MMU]
 	  [Page(29:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 563 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(29:1/null),Unknown,Thread(1:1/RU)
-Sim: 563 [Memory.PageTableEntry]  
-	Setting validating thread for Page(29:1/null) to Thread(1:1/RU)
 Sim: 563 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 563 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 563 [Threads.ThreadCB]  
 	Leaving suspend(Thread(1:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 563 [Memory.PageTableEntry]  
+	Setting validating thread for Page(29:1/null) to Thread(1:1/W0)
 Sim: 563 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(3)
 Sim: 563 [Memory.FrameTableEntry]  
@@ -554,10 +554,10 @@ Sim: 608 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
 Sim: 608 [Memory.PageTableEntry]  
 	Page(29:1/3) becomes valid
-Sim: 608 [Memory.PageTableEntry]  
-	Setting validating thread for Page(29:1/3) to null
 Sim: 608 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(3)
+Sim: 608 [Memory.PageTableEntry]  
+	Setting validating thread for Page(29:1/3) to null
 Sim: 608 [Threads.ThreadCB]  
 	Entering resume(Thread(1:1/W0))
 Mod: 608 [Threads.ThreadCB]  
@@ -619,14 +619,14 @@ Sim: 831 [IFLModules.MMU]
 	  [Page(1:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 831 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(1:1/null),Unknown,Thread(2:1/RU)
-Sim: 831 [Memory.PageTableEntry]  
-	Setting validating thread for Page(1:1/null) to Thread(2:1/RU)
 Sim: 831 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 831 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 831 [Threads.ThreadCB]  
 	Leaving suspend(Thread(2:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 831 [Memory.PageTableEntry]  
+	Setting validating thread for Page(1:1/null) to Thread(2:1/W0)
 Sim: 831 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(4)
 Sim: 831 [Memory.FrameTableEntry]  
@@ -681,14 +681,14 @@ Sim: 847 [IFLModules.MMU]
 	  [Page(55:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 847 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(55:1/null),Unknown,Thread(1:1/RU)
-Sim: 847 [Memory.PageTableEntry]  
-	Setting validating thread for Page(55:1/null) to Thread(1:1/RU)
 Sim: 847 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 847 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 847 [Threads.ThreadCB]  
 	Leaving suspend(Thread(1:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 847 [Memory.PageTableEntry]  
+	Setting validating thread for Page(55:1/null) to Thread(1:1/W0)
 Sim: 847 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(5)
 Sim: 847 [Memory.FrameTableEntry]  
@@ -775,10 +775,10 @@ Sim: 876 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
 Sim: 876 [Memory.PageTableEntry]  
 	Page(1:1/4) becomes valid
-Sim: 876 [Memory.PageTableEntry]  
-	Setting validating thread for Page(1:1/4) to null
 Sim: 876 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(4)
+Sim: 876 [Memory.PageTableEntry]  
+	Setting validating thread for Page(1:1/4) to null
 Sim: 876 [Threads.ThreadCB]  
 	Entering resume(Thread(2:1/W0))
 Mod: 876 [Threads.ThreadCB]  
@@ -852,10 +852,10 @@ Sim: 966 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
 Sim: 966 [Memory.PageTableEntry]  
 	Page(55:1/5) becomes valid
-Sim: 966 [Memory.PageTableEntry]  
-	Setting validating thread for Page(55:1/5) to null
 Sim: 966 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(5)
+Sim: 966 [Memory.PageTableEntry]  
+	Setting validating thread for Page(55:1/5) to null
 Sim: 966 [Threads.ThreadCB]  
 	Entering resume(Thread(1:1/W0))
 Mod: 966 [Threads.ThreadCB]  
@@ -879,14 +879,14 @@ Sim: 976 [IFLModules.MMU]
 	  [Page(18:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 976 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(18:1/null),Unknown,Thread(3:1/RU)
-Sim: 976 [Memory.PageTableEntry]  
-	Setting validating thread for Page(18:1/null) to Thread(3:1/RU)
 Sim: 976 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 976 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 976 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 976 [Memory.PageTableEntry]  
+	Setting validating thread for Page(18:1/null) to Thread(3:1/W0)
 Sim: 976 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(6)
 Sim: 976 [Memory.FrameTableEntry]  
@@ -1086,10 +1086,10 @@ Sim: 1021 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 1021 [Memory.PageTableEntry]  
 	Page(18:1/6) becomes valid
-Sim: 1021 [Memory.PageTableEntry]  
-	Setting validating thread for Page(18:1/6) to null
 Sim: 1021 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(6)
+Sim: 1021 [Memory.PageTableEntry]  
+	Setting validating thread for Page(18:1/6) to null
 Sim: 1021 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 1021 [Threads.ThreadCB]  
@@ -1113,14 +1113,14 @@ Sim: 1059 [IFLModules.MMU]
 	  [Page(51:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 1059 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(51:1/null),Unknown,Thread(2:1/RU)
-Sim: 1059 [Memory.PageTableEntry]  
-	Setting validating thread for Page(51:1/null) to Thread(2:1/RU)
 Sim: 1059 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 1059 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 1059 [Threads.ThreadCB]  
 	Leaving suspend(Thread(2:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 1059 [Memory.PageTableEntry]  
+	Setting validating thread for Page(51:1/null) to Thread(2:1/W0)
 Sim: 1059 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(7)
 Sim: 1059 [Memory.FrameTableEntry]  
@@ -1175,14 +1175,14 @@ Sim: 1072 [IFLModules.MMU]
 	  [Page(14:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 1072 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(14:1/null),Unknown,Thread(1:1/RU)
-Sim: 1072 [Memory.PageTableEntry]  
-	Setting validating thread for Page(14:1/null) to Thread(1:1/RU)
 Sim: 1072 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 1072 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 1072 [Threads.ThreadCB]  
 	Leaving suspend(Thread(1:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 1072 [Memory.PageTableEntry]  
+	Setting validating thread for Page(14:1/null) to Thread(1:1/W0)
 Sim: 1072 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(8)
 Sim: 1072 [Memory.FrameTableEntry]  
@@ -1237,14 +1237,14 @@ Sim: 1100 [IFLModules.MMU]
 	  [Page(26:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 1100 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(26:1/null),Unknown,Thread(3:1/RU)
-Sim: 1100 [Memory.PageTableEntry]  
-	Setting validating thread for Page(26:1/null) to Thread(3:1/RU)
 Sim: 1100 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 1100 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 1100 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 1100 [Memory.PageTableEntry]  
+	Setting validating thread for Page(26:1/null) to Thread(3:1/W0)
 Sim: 1100 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(9)
 Sim: 1100 [Memory.FrameTableEntry]  
@@ -1331,10 +1331,10 @@ Sim: 1149 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
 Sim: 1149 [Memory.PageTableEntry]  
 	Page(51:1/7) becomes valid
-Sim: 1149 [Memory.PageTableEntry]  
-	Setting validating thread for Page(51:1/7) to null
 Sim: 1149 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(7)
+Sim: 1149 [Memory.PageTableEntry]  
+	Setting validating thread for Page(51:1/7) to null
 Sim: 1149 [Threads.ThreadCB]  
 	Entering resume(Thread(2:1/W0))
 Mod: 1149 [Threads.ThreadCB]  
@@ -1393,10 +1393,10 @@ Sim: 1194 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
 Sim: 1194 [Memory.PageTableEntry]  
 	Page(14:1/8) becomes valid
-Sim: 1194 [Memory.PageTableEntry]  
-	Setting validating thread for Page(14:1/8) to null
 Sim: 1194 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(8)
+Sim: 1194 [Memory.PageTableEntry]  
+	Setting validating thread for Page(14:1/8) to null
 Sim: 1194 [Threads.ThreadCB]  
 	Entering resume(Thread(1:1/W0))
 Mod: 1194 [Threads.ThreadCB]  
@@ -1470,10 +1470,10 @@ Sim: 1254 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 1254 [Memory.PageTableEntry]  
 	Page(26:1/9) becomes valid
-Sim: 1254 [Memory.PageTableEntry]  
-	Setting validating thread for Page(26:1/9) to null
 Sim: 1254 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(9)
+Sim: 1254 [Memory.PageTableEntry]  
+	Setting validating thread for Page(26:1/9) to null
 Sim: 1254 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 1254 [Threads.ThreadCB]  
@@ -1551,14 +1551,14 @@ Sim: 1744 [IFLModules.MMU]
 	  [Page(20:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 1744 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(20:1/null),Unknown,Thread(3:1/RU)
-Sim: 1744 [Memory.PageTableEntry]  
-	Setting validating thread for Page(20:1/null) to Thread(3:1/RU)
 Sim: 1744 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 1744 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 1744 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 1744 [Memory.PageTableEntry]  
+	Setting validating thread for Page(20:1/null) to Thread(3:1/W0)
 Sim: 1744 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(10)
 Sim: 1744 [Memory.FrameTableEntry]  
@@ -1653,10 +1653,10 @@ Sim: 1774 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 1774 [Memory.PageTableEntry]  
 	Page(20:1/10) becomes valid
-Sim: 1774 [Memory.PageTableEntry]  
-	Setting validating thread for Page(20:1/10) to null
 Sim: 1774 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(10)
+Sim: 1774 [Memory.PageTableEntry]  
+	Setting validating thread for Page(20:1/10) to null
 Sim: 1774 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 1774 [Threads.ThreadCB]  
@@ -1815,14 +1815,14 @@ Sim: 2663 [IFLModules.MMU]
 	  [Page(46:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 2663 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(46:1/null),Unknown,Thread(2:1/RU)
-Sim: 2663 [Memory.PageTableEntry]  
-	Setting validating thread for Page(46:1/null) to Thread(2:1/RU)
 Sim: 2663 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 2663 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 2663 [Threads.ThreadCB]  
 	Leaving suspend(Thread(2:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 2663 [Memory.PageTableEntry]  
+	Setting validating thread for Page(46:1/null) to Thread(2:1/W0)
 Sim: 2663 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(11)
 Sim: 2663 [Memory.FrameTableEntry]  
@@ -1976,10 +1976,10 @@ Sim: 2738 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
 Sim: 2738 [Memory.PageTableEntry]  
 	Page(46:1/11) becomes valid
-Sim: 2738 [Memory.PageTableEntry]  
-	Setting validating thread for Page(46:1/11) to null
 Sim: 2738 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(11)
+Sim: 2738 [Memory.PageTableEntry]  
+	Setting validating thread for Page(46:1/11) to null
 Sim: 2738 [Threads.ThreadCB]  
 	Entering resume(Thread(2:1/W0))
 Mod: 2738 [Threads.ThreadCB]  
@@ -2048,14 +2048,14 @@ Sim: 2767 [IFLModules.MMU]
 	  [Page(33:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 2767 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(33:1/null),Unknown,Thread(0:1/RU)
-Sim: 2767 [Memory.PageTableEntry]  
-	Setting validating thread for Page(33:1/null) to Thread(0:1/RU)
 Sim: 2767 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 2767 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 2767 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 2767 [Memory.PageTableEntry]  
+	Setting validating thread for Page(33:1/null) to Thread(0:1/W0)
 Sim: 2767 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(12)
 Sim: 2767 [Memory.FrameTableEntry]  
@@ -2142,10 +2142,10 @@ Sim: 2812 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(0:1/W0)) succeeded, as expected
 Sim: 2812 [Memory.PageTableEntry]  
 	Page(33:1/12) becomes valid
-Sim: 2812 [Memory.PageTableEntry]  
-	Setting validating thread for Page(33:1/12) to null
 Sim: 2812 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(12)
+Sim: 2812 [Memory.PageTableEntry]  
+	Setting validating thread for Page(33:1/12) to null
 Sim: 2812 [Threads.ThreadCB]  
 	Entering resume(Thread(0:1/W0))
 Mod: 2812 [Threads.ThreadCB]  
@@ -2186,14 +2186,14 @@ Sim: 2919 [IFLModules.MMU]
 	  [Page(53:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 2919 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(53:1/null),Unknown,Thread(9:1/RU)
-Sim: 2919 [Memory.PageTableEntry]  
-	Setting validating thread for Page(53:1/null) to Thread(9:1/RU)
 Sim: 2919 [Threads.ThreadCB]  
 	Entering suspend(Thread(9:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 2919 [Threads.ThreadCB]  
 	Entering suspend(Thread(9:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 2919 [Threads.ThreadCB]  
 	Leaving suspend(Thread(9:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 2919 [Memory.PageTableEntry]  
+	Setting validating thread for Page(53:1/null) to Thread(9:1/W0)
 Sim: 2919 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(13)
 Sim: 2919 [Memory.FrameTableEntry]  
@@ -2341,10 +2341,10 @@ Sim: 2994 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(9:1/W0)) succeeded, as expected
 Sim: 2994 [Memory.PageTableEntry]  
 	Page(53:1/13) becomes valid
-Sim: 2994 [Memory.PageTableEntry]  
-	Setting validating thread for Page(53:1/13) to null
 Sim: 2994 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(13)
+Sim: 2994 [Memory.PageTableEntry]  
+	Setting validating thread for Page(53:1/13) to null
 Sim: 2994 [Threads.ThreadCB]  
 	Entering resume(Thread(9:1/W0))
 Mod: 2994 [Threads.ThreadCB]  
@@ -2376,14 +2376,14 @@ Sim: 3036 [IFLModules.MMU]
 	  [Page(0:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 3036 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(0:1/null),Unknown,Thread(5:1/RU)
-Sim: 3036 [Memory.PageTableEntry]  
-	Setting validating thread for Page(0:1/null) to Thread(5:1/RU)
 Sim: 3036 [Threads.ThreadCB]  
 	Entering suspend(Thread(5:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 3036 [Threads.ThreadCB]  
 	Entering suspend(Thread(5:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 3036 [Threads.ThreadCB]  
 	Leaving suspend(Thread(5:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 3036 [Memory.PageTableEntry]  
+	Setting validating thread for Page(0:1/null) to Thread(5:1/W0)
 Sim: 3036 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(14)
 Sim: 3036 [Memory.FrameTableEntry]  
@@ -2478,10 +2478,10 @@ Sim: 3096 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(5:1/W0)) succeeded, as expected
 Sim: 3096 [Memory.PageTableEntry]  
 	Page(0:1/14) becomes valid
-Sim: 3096 [Memory.PageTableEntry]  
-	Setting validating thread for Page(0:1/14) to null
 Sim: 3096 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(14)
+Sim: 3096 [Memory.PageTableEntry]  
+	Setting validating thread for Page(0:1/14) to null
 Sim: 3096 [Threads.ThreadCB]  
 	Entering resume(Thread(5:1/W0))
 Mod: 3096 [Threads.ThreadCB]  
@@ -2686,14 +2686,14 @@ Sim: 3577 [IFLModules.MMU]
 	  [Page(17:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 3577 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(17:1/null),Unknown,Thread(3:1/RU)
-Sim: 3577 [Memory.PageTableEntry]  
-	Setting validating thread for Page(17:1/null) to Thread(3:1/RU)
 Sim: 3577 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 3577 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 3577 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 3577 [Memory.PageTableEntry]  
+	Setting validating thread for Page(17:1/null) to Thread(3:1/W0)
 Sim: 3577 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(15)
 Sim: 3577 [Memory.FrameTableEntry]  
@@ -2780,10 +2780,10 @@ Sim: 3622 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 3622 [Memory.PageTableEntry]  
 	Page(17:1/15) becomes valid
-Sim: 3622 [Memory.PageTableEntry]  
-	Setting validating thread for Page(17:1/15) to null
 Sim: 3622 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(15)
+Sim: 3622 [Memory.PageTableEntry]  
+	Setting validating thread for Page(17:1/15) to null
 Sim: 3622 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 3622 [Threads.ThreadCB]  
@@ -2839,14 +2839,14 @@ Sim: 3820 [Memory.PageTableEntry]
 	Entering lock(Page(2:1/null),IORB(Id(19),Device(2),Page(2:1/null),Diskblock(4),FileWrite,Openfile(6:1/2),Thread(12:1/W0)))
 Sim: 3820 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(2:1/null),MemoryLock,Thread(12:1/W0)
-Sim: 3820 [Memory.PageTableEntry]  
-	Setting validating thread for Page(2:1/null) to Thread(12:1/W0)
 Sim: 3820 [Threads.ThreadCB]  
 	Entering suspend(Thread(12:1/W0),SystemEvent(Page Fault Occurred))
 Mod: 3820 [Threads.ThreadCB]  
 	Entering suspend(Thread(12:1/W0),SystemEvent(Page Fault Occurred))
 Sim: 3820 [Threads.ThreadCB]  
 	Leaving suspend(Thread(12:1/W1),SystemEvent(Page Fault Occurred))
+Sim: 3820 [Memory.PageTableEntry]  
+	Setting validating thread for Page(2:1/null) to Thread(12:1/W1)
 Sim: 3820 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(16)
 Sim: 3820 [Memory.FrameTableEntry]  
@@ -2933,10 +2933,10 @@ Sim: 3850 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(12:1/W1)) succeeded, as expected
 Sim: 3850 [Memory.PageTableEntry]  
 	Page(2:1/16) becomes valid
-Sim: 3850 [Memory.PageTableEntry]  
-	Setting validating thread for Page(2:1/16) to null
 Sim: 3850 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(16)
+Sim: 3850 [Memory.PageTableEntry]  
+	Setting validating thread for Page(2:1/16) to null
 Sim: 3850 [Threads.ThreadCB]  
 	Entering resume(Thread(12:1/W1))
 Mod: 3850 [Threads.ThreadCB]  
@@ -3111,14 +3111,14 @@ Sim: 4442 [IFLModules.MMU]
 	  [Page(21:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 4442 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(21:1/null),Unknown,Thread(4:1/RU)
-Sim: 4442 [Memory.PageTableEntry]  
-	Setting validating thread for Page(21:1/null) to Thread(4:1/RU)
 Sim: 4442 [Threads.ThreadCB]  
 	Entering suspend(Thread(4:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 4442 [Threads.ThreadCB]  
 	Entering suspend(Thread(4:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 4442 [Threads.ThreadCB]  
 	Leaving suspend(Thread(4:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 4442 [Memory.PageTableEntry]  
+	Setting validating thread for Page(21:1/null) to Thread(4:1/W0)
 Sim: 4442 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(17)
 Sim: 4442 [Memory.FrameTableEntry]  
@@ -3253,10 +3253,10 @@ Sim: 4487 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(4:1/W0)) succeeded, as expected
 Sim: 4487 [Memory.PageTableEntry]  
 	Page(21:1/17) becomes valid
-Sim: 4487 [Memory.PageTableEntry]  
-	Setting validating thread for Page(21:1/17) to null
 Sim: 4487 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(17)
+Sim: 4487 [Memory.PageTableEntry]  
+	Setting validating thread for Page(21:1/17) to null
 Sim: 4487 [Threads.ThreadCB]  
 	Entering resume(Thread(4:1/W0))
 Mod: 4487 [Threads.ThreadCB]  
@@ -3330,14 +3330,14 @@ Sim: 4697 [IFLModules.MMU]
 	  [Page(5:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 4697 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(5:1/null),Unknown,Thread(3:1/RU)
-Sim: 4697 [Memory.PageTableEntry]  
-	Setting validating thread for Page(5:1/null) to Thread(3:1/RU)
 Sim: 4697 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 4697 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 4697 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 4697 [Memory.PageTableEntry]  
+	Setting validating thread for Page(5:1/null) to Thread(3:1/W0)
 Sim: 4697 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(18)
 Sim: 4697 [Memory.FrameTableEntry]  
@@ -3437,10 +3437,10 @@ Sim: 4727 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 4727 [Memory.PageTableEntry]  
 	Page(5:1/18) becomes valid
-Sim: 4727 [Memory.PageTableEntry]  
-	Setting validating thread for Page(5:1/18) to null
 Sim: 4727 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(18)
+Sim: 4727 [Memory.PageTableEntry]  
+	Setting validating thread for Page(5:1/18) to null
 Sim: 4727 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 4727 [Threads.ThreadCB]  
@@ -3474,14 +3474,14 @@ Sim: 4844 [IFLModules.MMU]
 	  [Page(58:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 4844 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(58:1/null),Unknown,Thread(1:1/RU)
-Sim: 4844 [Memory.PageTableEntry]  
-	Setting validating thread for Page(58:1/null) to Thread(1:1/RU)
 Sim: 4844 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 4844 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 4844 [Threads.ThreadCB]  
 	Leaving suspend(Thread(1:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 4844 [Memory.PageTableEntry]  
+	Setting validating thread for Page(58:1/null) to Thread(1:1/W0)
 Sim: 4844 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(19)
 Sim: 4844 [Memory.FrameTableEntry]  
@@ -3590,10 +3590,10 @@ Sim: 4934 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
 Sim: 4934 [Memory.PageTableEntry]  
 	Page(58:1/19) becomes valid
-Sim: 4934 [Memory.PageTableEntry]  
-	Setting validating thread for Page(58:1/19) to null
 Sim: 4934 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(19)
+Sim: 4934 [Memory.PageTableEntry]  
+	Setting validating thread for Page(58:1/19) to null
 Sim: 4934 [Threads.ThreadCB]  
 	Entering resume(Thread(1:1/W0))
 Mod: 4934 [Threads.ThreadCB]  
@@ -3733,14 +3733,14 @@ Sim: 5194 [IFLModules.MMU]
 	  [Page(47:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5194 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(47:1/null),Unknown,Thread(5:1/RU)
-Sim: 5194 [Memory.PageTableEntry]  
-	Setting validating thread for Page(47:1/null) to Thread(5:1/RU)
 Sim: 5194 [Threads.ThreadCB]  
 	Entering suspend(Thread(5:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5194 [Threads.ThreadCB]  
 	Entering suspend(Thread(5:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5194 [Threads.ThreadCB]  
 	Leaving suspend(Thread(5:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5194 [Memory.PageTableEntry]  
+	Setting validating thread for Page(47:1/null) to Thread(5:1/W0)
 Sim: 5194 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(20)
 Sim: 5194 [Memory.FrameTableEntry]  
@@ -3827,10 +3827,10 @@ Sim: 5239 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(5:1/W0)) succeeded, as expected
 Sim: 5239 [Memory.PageTableEntry]  
 	Page(47:1/20) becomes valid
-Sim: 5239 [Memory.PageTableEntry]  
-	Setting validating thread for Page(47:1/20) to null
 Sim: 5239 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(20)
+Sim: 5239 [Memory.PageTableEntry]  
+	Setting validating thread for Page(47:1/20) to null
 Sim: 5239 [Threads.ThreadCB]  
 	Entering resume(Thread(5:1/W0))
 Mod: 5239 [Threads.ThreadCB]  
@@ -3896,14 +3896,14 @@ Sim: 5427 [IFLModules.MMU]
 	  [Page(60:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5427 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(60:1/null),Unknown,Thread(4:1/RU)
-Sim: 5427 [Memory.PageTableEntry]  
-	Setting validating thread for Page(60:1/null) to Thread(4:1/RU)
 Sim: 5427 [Threads.ThreadCB]  
 	Entering suspend(Thread(4:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5427 [Threads.ThreadCB]  
 	Entering suspend(Thread(4:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5427 [Threads.ThreadCB]  
 	Leaving suspend(Thread(4:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5427 [Memory.PageTableEntry]  
+	Setting validating thread for Page(60:1/null) to Thread(4:1/W0)
 Sim: 5427 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(21)
 Sim: 5427 [Memory.FrameTableEntry]  
@@ -3990,10 +3990,10 @@ Sim: 5517 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(4:1/W0)) succeeded, as expected
 Sim: 5517 [Memory.PageTableEntry]  
 	Page(60:1/21) becomes valid
-Sim: 5517 [Memory.PageTableEntry]  
-	Setting validating thread for Page(60:1/21) to null
 Sim: 5517 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(21)
+Sim: 5517 [Memory.PageTableEntry]  
+	Setting validating thread for Page(60:1/21) to null
 Sim: 5517 [Threads.ThreadCB]  
 	Entering resume(Thread(4:1/W0))
 Mod: 5517 [Threads.ThreadCB]  
@@ -4052,14 +4052,14 @@ Sim: 5670 [IFLModules.MMU]
 	  [Page(49:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5670 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(49:1/null),Unknown,Thread(3:1/RU)
-Sim: 5670 [Memory.PageTableEntry]  
-	Setting validating thread for Page(49:1/null) to Thread(3:1/RU)
 Sim: 5670 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5670 [Threads.ThreadCB]  
 	Entering suspend(Thread(3:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5670 [Threads.ThreadCB]  
 	Leaving suspend(Thread(3:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5670 [Memory.PageTableEntry]  
+	Setting validating thread for Page(49:1/null) to Thread(3:1/W0)
 Sim: 5670 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(22)
 Sim: 5670 [Memory.FrameTableEntry]  
@@ -4146,10 +4146,10 @@ Sim: 5730 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(3:1/W0)) succeeded, as expected
 Sim: 5730 [Memory.PageTableEntry]  
 	Page(49:1/22) becomes valid
-Sim: 5730 [Memory.PageTableEntry]  
-	Setting validating thread for Page(49:1/22) to null
 Sim: 5730 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(22)
+Sim: 5730 [Memory.PageTableEntry]  
+	Setting validating thread for Page(49:1/22) to null
 Sim: 5730 [Threads.ThreadCB]  
 	Entering resume(Thread(3:1/W0))
 Mod: 5730 [Threads.ThreadCB]  
@@ -4179,14 +4179,14 @@ Sim: 5826 [IFLModules.MMU]
 	  [Page(56:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5826 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(56:1/null),Unknown,Thread(1:1/RU)
-Sim: 5826 [Memory.PageTableEntry]  
-	Setting validating thread for Page(56:1/null) to Thread(1:1/RU)
 Sim: 5826 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5826 [Threads.ThreadCB]  
 	Entering suspend(Thread(1:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5826 [Threads.ThreadCB]  
 	Leaving suspend(Thread(1:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5826 [Memory.PageTableEntry]  
+	Setting validating thread for Page(56:1/null) to Thread(1:1/W0)
 Sim: 5826 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(23)
 Sim: 5826 [Memory.FrameTableEntry]  
@@ -4241,14 +4241,14 @@ Sim: 5878 [IFLModules.MMU]
 	  [Page(48:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5878 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(48:1/null),Unknown,Thread(6:1/RU)
-Sim: 5878 [Memory.PageTableEntry]  
-	Setting validating thread for Page(48:1/null) to Thread(6:1/RU)
 Sim: 5878 [Threads.ThreadCB]  
 	Entering suspend(Thread(6:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5878 [Threads.ThreadCB]  
 	Entering suspend(Thread(6:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5878 [Threads.ThreadCB]  
 	Leaving suspend(Thread(6:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5878 [Memory.PageTableEntry]  
+	Setting validating thread for Page(48:1/null) to Thread(6:1/W0)
 Sim: 5878 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(24)
 Sim: 5878 [Memory.FrameTableEntry]  
@@ -4335,10 +4335,10 @@ Sim: 5886 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(1:1/W0)) succeeded, as expected
 Sim: 5886 [Memory.PageTableEntry]  
 	Page(56:1/23) becomes valid
-Sim: 5886 [Memory.PageTableEntry]  
-	Setting validating thread for Page(56:1/23) to null
 Sim: 5886 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(23)
+Sim: 5886 [Memory.PageTableEntry]  
+	Setting validating thread for Page(56:1/23) to null
 Sim: 5886 [Threads.ThreadCB]  
 	Entering resume(Thread(1:1/W0))
 Mod: 5886 [Threads.ThreadCB]  
@@ -4372,14 +4372,14 @@ Sim: 5913 [IFLModules.MMU]
 	  [Page(6:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 5913 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(6:1/null),Unknown,Thread(10:1/RU)
-Sim: 5913 [Memory.PageTableEntry]  
-	Setting validating thread for Page(6:1/null) to Thread(10:1/RU)
 Sim: 5913 [Threads.ThreadCB]  
 	Entering suspend(Thread(10:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 5913 [Threads.ThreadCB]  
 	Entering suspend(Thread(10:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 5913 [Threads.ThreadCB]  
 	Leaving suspend(Thread(10:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 5913 [Memory.PageTableEntry]  
+	Setting validating thread for Page(6:1/null) to Thread(10:1/W0)
 Sim: 5913 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(25)
 Sim: 5913 [Memory.FrameTableEntry]  
@@ -4466,10 +4466,10 @@ Sim: 5946 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(6:1/W0)) succeeded, as expected
 Sim: 5946 [Memory.PageTableEntry]  
 	Page(48:1/24) becomes valid
-Sim: 5946 [Memory.PageTableEntry]  
-	Setting validating thread for Page(48:1/24) to null
 Sim: 5946 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(24)
+Sim: 5946 [Memory.PageTableEntry]  
+	Setting validating thread for Page(48:1/24) to null
 Sim: 5946 [Threads.ThreadCB]  
 	Entering resume(Thread(6:1/W0))
 Mod: 5946 [Threads.ThreadCB]  
@@ -4535,10 +4535,10 @@ Sim: 6006 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(10:1/W0)) succeeded, as expected
 Sim: 6006 [Memory.PageTableEntry]  
 	Page(6:1/25) becomes valid
-Sim: 6006 [Memory.PageTableEntry]  
-	Setting validating thread for Page(6:1/25) to null
 Sim: 6006 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(25)
+Sim: 6006 [Memory.PageTableEntry]  
+	Setting validating thread for Page(6:1/25) to null
 Sim: 6006 [Threads.ThreadCB]  
 	Entering resume(Thread(10:1/W0))
 Mod: 6006 [Threads.ThreadCB]  
@@ -4562,14 +4562,14 @@ Sim: 6026 [IFLModules.MMU]
 	  [Page(52:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6026 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(52:1/null),Unknown,Thread(2:1/RU)
-Sim: 6026 [Memory.PageTableEntry]  
-	Setting validating thread for Page(52:1/null) to Thread(2:1/RU)
 Sim: 6026 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 6026 [Threads.ThreadCB]  
 	Entering suspend(Thread(2:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6026 [Threads.ThreadCB]  
 	Leaving suspend(Thread(2:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 6026 [Memory.PageTableEntry]  
+	Setting validating thread for Page(52:1/null) to Thread(2:1/W0)
 Sim: 6026 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(26)
 Sim: 6026 [Memory.FrameTableEntry]  
@@ -4662,10 +4662,10 @@ Sim: 6116 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(2:1/W0)) succeeded, as expected
 Sim: 6116 [Memory.PageTableEntry]  
 	Page(52:1/26) becomes valid
-Sim: 6116 [Memory.PageTableEntry]  
-	Setting validating thread for Page(52:1/26) to null
 Sim: 6116 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(26)
+Sim: 6116 [Memory.PageTableEntry]  
+	Setting validating thread for Page(52:1/26) to null
 Sim: 6116 [Threads.ThreadCB]  
 	Entering resume(Thread(2:1/W0))
 Mod: 6116 [Threads.ThreadCB]  
@@ -4735,14 +4735,14 @@ Sim: 6244 [IFLModules.MMU]
 	  [Page(22:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6244 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(22:1/null),Unknown,Thread(7:1/RU)
-Sim: 6244 [Memory.PageTableEntry]  
-	Setting validating thread for Page(22:1/null) to Thread(7:1/RU)
 Sim: 6244 [Threads.ThreadCB]  
 	Entering suspend(Thread(7:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 6244 [Threads.ThreadCB]  
 	Entering suspend(Thread(7:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6244 [Threads.ThreadCB]  
 	Leaving suspend(Thread(7:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 6244 [Memory.PageTableEntry]  
+	Setting validating thread for Page(22:1/null) to Thread(7:1/W0)
 Sim: 6244 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(27)
 Sim: 6244 [Memory.FrameTableEntry]  
@@ -4797,14 +4797,14 @@ Sim: 6269 [IFLModules.MMU]
 	  [Page(37:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6269 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(37:1/null),Unknown,Thread(8:1/RU)
-Sim: 6269 [Memory.PageTableEntry]  
-	Setting validating thread for Page(37:1/null) to Thread(8:1/RU)
 Sim: 6269 [Threads.ThreadCB]  
 	Entering suspend(Thread(8:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 6269 [Threads.ThreadCB]  
 	Entering suspend(Thread(8:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6269 [Threads.ThreadCB]  
 	Leaving suspend(Thread(8:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 6269 [Memory.PageTableEntry]  
+	Setting validating thread for Page(37:1/null) to Thread(8:1/W0)
 Sim: 6269 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving free Frame(28)
 Sim: 6269 [Memory.FrameTableEntry]  
@@ -4891,10 +4891,10 @@ Sim: 6289 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(7:1/W0)) succeeded, as expected
 Sim: 6289 [Memory.PageTableEntry]  
 	Page(22:1/27) becomes valid
-Sim: 6289 [Memory.PageTableEntry]  
-	Setting validating thread for Page(22:1/27) to null
 Sim: 6289 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(27)
+Sim: 6289 [Memory.PageTableEntry]  
+	Setting validating thread for Page(22:1/27) to null
 Sim: 6289 [Threads.ThreadCB]  
 	Entering resume(Thread(7:1/W0))
 Mod: 6289 [Threads.ThreadCB]  
@@ -4918,14 +4918,14 @@ Sim: 6320 [IFLModules.MMU]
 	  [Page(37:2/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6320 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(37:2/null),Unknown,Thread(11:2/RU)
-Sim: 6320 [Memory.PageTableEntry]  
-	Setting validating thread for Page(37:2/null) to Thread(11:2/RU)
 Sim: 6320 [Threads.ThreadCB]  
 	Entering suspend(Thread(11:2/RU),SystemEvent(Page Fault Occurred))
 Mod: 6320 [Threads.ThreadCB]  
 	Entering suspend(Thread(11:2/RU),SystemEvent(Page Fault Occurred))
 Sim: 6320 [Threads.ThreadCB]  
 	Leaving suspend(Thread(11:2/W0),SystemEvent(Page Fault Occurred))
+Sim: 6320 [Memory.PageTableEntry]  
+	Setting validating thread for Page(37:2/null) to Thread(11:2/W0)
 Sim: 6320 [Memory.FrameTableEntry]  
 	Task(2/L) is reserving free Frame(29)
 Sim: 6320 [Memory.FrameTableEntry]  
@@ -5012,10 +5012,10 @@ Sim: 6364 [IFLModules.FileSys]
 	System call read(Openfile(0:1/0),Device(0),Thread(8:1/W0)) succeeded, as expected
 Sim: 6364 [Memory.PageTableEntry]  
 	Page(37:1/28) becomes valid
-Sim: 6364 [Memory.PageTableEntry]  
-	Setting validating thread for Page(37:1/28) to null
 Sim: 6364 [Memory.FrameTableEntry]  
 	Task(1/L) is unreserving Frame(28)
+Sim: 6364 [Memory.PageTableEntry]  
+	Setting validating thread for Page(37:1/28) to null
 Sim: 6364 [Threads.ThreadCB]  
 	Entering resume(Thread(8:1/W0))
 Mod: 6364 [Threads.ThreadCB]  
@@ -5095,10 +5095,10 @@ Sim: 6499 [IFLModules.FileSys]
 	System call read(Openfile(4:2/0),Device(0),Thread(11:2/W0)) succeeded, as expected
 Sim: 6499 [Memory.PageTableEntry]  
 	Page(37:2/29) becomes valid
-Sim: 6499 [Memory.PageTableEntry]  
-	Setting validating thread for Page(37:2/29) to null
 Sim: 6499 [Memory.FrameTableEntry]  
 	Task(2/L) is unreserving Frame(29)
+Sim: 6499 [Memory.PageTableEntry]  
+	Setting validating thread for Page(37:2/29) to null
 Sim: 6499 [Threads.ThreadCB]  
 	Entering resume(Thread(11:2/W0))
 Mod: 6499 [Threads.ThreadCB]  
@@ -5122,14 +5122,14 @@ Sim: 6629 [IFLModules.MMU]
 	  [Page(3:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6629 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(3:1/null),Unknown,Thread(0:1/RU)
-Sim: 6629 [Memory.PageTableEntry]  
-	Setting validating thread for Page(3:1/null) to Thread(0:1/RU)
 Sim: 6629 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 6629 [Threads.ThreadCB]  
 	Entering suspend(Thread(0:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6629 [Threads.ThreadCB]  
 	Leaving suspend(Thread(0:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 6629 [Memory.PageTableEntry]  
+	Setting validating thread for Page(3:1/null) to Thread(0:1/W0)
 Sim: 6629 [Memory.FrameTableEntry]  
 	Task(1/L) is reserving nonfree Frame(0)
 Sim: 6629 [FileSys.OpenFile]  
@@ -5184,19 +5184,19 @@ Sim: 6681 [IFLModules.MMU]
 	  [Page(34:1/null),null,ValidFlag(OSP)=false,ValidFlag(Student)=false,ValidatingThread=null]
 Sim: 6681 [IFLModules.PageFaultHandler]  
 	Pagefault handler entered for: Page(34:1/null),Unknown,Thread(10:1/RU)
-Sim: 6681 [Memory.PageTableEntry]  
-	Setting validating thread for Page(34:1/null) to Thread(10:1/RU)
 Sim: 6681 [Threads.ThreadCB]  
 	Entering suspend(Thread(10:1/RU),SystemEvent(Page Fault Occurred))
 Mod: 6681 [Threads.ThreadCB]  
 	Entering suspend(Thread(10:1/RU),SystemEvent(Page Fault Occurred))
 Sim: 6681 [Threads.ThreadCB]  
 	Leaving suspend(Thread(10:1/W0),SystemEvent(Page Fault Occurred))
+Sim: 6681 [Memory.PageTableEntry]  
+	Setting validating thread for Page(34:1/null) to Thread(10:1/W0)
 Sim: 6681 <<Error!>> [Memory.FrameTableEntry]  
 	Task(1/L) is trying to reserve Frame(0), but Task(1/L) has already reserved this frame
 
 	at osp.IFLModules.IflFrameTableEntry.setReserved(IflFrameTableEntry.java:107)
-	at osp.Memory.PageFaultHandler.do_handlePageFault(PageFaultHandler.java:163)
+	at osp.Memory.PageFaultHandler.do_handlePageFault(PageFaultHandler.java:161)
 	at osp.IFLModules.IflPageFaultHandler.handlePageFault(IflPageFaultHandler.java:138)
 	at osp.IFLModules.IflPageFaultHandler.handleInterrupt(IflPageFaultHandler.java:44)
 	at osp.Interrupts.Interrupts.if(Interrupts.java:48)

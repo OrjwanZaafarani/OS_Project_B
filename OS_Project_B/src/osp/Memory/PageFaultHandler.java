@@ -107,14 +107,15 @@ public class PageFaultHandler extends IflPageFaultHandler {
 			
 			//Enough memory
 			else {
-				page.setValidatingThread(thread);
 				SystemEvent event = new SystemEvent("Page Fault Occurred");
 				thread.suspend(event);
+				page.setValidatingThread(thread);
 				
 				FrameTableEntry freeFrame = getFreeFrame();
 				
 				//If frame is free
 				if(freeFrame != null) {
+					System.out.println("Reserving #1");
 					freeFrame.setReserved(thread.getTask());
 					page.setFrame(freeFrame);
 					
@@ -143,9 +144,9 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					if (referenceType == MemoryWrite)
 						freeFrame.setDirty(true);
 					
-					page.setValidatingThread(null);
+					System.out.println("Unreserving #1");
 					freeFrame.setUnreserved(thread.getTask());
-
+					page.setValidatingThread(null);
 					page.notifyThreads();
 					event.notifyThreads();
 					ThreadCB.dispatch();
@@ -156,19 +157,27 @@ public class PageFaultHandler extends IflPageFaultHandler {
 				else {
 					if(userOption.equals("Fifo")) {
 						frame = Fifo();
+						System.out.println("Reserving #2");
+						frame.setReserved(thread.getTask());
 					}
 					else {
 						frame = SecondChance();
-					}
+						System.out.println("Reserving #3");
 						frame.setReserved(thread.getTask());
+					}
+						
 						
 						if(frame.isDirty()) {
+							System.out.println("Dirty Frame");
 							PageTableEntry prevPage = frame.getPage();
+							System.out.println("1");
 							//Swap Out
 							SwapOut(thread, frame);
-							
+							System.out.println("2");
 							//Check Thread Status (FAILURE if killed)
 							if(thread.getStatus() == ThreadKill) {
+								System.out.println("Thread Killed #1");
+								frame.setUnreserved(thread.getTask());
 								page.notifyThreads();
 								page.setValidatingThread(null);
 								page.setFrame(null);
@@ -186,12 +195,14 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	
 							//Setting frame for page
 							page.setFrame(frame);
-							
+							System.out.println("3");
 							//Swap In
 							SwapIn(thread, page);
 							
 							//Check Thread Status (FAILURE if killed)
 							if(thread.getStatus() == ThreadKill) {
+								System.out.println("Thread Killed #2");
+								frame.setUnreserved(thread.getTask());
 								page.notifyThreads();
 								page.setValidatingThread(null);
 								page.setFrame(null);
@@ -199,7 +210,7 @@ public class PageFaultHandler extends IflPageFaultHandler {
 								ThreadCB.dispatch();
 								return FAILURE;
 							}
-									
+							System.out.println("4");		
 							//Update PageTable
 							page.setValid(true);
 							frame.setPage(page);
@@ -211,10 +222,10 @@ public class PageFaultHandler extends IflPageFaultHandler {
 							//Setting Dirty Flag
 							if (referenceType == MemoryWrite)
 								frame.setDirty(true);
-							
-							page.setValidatingThread(null);
+							System.out.println("5");
+							System.out.println("Unreserving #2");
 							frame.setUnreserved(thread.getTask());
-
+							page.setValidatingThread(null);
 							page.notifyThreads();
 							event.notifyThreads();
 							ThreadCB.dispatch();
@@ -224,6 +235,7 @@ public class PageFaultHandler extends IflPageFaultHandler {
 						
 						//Not Dirty
 						else {
+							System.out.println("Not Dirty Frame");
 							//Setting frame for page
 							page.setFrame(frame);
 							
@@ -232,6 +244,8 @@ public class PageFaultHandler extends IflPageFaultHandler {
 							
 							//Check Thread Status (FAILURE if killed)
 							if(thread.getStatus() == ThreadKill) {
+								System.out.println("Thread Killed #3");
+								frame.setUnreserved(thread.getTask());
 								page.notifyThreads();
 								page.setValidatingThread(null);
 								page.setFrame(null);
@@ -251,8 +265,9 @@ public class PageFaultHandler extends IflPageFaultHandler {
 							if (referenceType == MemoryWrite)
 								frame.setDirty(true);
 							
-							page.setValidatingThread(null);
+							System.out.println("Unreserving #3");
 							frame.setUnreserved(thread.getTask());
+							page.setValidatingThread(null);
 							page.notifyThreads();
 							event.notifyThreads();
 							ThreadCB.dispatch();
@@ -412,27 +427,44 @@ public class PageFaultHandler extends IflPageFaultHandler {
 //			return getFreeFrame();
 //		
 //		return foundFrame;
-		 long max = 0;
-	      FrameTableEntry frame = null;
-	      for(int i=0;i<MMU.getFrameTableSize();i++)
-	      { 
-	          PageTableEntry page = MMU.getFrame(i).getPage();
-	          long time = System.currentTimeMillis() - page.createTime;
-	          if(time > max) {
-	            max = time;
-	            frame = MMU.getFrame(i);
-	          }
-	      }
-	      return frame;
+		
+//		NOURA
+//		 long max = 0;
+//	      FrameTableEntry frame = null;
+//	      for(int i=0;i < MMU.getFrameTableSize();i++){ 
+//	          PageTableEntry page = MMU.getFrame(i).getPage();
+//	          long time = System.currentTimeMillis() - page.createTime;
+//	          if(time > max) {
+//	            max = time;
+//	            frame = MMU.getFrame(i);
+//	          }
+//	      }
+//	      System.out.println("FIFO" + frame);
+//	      return frame;
+		
+		FrameTableEntry frameMax = null;
+		long maxTillNow=-1;
+		for(int i = 0; i < MMU.getFrameTableSize(); i++)
+    	{
+			FrameTableEntry frame = MMU.getFrame(i);
+			PageTableEntry page = frame.getPage();
+			if(Math.abs(HClock.get() - page.reftimer) > maxTillNow){
+				frameMax = frame;
+				maxTillNow= Math.abs(HClock.get() - page.reftimer);
+			}	
+    	}
+		return frameMax;
 	}
 	
 
 	
 	
 	public static void SwapOut(ThreadCB thread, FrameTableEntry frame) {
+		System.out.println("Entered Swap Out");
     	PageTableEntry page = frame.getPage();
     	TaskCB Task = page.getTask();
     	Task.getSwapFile().write(page.getID(), page, thread);
+    	System.out.println("Exited Swap Out");
     }
 	
 	public static void SwapIn(ThreadCB thread, PageTableEntry page) {
