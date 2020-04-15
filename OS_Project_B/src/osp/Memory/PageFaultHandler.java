@@ -19,7 +19,7 @@ import osp.IFLModules.*;
  * @OSPProject Memory
  */
 public class PageFaultHandler extends IflPageFaultHandler {
-
+	static String userOption="Fifo";
 	/**
 	 * This method handles a page fault.
 	 * 
@@ -79,6 +79,7 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	
 	public static int do_handlePageFault(ThreadCB thread, int referenceType, PageTableEntry page) {
 		int counter = 0;
+		FrameTableEntry SCframe;
 		
 		if(page.isValid()) {
 			page.notifyThreads();
@@ -152,7 +153,12 @@ public class PageFaultHandler extends IflPageFaultHandler {
 				
 				//If not free
 				else {
-					FrameTableEntry SCframe = SecondChance();
+					if(userOption.equals("Fifo")) {
+						SCframe = Fifo();
+					}
+					else {
+						SCframe = SecondChance();
+					}
 						SCframe.setReserved(thread.getTask());
 						
 						if(SCframe.isDirty()) {
@@ -371,7 +377,45 @@ public class PageFaultHandler extends IflPageFaultHandler {
 			return getFreeFrame();
 		}
 	}
+	
+	
+	
+	public static FrameTableEntry Fifo(){
+		for(int i=0;i<MMU.getFrameTableSize();i++) {
+			MMU.getFrame(i).setReferenced(true);
+		}
+		return SecondChance();
+		
+//		FrameTableEntry foundFrame = null;
+//		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
+//
+//			if(numFreeFrames() == MMU.wantFree)
+//				break;
+//
+//			// get first clean page
+//			else if (MMU.getFrame(MMU.Cursor).getPage() != null
+//					& MMU.getFrame(MMU.Cursor).isReserved() == false
+//					& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
+//				// free frame
+//				MMU.getFrame(MMU.Cursor).getPage().setValid(false);
+//				MMU.getFrame(MMU.Cursor).getPage().setFrame(null);
+//				MMU.getFrame(MMU.Cursor).setPage(null);
+//				foundFrame = MMU.getFrame(MMU.Cursor);;
+//			}
+//			// update frame's cursor
+//			MMU.Cursor=(MMU.Cursor+1)%MMU.getFrameTableSize();
+//		}
+////		if(numFreeFrames() == MMU.wantFree)
+////			break;
+//			if(numFreeFrames() < MMU.wantFree)	
+//			return getFreeFrame();
+//		
+//		return foundFrame;
+	}
+	
 
+	
+	
 	public static void SwapOut(ThreadCB thread, FrameTableEntry frame) {
     	PageTableEntry page = frame.getPage();
     	TaskCB Task = page.getTask();
