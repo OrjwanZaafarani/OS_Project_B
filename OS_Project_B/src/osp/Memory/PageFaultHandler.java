@@ -20,7 +20,9 @@ import java.lang.*;
  * @OSPProject Memory
  */
 public class PageFaultHandler extends IflPageFaultHandler {
-	static String userOption="Fifo";
+	static String userOption = "Fifo";
+	static int numPageFaults = 0;
+
 	/**
 	 * This method handles a page fault.
 	 * 
@@ -77,53 +79,56 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	// make it more efficient and organized.
 	// For now, it does what it's supposed to hopefully (not 100% sure) i'll check
 	// with GitHub solutions
-	
+
 	public static int do_handlePageFault(ThreadCB thread, int referenceType, PageTableEntry page) {
 		int counter = 0;
 		FrameTableEntry frame;
-		
-		if(page.isValid()) {
+
+		if (page.isValid()) {
 			page.notifyThreads();
 			ThreadCB.dispatch();
 			return FAILURE;
 		}
-		
-		else if(page.getValidatingThread() != null)
-			thread.suspend(page);
-		
-		
-			//Checking if there's enough memory
+
+		else {
+			if (page.getValidatingThread() != null)
+				thread.suspend(page);
+			else
+				numPageFaults++;
+			
+			System.out.println("Total Number of Page Faults = " + numPageFaults);
+			// Checking if there's enough memory
 			for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 				if (MMU.getFrame(i).isReserved() || MMU.getFrame(i).getLockCount() > 0)
 					counter++;
 			}
-			
-			//Not enough memory
+
+			// Not enough memory
 			if (counter == MMU.getFrameTableSize()) {
 				page.notifyThreads();
 				ThreadCB.dispatch();
 				return NotEnoughMemory;
 			}
-			
-			//Enough memory
+
+			// Enough memory
 			else {
 				SystemEvent event = new SystemEvent("Page Fault Occurred");
 				thread.suspend(event);
 				page.setValidatingThread(thread);
-				
+
 				FrameTableEntry freeFrame = getFreeFrame();
-				
-				//If frame is free
-				if(freeFrame != null) {
+
+				// If frame is free
+				if (freeFrame != null) {
 					System.out.println("Reserving #1");
 					freeFrame.setReserved(thread.getTask());
 					page.setFrame(freeFrame);
-					
-					//Swap In
+
+					// Swap In
 					SwapIn(thread, page);
-					
-					//Check Thread Status
-					if(thread.getStatus() == ThreadKill) {
+
+					// Check Thread Status
+					if (thread.getStatus() == ThreadKill) {
 						page.notifyThreads();
 						page.setValidatingThread(null);
 						page.setFrame(null);
@@ -131,19 +136,18 @@ public class PageFaultHandler extends IflPageFaultHandler {
 						ThreadCB.dispatch();
 						return FAILURE;
 					}
-					
-					//Update PageTable
+
+					// Update PageTable
 					page.setValid(true);
 					freeFrame.setPage(page);
 					freeFrame.setReferenced(true);
-					
-					//Update FrameTable
 
-					
-					//Setting Dirty Flag
+					// Update FrameTable
+
+					// Setting Dirty Flag
 					if (referenceType == MemoryWrite)
 						freeFrame.setDirty(true);
-					
+
 					System.out.println("Unreserving #1");
 					freeFrame.setUnreserved(thread.getTask());
 					page.setValidatingThread(null);
@@ -152,170 +156,161 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					ThreadCB.dispatch();
 					return SUCCESS;
 				}
-				
-				//If not free
+
+				// If not free
 				else {
-					if(userOption.equals("Fifo")) {
+					if (userOption.equals("Fifo")) {
 						frame = Fifo();
 						System.out.println("Reserving #2");
-						frame.setReserved(thread.getTask());
-					}
-					else {
+					} else {
 						frame = SecondChance();
 						System.out.println("Reserving #3");
-						frame.setReserved(thread.getTask());
-					}
-						
-						
-						if(frame.isDirty()) {
-							System.out.println("Dirty Frame");
-							PageTableEntry prevPage = frame.getPage();
-							System.out.println("1");
-							//Swap Out
-							SwapOut(thread, frame);
-							System.out.println("2");
-							//Check Thread Status (FAILURE if killed)
-							if(thread.getStatus() == ThreadKill) {
-								System.out.println("Thread Killed #1");
-								frame.setUnreserved(thread.getTask());
-								page.notifyThreads();
-								page.setValidatingThread(null);
-								page.setFrame(null);
-								event.notifyThreads();
-								ThreadCB.dispatch();
-								return FAILURE;
-							}
-							
-							//Freeing Frame
-							frame.setReferenced(false); 
-							prevPage.setValid(false);
-							prevPage.setFrame(null);
-							frame.setDirty(false);
-							frame.setPage(null);
-	
-							//Setting frame for page
-							page.setFrame(frame);
-							System.out.println("3");
-							//Swap In
-							SwapIn(thread, page);
-							
-							//Check Thread Status (FAILURE if killed)
-							if(thread.getStatus() == ThreadKill) {
-								System.out.println("Thread Killed #2");
-								frame.setUnreserved(thread.getTask());
-								page.notifyThreads();
-								page.setValidatingThread(null);
-								page.setFrame(null);
-								event.notifyThreads();
-								ThreadCB.dispatch();
-								return FAILURE;
-							}
-							System.out.println("4");		
-							//Update PageTable
-							page.setValid(true);
-							frame.setPage(page);
-							frame.setReferenced(true);
-							
-							//Update FrameTable
 
-							
-							//Setting Dirty Flag
-							if (referenceType == MemoryWrite)
-								frame.setDirty(true);
-							System.out.println("5");
-							System.out.println("Unreserving #2");
-							frame.setUnreserved(thread.getTask());
-							page.setValidatingThread(null);
-							page.notifyThreads();
-							event.notifyThreads();
-							ThreadCB.dispatch();
-							return SUCCESS;
-							
-						}
+					}
+
+					frame.setReserved(thread.getTask());
+					
+					if (frame.isDirty()) {
+						System.out.println("Dirty Frame");
+						PageTableEntry prevPage = frame.getPage();
+						System.out.println("1");
 						
-						//Not Dirty
-						else {
-							System.out.println("Not Dirty Frame");
-							//Setting frame for page
-							page.setFrame(frame);
-							
-							//Swap In
-							SwapIn(thread, page);
-							
-							//Check Thread Status (FAILURE if killed)
-							if(thread.getStatus() == ThreadKill) {
-								System.out.println("Thread Killed #3");
-								frame.setUnreserved(thread.getTask());
-								page.notifyThreads();
-								page.setValidatingThread(null);
-								page.setFrame(null);
-								event.notifyThreads();
-								ThreadCB.dispatch();
-								return FAILURE;
-							}
-									
-							//Update PageTable
-							page.setValid(true);
-							frame.setPage(page);
-							frame.setReferenced(true);
-							
-							//Update FrameTable
-							
-							//Setting Dirty Flag
-							if (referenceType == MemoryWrite)
-								frame.setDirty(true);
-							
-							System.out.println("Unreserving #3");
-							frame.setUnreserved(thread.getTask());
-							page.setValidatingThread(null);
+						// Swap Out
+						SwapOut(thread, frame);
+						System.out.println("2");
+						
+						// Check Thread Status (FAILURE if killed)
+						if (thread.getStatus() == ThreadKill) {
+							System.out.println("Thread Killed #1");
 							page.notifyThreads();
+							page.setValidatingThread(null);
+							page.setFrame(null);
 							event.notifyThreads();
 							ThreadCB.dispatch();
-							return SUCCESS;
-						}	
+							return FAILURE;
+						}
+
+						// Freeing Frame
+						frame.setReferenced(false);
+						prevPage.setValid(false);
+						prevPage.setFrame(null);
+						frame.setDirty(false);
+						frame.setPage(null);
+
+						// Setting frame for page
+						page.setFrame(frame);
+						System.out.println("3");
+						// Swap In
+						SwapIn(thread, page);
+
+						// Check Thread Status (FAILURE if killed)
+						if (thread.getStatus() == ThreadKill) {
+							System.out.println("Thread Killed #2");
+							page.notifyThreads();
+							page.setValidatingThread(null);
+							page.setFrame(null);
+							event.notifyThreads();
+							ThreadCB.dispatch();
+							return FAILURE;
+						}
+						System.out.println("4");
+						// Update PageTable
+						page.setValid(true);
+						frame.setPage(page);
+						frame.setReferenced(true);
+
+						// Update FrameTable
+
+						// Setting Dirty Flag
+						if (referenceType == MemoryWrite)
+							frame.setDirty(true);
+						System.out.println("5");
+						System.out.println("Unreserving #2");
+						frame.setUnreserved(thread.getTask());
+						page.setValidatingThread(null);
+						page.notifyThreads();
+						event.notifyThreads();
+						ThreadCB.dispatch();
+						return SUCCESS;
+
+					}
+
+					// Not Dirty
+					else {
+						System.out.println("Not Dirty Frame");
+						// Setting frame for page
+						page.setFrame(frame);
+
+						// Swap In
+						SwapIn(thread, page);
+
+						// Check Thread Status (FAILURE if killed)
+						if (thread.getStatus() == ThreadKill) {
+							System.out.println("Thread Killed #3");
+							page.notifyThreads();
+							page.setValidatingThread(null);
+							page.setFrame(null);
+							event.notifyThreads();
+							ThreadCB.dispatch();
+							return FAILURE;
+						}
+
+						// Update PageTable
+						page.setValid(true);
+						frame.setPage(page);
+						frame.setReferenced(true);
+
+						// Update FrameTable
+
+						// Setting Dirty Flag
+						if (referenceType == MemoryWrite)
+							frame.setDirty(true);
+
+						System.out.println("Unreserving #3");
+						frame.setUnreserved(thread.getTask());
+						page.setValidatingThread(null);
+						page.notifyThreads();
+						event.notifyThreads();
+						ThreadCB.dispatch();
+						return SUCCESS;
+					}
 				}
 			}
+		}
 	}
-	
 
-    /*
-     * Returns the current number of free frames. It does not matter where 
-     * the search in the frame table starts, but this method must not change 
-     * the value of the reference bits, dirty bits or MMU.Cursor.
-     */
-    
-    //NOURA: modified this method to check pages
-    public static int numFreeFrames() {
-    	int freeFrames = 0;
-    	// less or less or equal than?
-    	// will it ever break the loop?
-    	for (int i = 0; i < MMU.getFrameTableSize(); i++) {
-    		FrameTableEntry frame = MMU.getFrame(i);
-	    	if(frame.getPage() == null 
-	    		&& !frame.isReserved() 
-	    		&& frame.getLockCount() <= 0 && !frame.isReferenced() && !frame.isDirty()) {
-	    		freeFrames++;
-	    	}
-    	}
-    	return freeFrames;
-    }
-    
-    /*
-     * Returns the first free frame starting the search from frame[0].
-     */
-    // not sure if this is the right way to check free frames. Do we check the pages?!!!
-    //NOURA: modified this method to check pages
+	/*
+	 * Returns the current number of free frames. It does not matter where the
+	 * search in the frame table starts, but this method must not change the value
+	 * of the reference bits, dirty bits or MMU.Cursor.
+	 */
+
+	// NOURA: modified this method to check pages
+	public static int numFreeFrames() {
+		int freeFrames = 0;
+		// less or less or equal than?
+		// will it ever break the loop?
+		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
+			FrameTableEntry frame = MMU.getFrame(i);
+			if (frame.getPage() == null && !frame.isReserved() && frame.getLockCount() <= 0 && !frame.isReferenced()
+					&& !frame.isDirty()) {
+				freeFrames++;
+			}
+		}
+		return freeFrames;
+	}
+
 	/*
 	 * Returns the first free frame starting the search from frame[0].
 	 */
 	// not sure if this is the right way to check free frames. Do we check the
 	// pages?!!!
 	// NOURA: modified this method to check pages
-    
+
 	public static FrameTableEntry getFreeFrame() {
 		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 			FrameTableEntry frame = MMU.getFrame(i);
-			if (frame.getPage() == null && !frame.isReserved() && frame.getLockCount() == 0 && !frame.isReferenced() && !frame.isDirty()) {
+			if (frame.getPage() == null && !frame.isReserved() && frame.getLockCount() == 0) {
 				return frame;
 			}
 		}
@@ -332,9 +327,10 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	 * one must set its frame to null (using the setFrame() method) and the validity
 	 * bit to false (using the setValid() method). To indicate that the page P has
 	 * become valid and is now occupying a main memory frame F, you do the
-	 * following: Ã¢â‚¬â€œ use setFrame() to set the frame of P to F Ã¢â‚¬â€œ use setPage() to set
-	 * F Ã¢â‚¬â„¢ï¸�s page to P Ã¢â‚¬â€œ set the PÃ¢â‚¬â„¢ï¸�s validity flag correctly Ã¢â‚¬â€œ set the dirty and
-	 * reference flags in F appropriately.
+	 * following: Ã¢â‚¬â€œ use setFrame() to set the frame of P to F Ã¢â‚¬â€œ use
+	 * setPage() to set F Ã¢â‚¬â„¢ï¸�s page to P Ã¢â‚¬â€œ set the PÃ¢â‚¬â„¢ï¸�s
+	 * validity flag correctly Ã¢â‚¬â€œ set the dirty and reference flags in F
+	 * appropriately.
 	 * 
 	 */
 	public static FrameTableEntry SecondChance() {
@@ -348,7 +344,7 @@ public class PageFaultHandler extends IflPageFaultHandler {
 		for (int j = 0; j < 2; j++) {
 			for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 				// Phase1 - Note1
-				if(numFreeFrames() == MMU.wantFree)
+				if (numFreeFrames() == MMU.wantFree)
 					break;
 
 				// Phase1 - Task1
@@ -362,46 +358,46 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					// Phase1 - Task2 - a - freeing frames
 					MMU.getFrame(MMU.Cursor).setDirty(false);
 					MMU.getFrame(MMU.Cursor).setReferenced(false);
+
+					// Phase1 - Task2 - b
 					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 					MMU.getFrame(MMU.Cursor).getPage().setFrame(null);
+
+					// Phase1 - Task2 - a - freeing frames
 					MMU.getFrame(MMU.Cursor).setPage(null);
-					// The dirty and the reference bits should be set to false. is this done?
-					// Phase1 - Task2 - b
-					
+
 				}
+
 				// Phase1 - Task3
-				if (foundFirstDirtyFrame == false
-					& MMU.getFrame(MMU.Cursor).isDirty() == true
-					& MMU.getFrame(MMU.Cursor).isReserved() == false
-					& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
+				if (foundFirstDirtyFrame == false & MMU.getFrame(MMU.Cursor).isDirty() == true
+						& MMU.getFrame(MMU.Cursor).isReserved() == false
+						& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
 					firstDirtyFrameID = MMU.getFrame(MMU.Cursor).getID();
 					firstDirtyFrame = MMU.getFrame(MMU.Cursor);
-					foundFirstDirtyFrame = true; 
+					foundFirstDirtyFrame = true;
 				}
 				// Phase1 - Note4
-				MMU.Cursor=(MMU.Cursor+1)%MMU.getFrameTableSize();
+				MMU.Cursor = (MMU.Cursor + 1) % MMU.getFrameTableSize();
 			}
-			
-			if(numFreeFrames() == MMU.wantFree)
+
+			if (numFreeFrames() == MMU.wantFree)
 				break;
 		}
-		
+
 		// Phase2 and Phase3
-		if(numFreeFrames() < MMU.wantFree && foundFirstDirtyFrame == true) 
-			return firstDirtyFrame;	
+		if (numFreeFrames() < MMU.wantFree && foundFirstDirtyFrame == true)
+			return firstDirtyFrame;
 		else {
 			return getFreeFrame();
 		}
 	}
-	
-	
-	
-	public static FrameTableEntry Fifo(){
+
+	public static FrameTableEntry Fifo() {
 //		for(int i=0;i<MMU.getFrameTableSize();i++) {
 //			MMU.getFrame(i).setReferenced(true);
 //		}
 //		return SecondChance();
-		
+
 //		FrameTableEntry foundFrame = null;
 //		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 //
@@ -427,49 +423,66 @@ public class PageFaultHandler extends IflPageFaultHandler {
 //			return getFreeFrame();
 //		
 //		return foundFrame;
-		
-//		NOURA
-//		 long max = 0;
-//	      FrameTableEntry frame = null;
-//	      for(int i=0;i < MMU.getFrameTableSize();i++){ 
-//	          PageTableEntry page = MMU.getFrame(i).getPage();
-//	          long time = System.currentTimeMillis() - page.createTime;
-//	          if(time > max) {
-//	            max = time;
-//	            frame = MMU.getFrame(i);
-//	          }
-//	      }
-//	      System.out.println("FIFO" + frame);
-//	      return frame;
-		
-		FrameTableEntry frameMax = null;
-		long maxTillNow=-1;
-		for(int i = 0; i < MMU.getFrameTableSize(); i++)
-    	{
-			FrameTableEntry frame = MMU.getFrame(i);
-			PageTableEntry page = frame.getPage();
-			if(Math.abs(HClock.get() - page.reftimer) > maxTillNow){
-				frameMax = frame;
-				maxTillNow= Math.abs(HClock.get() - page.reftimer);
-			}	
-    	}
-		return frameMax;
-	}
-	
 
-	
-	
+//		NOURA
+		long max = 0;
+		FrameTableEntry frame = null;
+		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
+			if (!MMU.getFrame(i).isReserved() && MMU.getFrame(i).getLockCount() == 0) {
+				PageTableEntry page = MMU.getFrame(i).getPage();
+				if (page != null)
+					System.out.println("Page not null.");
+				else
+					System.out.println("Page null.");
+				long time = System.currentTimeMillis() - page.createTime;
+				System.out.println("Time in Frame Table = " + time);
+				if (time > max) {
+					max = time;
+					frame = MMU.getFrame(i);
+				}
+			}
+		}
+
+		System.out.println("FIFO is invoked. Oldest = " + max);
+
+		if (!frame.isDirty()) {
+			// Freeing the Frame
+			frame.setReferenced(false);
+
+			// Updating the victim's Page Table
+			frame.getPage().setValid(false);
+			frame.getPage().setFrame(null);
+
+			// Freeing the Frame cont.
+			frame.setPage(null);
+			return getFreeFrame();
+		}
+
+		else
+			return frame;
+
+//		FrameTableEntry frameMax = null;
+//		long maxTillNow=-1;
+//		for(int i = 0; i < MMU.getFrameTableSize(); i++)
+//    	{
+//			FrameTableEntry frame = MMU.getFrame(i);
+//			PageTableEntry page = frame.getPage();
+//			if(Math.abs(HClock.get() - page.reftimer) > maxTillNow){
+//				frameMax = frame;
+//				maxTillNow= Math.abs(HClock.get() - page.reftimer);
+//			}	
+//    	}
+//		return frameMax;
+	}
+
 	public static void SwapOut(ThreadCB thread, FrameTableEntry frame) {
 		System.out.println("Entered Swap Out");
-    	PageTableEntry page = frame.getPage();
-    	TaskCB Task = page.getTask();
-    	Task.getSwapFile().write(page.getID(), page, thread);
-    	System.out.println("Exited Swap Out");
-    }
-	
+		frame.getPage().getTask().getSwapFile().write(frame.getPage().getID(),frame.getPage(), thread);
+		System.out.println("Exited Swap Out");
+	}
+
 	public static void SwapIn(ThreadCB thread, PageTableEntry page) {
-    	TaskCB Task = page.getTask();
-    	Task.getSwapFile().read(page.getID(), page, thread);
-    }
+		page.getTask().getSwapFile().read(page.getID(), page, thread);
+	}
 
 }
