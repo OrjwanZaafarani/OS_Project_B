@@ -54,7 +54,6 @@ public class PageTable extends IflPageTable
 	    		}
     		}
     		
-    	}
-    		
+    	}	
     }
 }

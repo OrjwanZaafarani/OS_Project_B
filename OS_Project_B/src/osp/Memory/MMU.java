@@ -16,7 +16,6 @@ import osp.Interrupts.*;
  * @OSPProject Memory
  */
 public class MMU extends IflMMU {
-	// I think they have to private not public. page 92
 	public static int Cursor;
 	public static int wantFree;
 
@@ -71,14 +70,9 @@ public class MMU extends IflMMU {
 	 * @OSPProject Memory
 	 */
 	static public PageTableEntry do_refer(int memoryAddress, int referenceType, ThreadCB thread) {
-//		int VABits = MMU.getVirtualAddressBits();
-//		int PBits = MMU.getPageAddressBits();
-//		int DBits = VABits - PBits;
-//		int PageSize = (int) Math.pow(2.0, MMU.getVirtualAddressBits() - MMU.getPageAddressBits());
 		int PageNum = memoryAddress / (int) Math.pow(2.0, MMU.getVirtualAddressBits() - MMU.getPageAddressBits());
 
 		PageTableEntry PTE = getPTBR().pages[PageNum];
-//    	PageTableEntry PTE = thread.getTask().getPageTable().pages[PageNum];
 		if (PTE.isValid()) {
 			PTE.getFrame().setReferenced(true);
 			if (referenceType == GlobalVariables.MemoryWrite)
@@ -126,8 +120,6 @@ public class MMU extends IflMMU {
 	 * @OSPProject Memory
 	 */
 	public static void atError() {
-		// your code goes here (if needed)
-
 	}
 
 	/**
@@ -139,7 +131,5 @@ public class MMU extends IflMMU {
 	 * @OSPProject Memory
 	 */
 	public static void atWarning() {
-		// your code goes here (if needed)
-
 	}
 }

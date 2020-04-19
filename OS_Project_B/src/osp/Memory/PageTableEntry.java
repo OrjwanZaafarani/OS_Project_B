@@ -90,7 +90,6 @@ public class PageTableEntry extends IflPageTableEntry
 	   @OSPProject Memory
     */
     public void do_unlock() {
-    	//CHECK WHY > 0 
         if(getFrame().getLockCount() > 0)
         	getFrame().decrementLockCount();
     }
