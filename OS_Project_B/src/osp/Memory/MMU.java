@@ -16,6 +16,8 @@ import osp.Interrupts.*;
  * @OSPProject Memory
  */
 public class MMU extends IflMMU {
+
+	// Global Variables to be used by SecondChance()
 	public static int Cursor;
 	public static int wantFree;
 
@@ -43,10 +45,19 @@ public class MMU extends IflMMU {
 	 *             going to be called at the beginning of the simulation.
 	 */
 
+	// Authors: ID:
+	// Orjwan Zaafarani 1506807
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 4/4/2020
+	// Initialization function called once only during simulation
 	public static void init() {
+
+		// Initialize cursor to 0 (for MMU iteration) & wantFree (for freeing frames) to
+		// 1
 		Cursor = 0;
 		wantFree = 1;
 
+		// Setting frames for Frame Table
 		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 			MMU.setFrame(i, new FrameTableEntry(i));
 		}
@@ -69,10 +80,19 @@ public class MMU extends IflMMU {
 	 * 
 	 * @OSPProject Memory
 	 */
+
+	// Authors: ID:
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 12/4/2020
+	// Handles memory references
 	static public PageTableEntry do_refer(int memoryAddress, int referenceType, ThreadCB thread) {
+		// Calculates Page Number
 		int PageNum = memoryAddress / (int) Math.pow(2.0, MMU.getVirtualAddressBits() - MMU.getPageAddressBits());
 
+		// Accesses PageTable to get page of calculated number
 		PageTableEntry PTE = getPTBR().pages[PageNum];
+
+		// Check page's validity --> if valid, set referenced and dirty bits accordingly
 		if (PTE.isValid()) {
 			PTE.getFrame().setReferenced(true);
 			if (referenceType == GlobalVariables.MemoryWrite)
@@ -80,31 +100,49 @@ public class MMU extends IflMMU {
 			return PTE;
 		}
 
+		// Page not valid
 		else {
+
+			// Page does not have a validating thread
 			if (PTE.getValidatingThread() == null) {
+				// Configure interrupt attributes
 				InterruptVector.setInterruptType(referenceType);
 				InterruptVector.setPage(PTE);
 				InterruptVector.setThread(thread);
+
+				// Cause a PageFault interrupt
 				CPU.interrupt(PageFault);
+
+				// Check thread status after interrupt --> if not killed, set referenced and
+				// dirty bits accordingly
 				if (thread.getStatus() != GlobalVariables.ThreadKill) {
 					PTE.getFrame().setReferenced(true);
 					if (referenceType == GlobalVariables.MemoryWrite)
 						PTE.getFrame().setDirty(true);
 					return PTE;
 				}
+
+				// If killed, do not change referenced and dirty bits
 				else
 					return PTE;
-			} 
-			
+			}
+
+			// Page has a validating thread
 			else {
+
+				// Suspend thread to wait for validating thread to handle page fault
 				thread.suspend(PTE);
+
+				// Check thread status after suspension --> if not killed, set referenced and
+				// dirty bits accordingly
 				if (thread.getStatus() != GlobalVariables.ThreadKill) {
 					PTE.getFrame().setReferenced(true);
 					if (referenceType == GlobalVariables.MemoryWrite)
 						PTE.getFrame().setDirty(true);
 					return PTE;
 				}
-				
+
+				// If killed, do not change referenced and dirty bits
 				else {
 					return PTE;
 				}

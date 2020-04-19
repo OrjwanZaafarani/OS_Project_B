@@ -11,19 +11,19 @@ import osp.Interrupts.*;
 import osp.Utilities.*;
 import osp.IFLModules.IflFrameTableEntry;
 
-public class FrameTableEntry extends IflFrameTableEntry
-{
-    /**
-       The frame constructor. Must have
+public class FrameTableEntry extends IflFrameTableEntry {
+	/**
+	 * The frame constructor. Must have
+	 * 
+	 * super(frameID)
+	 * 
+	 * as its first statement.
+	 * 
+	 * @OSPProject Memory
+	 */
 
-       	   super(frameID)
-
-       as its first statement.
-
-       @OSPProject Memory
-    */
-    public FrameTableEntry(int frameID)
-    {
-    	super(frameID);
-    }
+	// Frame Table Entry Constructor w/ ID as input
+	public FrameTableEntry(int frameID) {
+		super(frameID);
+	}
 }

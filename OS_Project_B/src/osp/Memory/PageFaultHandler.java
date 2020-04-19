@@ -20,8 +20,9 @@ import java.lang.*;
  * @OSPProject Memory
  */
 public class PageFaultHandler extends IflPageFaultHandler {
-//	static String userOption = "s";
-	
+	// User Option for debugging and testing purposes
+	// static String userOption = "s";
+
 	// Creating a Global Variable to keep count of Page Faults
 	static int numPageFaults = 0;
 
@@ -77,32 +78,36 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	 * 
 	 * @OSPProject Memory
 	 */
-	
+	// Authors: ID:
+	// Orjwan Zaafarani 1506807
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 19/4/2020
 	// Page Fault Handling Method
 	public static int do_handlePageFault(ThreadCB thread, int referenceType, PageTableEntry page) {
-		//Counter to iterate through memory --> counts reserved or locked frames
+		// Counter to iterate through memory --> counts reserved or locked frames
 		int counter = 0;
 		FrameTableEntry frame;
-		
+
 		// Check if page is valid --> if so return failure
 		if (page.isValid()) {
 			page.notifyThreads();
 			ThreadCB.dispatch();
 			return FAILURE;
 		}
-		
+
 		// If not valid --> continue with page fault handling
 		else {
-			
-			// Check that the page does not already have a validating thread managing the page fault
+
+			// Check that the page does not already have a validating thread managing the
+			// page fault
 			// If so --> suspend and wait for original thread to finish
 			if (page.getValidatingThread() != null)
 				thread.suspend(page);
 			else // Increment page faults
 				numPageFaults++;
-			
+
 			System.out.println("Total Number of Page Faults = " + numPageFaults);
-			
+
 			// Checking if there's enough memory
 			for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 				if (MMU.getFrame(i).isReserved() || MMU.getFrame(i).getLockCount() > 0)
@@ -122,25 +127,27 @@ public class PageFaultHandler extends IflPageFaultHandler {
 				// Create an event onto which the thread is suspended
 				SystemEvent event = new SystemEvent("Page Fault Occurred");
 				thread.suspend(event);
-				
+
 				// Set the thread as validating thread for the faulted page
 				page.setValidatingThread(thread);
-				
+
 				// Get Free Frame
 				FrameTableEntry freeFrame = getFreeFrame();
 
 				// If free frame found
 				if (freeFrame != null) {
-					// Reserve the frame so no other tasks get control of it before finishing swapping operations
+					// Reserve the frame so no other tasks get control of it before finishing
+					// swapping operations
 					freeFrame.setReserved(thread.getTask());
-					
+
 					// Update Page Table
 					page.setFrame(freeFrame);
 
 					// Swap In Page into Memory
 					SwapIn(thread, page);
 
-					// Check Thread Status --> if killed while waiting on swapping, notify threads and return failure
+					// Check Thread Status --> if killed while waiting on swapping, notify threads
+					// and return failure
 					if (thread.getStatus() == ThreadKill) {
 						page.notifyThreads();
 						page.setValidatingThread(null);
@@ -155,13 +162,13 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					// Update FrameTable
 					freeFrame.setPage(page);
 					freeFrame.setReferenced(true);
-					
+
 					// Setting Dirty Flag --> Only if refernce type is MemoryWrite
 					if (referenceType == MemoryWrite)
 						freeFrame.setDirty(true);
-					
+
 					// Perform Necessary Actions before exiting Page Fault Handler
-					// Unreserve, notify, dispatch, return success, set validating thread to null. 
+					// Unreserve, notify, dispatch, return success, set validating thread to null.
 					freeFrame.setUnreserved(thread.getTask());
 					page.setValidatingThread(null);
 					page.notifyThreads();
@@ -175,27 +182,30 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					// Check User Option for Page Replacement Algorithm (FIFO or ESC)
 					if (userOption.equals("Fifo")) {
 						frame = Fifo();
-					} 
-					
+					}
+
 					else {
 						frame = SecondChance();
 
 					}
-					
-					// Reserve the frame so no other tasks get control of it before finishing swapping operations
+
+					// Reserve the frame so no other tasks get control of it before finishing
+					// swapping operations
 					frame.setReserved(thread.getTask());
-					
-					// Check if dirty --> if so, it needs swapping out. 
+
+					// Check if dirty --> if so, it needs swapping out.
 					if (frame.isDirty()) {
 						System.out.println("Dirty Frame");
-						
-						// Save previous page of frame before swapping out to later update it's Page Table
+
+						// Save previous page of frame before swapping out to later update it's Page
+						// Table
 						PageTableEntry prevPage = frame.getPage();
-						
+
 						// Swap Out page from Memory
 						SwapOut(thread, frame);
-						
-						// Check Thread Status --> if killed while waiting on swapping, notify threads and return failure
+
+						// Check Thread Status --> if killed while waiting on swapping, notify threads
+						// and return failure
 						if (thread.getStatus() == ThreadKill) {
 							System.out.println("Thread Killed #1");
 							page.notifyThreads();
@@ -207,22 +217,23 @@ public class PageFaultHandler extends IflPageFaultHandler {
 
 						// Freeing Frame
 						frame.setReferenced(false);
-						
-						// Updating  Frame's Previous Page 
+
+						// Updating Frame's Previous Page
 						prevPage.setValid(false);
 						prevPage.setFrame(null);
-						
+
 						// Freeing Frame cont.
 						frame.setDirty(false);
 						frame.setPage(null);
 
 						// Setting frame for current page
 						page.setFrame(frame);
-						
+
 						// Swap In Page into Memory
 						SwapIn(thread, page);
 
-						// Check Thread Status --> if killed while waiting on swapping, notify threads and return failure
+						// Check Thread Status --> if killed while waiting on swapping, notify threads
+						// and return failure
 						if (thread.getStatus() == ThreadKill) {
 							System.out.println("Thread Killed #2");
 							page.notifyThreads();
@@ -238,11 +249,11 @@ public class PageFaultHandler extends IflPageFaultHandler {
 						// Update FrameTable
 						frame.setPage(page);
 						frame.setReferenced(true);
-						
+
 						// Setting Dirty Flag --> Only if reference type is MemoryWrite
 						if (referenceType == MemoryWrite)
 							frame.setDirty(true);
-						
+
 						frame.setUnreserved(thread.getTask());
 						page.setValidatingThread(null);
 						page.notifyThreads();
@@ -273,15 +284,15 @@ public class PageFaultHandler extends IflPageFaultHandler {
 
 						// Update PageTable
 						page.setValid(true);
-						
+
 						// Update FrameTable
 						frame.setPage(page);
 						frame.setReferenced(true);
-						
+
 						// Setting Dirty Flag --> Only if reference type is MemoryWrite
 						if (referenceType == MemoryWrite)
 							frame.setDirty(true);
-						
+
 						// Perform Necessary Actions before exiting Page Fault Handler
 						// Unreserve, notify, dispatch, return success, set validating thread to null.
 						frame.setUnreserved(thread.getTask());
@@ -302,6 +313,9 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	 * of the reference bits, dirty bits or MMU.Cursor.
 	 */
 
+	// Authors: ID:
+	// Orjwan Zaafarani 1506807
+	// Last Modification Date: 10/4/2020
 	public static int numFreeFrames() {
 		int freeFrames = 0;
 		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
@@ -317,7 +331,10 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	/*
 	 * Returns the first free frame starting the search from frame[0].
 	 */
-	
+
+	// Authors: ID:
+	// Orjwan Zaafarani 1506807
+	// Last Modification Date: 10/4/2020
 	public static FrameTableEntry getFreeFrame() {
 		// Iterates FrameTable for free frames (null page, not reserved, not locked)
 		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
@@ -347,43 +364,48 @@ public class PageFaultHandler extends IflPageFaultHandler {
 	 * appropriately.
 	 * 
 	 */
+
+	// Authors: ID:
+	// Orjwan Zaafarani 1506807
+	// Last Modification Date: 12/4/2020
+	// Second Change Page Replacement Algorithm
 	public static FrameTableEntry SecondChance() {
 		boolean foundFirstDirtyFrame = false;
 		int firstDirtyFrameID;
 		FrameTableEntry firstDirtyFrame = null;
-		
-		// Phase1 - Note5 - Keep in mind that locked and reserved page frames
-		// cannot be selected and dirty frames should not be
-		// freed in this phase.
-		// Phase1 - Note2,3
+
+		// Outer Loop: iterates Frame Table at most twice
 		for (int j = 0; j < 2; j++) {
+
+			// Inner Loop: Iterates through all elements of Frame Table once
 			for (int i = 0; i < MMU.getFrameTableSize(); i++) {
-				// Phase1 - Note1
+				// For not freeing more frames than wantFree --> if equal, stop second chance
 				if (numFreeFrames() == MMU.wantFree)
 					break;
 
-				// Phase1 - Task1
+				// Check Reference Bits --> If referenced, set to false
 				else if (MMU.getFrame(MMU.Cursor).isReferenced() == true) {
 					MMU.getFrame(MMU.Cursor).setReferenced(false);
 				}
-				// Phase1 - Task2
+
+				// Check if frame is clean (clean, unreserved, not locked, and not referenced)
 				else if (MMU.getFrame(MMU.Cursor).getPage() != null & MMU.getFrame(MMU.Cursor).isReferenced() == false
 						& MMU.getFrame(MMU.Cursor).isDirty() == false & MMU.getFrame(MMU.Cursor).isReserved() == false
 						& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
-					// Phase1 - Task2 - a - freeing frames
+
+					// If so --> set dirty and reference bits to false
 					MMU.getFrame(MMU.Cursor).setDirty(false);
 					MMU.getFrame(MMU.Cursor).setReferenced(false);
 
-					// Phase1 - Task2 - b
+					// + Update the frame's page attributes (make page invalid and nullify frame)
 					MMU.getFrame(MMU.Cursor).getPage().setValid(false);
 					MMU.getFrame(MMU.Cursor).getPage().setFrame(null);
 
-					// Phase1 - Task2 - a - freeing frames
+					// Nullify page for chosen frame
 					MMU.getFrame(MMU.Cursor).setPage(null);
-
 				}
 
-				// Phase1 - Task3
+				// To Keep track of first dirty page found
 				if (foundFirstDirtyFrame == false & MMU.getFrame(MMU.Cursor).isDirty() == true
 						& MMU.getFrame(MMU.Cursor).isReserved() == false
 						& MMU.getFrame(MMU.Cursor).getLockCount() <= 0) {
@@ -391,15 +413,17 @@ public class PageFaultHandler extends IflPageFaultHandler {
 					firstDirtyFrame = MMU.getFrame(MMU.Cursor);
 					foundFirstDirtyFrame = true;
 				}
-				// Phase1 - Note4
+				// Increment MMU.Curson using modulus arithmetic
 				MMU.Cursor = (MMU.Cursor + 1) % MMU.getFrameTableSize();
 			}
 
+			// For not freeing more frames than wantFree --> if equal, stop second chance
 			if (numFreeFrames() == MMU.wantFree)
 				break;
 		}
 
-		// Phase2 and Phase3
+		// Return either a freed frame or the dirty frame (in case the algorithm could
+		// not free any frames)
 		if (numFreeFrames() < MMU.wantFree && foundFirstDirtyFrame == true)
 			return firstDirtyFrame;
 		else {
@@ -407,11 +431,16 @@ public class PageFaultHandler extends IflPageFaultHandler {
 		}
 	}
 
+	// Authors: ID:
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 15/4/2020
+	// FIFO Page Replacement Algorithm
 	public static FrameTableEntry Fifo() {
 		long max = 0;
 		FrameTableEntry frame = null;
-		
-		// Iterating Frame Table to find oldest page for replacement --> Done by comparing cretion time of page to surrent system time
+
+		// Iterating Frame Table to find oldest page for replacement --> Done by
+		// Comparing creation time of page to surrent system time
 		for (int i = 0; i < MMU.getFrameTableSize(); i++) {
 			// Frame can't be locked or reserved
 			if (!MMU.getFrame(i).isReserved() && MMU.getFrame(i).getLockCount() == 0) {
@@ -426,7 +455,7 @@ public class PageFaultHandler extends IflPageFaultHandler {
 		}
 
 		System.out.println("FIFO is invoked. Oldest = " + max);
-		
+
 		// If not dirty
 		if (!frame.isDirty()) {
 			// Freeing the Frame
@@ -440,20 +469,26 @@ public class PageFaultHandler extends IflPageFaultHandler {
 			frame.setPage(null);
 			return getFreeFrame();
 		}
-		
+
 		// If dirty
 		else
 			return frame;
 	}
-	
+
+	// Authors: ID:
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 17/4/2020
 	// Swap Out Method from Memory
 	public static void SwapOut(ThreadCB thread, FrameTableEntry frame) {
 		System.out.println("Entered Swap Out");
 		// Get Swap File to Write
-		frame.getPage().getTask().getSwapFile().write(frame.getPage().getID(),frame.getPage(), thread);
+		frame.getPage().getTask().getSwapFile().write(frame.getPage().getID(), frame.getPage(), thread);
 		System.out.println("Exited Swap Out");
 	}
-	
+
+	// Authors: ID:
+	// Noura Al-Dakhil 1614549
+	// Last Modification Date: 17/4/2020
 	// Swap In Method into Memory
 	public static void SwapIn(ThreadCB thread, PageTableEntry page) {
 		System.out.println("Entered Swap In");
@@ -461,5 +496,4 @@ public class PageFaultHandler extends IflPageFaultHandler {
 		page.getTask().getSwapFile().read(page.getID(), page, thread);
 		System.out.println("Exited Swap In");
 	}
-
 }
